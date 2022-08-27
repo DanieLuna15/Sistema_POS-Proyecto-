@@ -13,18 +13,18 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nombre'=>'required|string|max:40',
-            'descripcion'=>'nullable|string|max:100',
+            'name'=>'required|string|max:40',
+            'description'=>'nullable|string|max:100',
         ];
     }
     public function messages()
     {
         return [
-            'nombre.required'=>'Éste campo es requerido',
-            'nombre.string'=>'El valor no es correcto',
-            'nombre.max'=>'Solo se Permiten 40 caracteres',
-            'descripcion.required'=>'Éste campo es requerido',
-            'descripcion.string'=>'El valor no es correcto',
+            'name.required'=>'Éste campo es requerido',
+            'name.string'=>'El valor no es correcto',
+            'name.max'=>'Solo se Permiten 40 caracteres',
+            'description.required'=>'Éste campo es requerido',
+            'description.string'=>'El valor no es correcto',
         ];
     }
 }

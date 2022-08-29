@@ -15,7 +15,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'=>'required|string|max:40|unique:providers',
-            'email'=>'required|email|string|max:40|unique:providers',
+            'email'=>'required|string|max:40|unique:providers|email:rfc,dns',
             'nit'=>'required|string|max:11|min:11|unique:providers',
             'address'=>'nullable|string|max:200',
             'phone'=>'required|string|max:8|min:8|unique:providers',

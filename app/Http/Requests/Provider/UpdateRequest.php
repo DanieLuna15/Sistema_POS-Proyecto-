@@ -15,7 +15,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name'=>'required|string|unique:providers,name,'.$this->route('provider')->id.'|max:40',
-            'email'=>'required|email|string|unique:providers,email,'.$this->route('provider')->id.'|max:40',
+            'email'=>'required|string|unique:providers,email,'.$this->route('provider')->id.'|max:40|email:rfc,dns',
             'nit'=>'required|string|min:11|unique:providers,nit,'.$this->route('provider')->id.'|max:11',
             'address'=>'nullable|string|max:200',
             'phone'=>'required|string|min:8|unique:providers,phone,'.$this->route('provider')->id.'|max:8',

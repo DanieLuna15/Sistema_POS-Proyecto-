@@ -113,7 +113,7 @@
                           <img src="{{asset('image/'.$product->image)}}" alt="profile" class="img-lg  mb-12" />
                         </small>
                       </h4>
-                      <input type="file" name="picture" id="picture" class="dropify"/></input>
+                      <input required type="file" name="picture" id="picture" class="dropify"/></input>
                     </div>
 
 

@@ -113,7 +113,7 @@
                         
                         </small>
                       </h4>
-                      <input type="file"  name="picture" id="picture" class="dropify"  />
+                      <input required type="file"  name="picture" id="picture" class="dropify"  />
                     </div>
 
 

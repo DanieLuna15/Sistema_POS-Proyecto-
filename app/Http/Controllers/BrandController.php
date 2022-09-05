@@ -25,7 +25,7 @@ class BrandController extends Controller
     public function store(StoreRequest $request)
     {
         Brand::create($request->all());
-        return redirect()->route(brands.index);
+        return redirect()->route('brands.index');
     }
 
     public function show(Brand $brand)
@@ -41,12 +41,12 @@ class BrandController extends Controller
     public function update(UpdateRequest $request, Brand $brand)
     {
         $brand->update($request->all());
-        return redirect()->route(brands.index);
+        return redirect()->route('brands.index');
     }
 
     public function destroy(Brand $brand)
     {
         $brand->delete();
-        return redirect()->route(brands.index);
+        return redirect()->route('brands.index');
     }
 }

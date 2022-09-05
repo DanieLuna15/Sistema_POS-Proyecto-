@@ -24,7 +24,7 @@ class ClientController extends Controller
     public function store(StoreRequest $request)
     {
         Client::create($request->all());
-        return redirect()->route(clients.index);
+        return redirect()->route('clients.index');
     }
 
     public function show(Client $client)
@@ -40,12 +40,12 @@ class ClientController extends Controller
     public function update(UpdateRequest $request, Client $client)
     {
         $client->update($request->all());
-        return redirect()->route(clients.index);
+        return redirect()->route('clients.index');
     }
 
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route(clients.index);
+        return redirect()->route('clients.index');
     }
 }

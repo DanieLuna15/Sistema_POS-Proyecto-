@@ -23,7 +23,7 @@ class CategoryController extends Controller
     public function store(StoreRequest $request)
     {
         Category::create($request->all());
-        return redirect()->route(categories.index);
+        return redirect()->route('categories.index');
     }
 
     public function show(Category $category)
@@ -39,12 +39,12 @@ class CategoryController extends Controller
     public function update(UpdateRequest $request, Category $category)
     {
         $category->update($request->all());
-        return redirect()->route(categories.index);
+        return redirect()->route('categories.index');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        return redirect()->route(categories.index);
+        return redirect()->route('categories.index');
     }
 }

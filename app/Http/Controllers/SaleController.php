@@ -36,7 +36,7 @@ class SaleController extends Controller
         }
         $sale->saleDetails()->createMany($results);
 
-        return redirect()->route(sales.index);
+        return redirect()->route('sales.index');
     }
 
     public function show(Sale $sale)
@@ -53,12 +53,12 @@ class SaleController extends Controller
     public function update(UpdateRequest $request, Sale $sale)
     {
         //$sale->update($request->all());
-        //return redirect()->route(sales.index);
+        //return redirect()->route('sales.index');
     }
 
     public function destroy(Sale $sale)
     {
         //$sale->delete();
-        //return redirect()->route(sales.index);
+        //return redirect()->route('sales.index');
     }
 }

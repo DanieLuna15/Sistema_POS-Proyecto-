@@ -36,7 +36,7 @@ class PurchaseController extends Controller
         }
         $purchase->purchaseDetails()->createMany($results);
 
-        return redirect()->route(purchases.index);
+        return redirect()->route('purchases.index');
     }
 
     public function show(Purchase $purchase)
@@ -53,12 +53,12 @@ class PurchaseController extends Controller
     public function update(UpdateRequest $request, Purchase $purchase)
     {
         //$purchase->update($request->all());
-        //return redirect()->route(purchases.index);
+        //return redirect()->route('purchases.index');
     }
 
     public function destroy(Purchase $purchase)
     {
         //$purchase->delete();
-        //return redirect()->route(purchases.index);
+        //return redirect()->route('purchases.index');
     }
 }

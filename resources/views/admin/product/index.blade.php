@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Gestión de Proveedores')
+@section('title','Gestión de Productos')
 @section('styles')
 <style type="text/css">
     .unstyled-button {
@@ -13,7 +13,7 @@
 
 @section('create')
 <li class="nav-item d-none d-lg-flex">
-    <a class="nav-link" href="{{route('providers.create')}}">
+    <a class="nav-link" href="{{route('products.create')}}">
         <span class="btn btn-primary">+ Crear nuevo</span>
     </a>
 </li>
@@ -31,16 +31,16 @@
         <i class="settings-close fa fa-times"></i>
         <ul class="nav nav-tabs" id="setting-panel" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Gestión de Proveedores</a>
+            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Gestión de Productos</a>
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
                     <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Proveedor</button>
+                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Producto</button>
                     </center>
                 </li>
               </ul>
@@ -53,12 +53,12 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Proveedores
+        Productos
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Proveedores</li>
+                <li class="breadcrumb-item active" aria-current="page">Productos</li>
             </ol>
         </nav>
     </div>
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Proveedores</h4>
+                        <h4 class="card-title">Productos</h4>
                         
                         <div class="dropdown">
                           <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -76,7 +76,7 @@
                           </button>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
                             <h6 class="dropdown-header">Acciones</h6>
-                            <a class="dropdown-item" href="{{route('providers.create')}}">Agregar Nuevo +</a>
+                            <a class="dropdown-item" href="{{route('products.create')}}">Agregar Nuevo +</a>
                             <a class="dropdown-item" href="#">Ver Historial</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Exportar a PDF</a>
@@ -91,33 +91,44 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
-                                    <th>Correo Electronico</th>
-                                    <th>Telefono/Celular</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Categoría</th>
+                                    <th>Marca</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($providers as $provider): ?>
+                                <?php foreach ($products as $product): ?>
                                 <tr>
-                                    <th scope="row">{{$provider->id}}</th>
+                                    <th scope="row">{{$product->id}}</th>
                                         <td>
-                                            <a href="{{route('providers.show',$provider)}}">{{$provider->name}}</a>
+                                            <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
                                         </td>
 
-                                        <td>{{$provider->email}}</td>
-                                        <td>{{$provider->phone}}</td>
+                                        <td>{{$product->stock}}</td>
+                                        <td>
+                                        @if ($product->status=='ACTIVO')
+                                        <button class="btn btn-success btn-block ">{{$product->status}}</button>
+                                        @else
+                                        <button class="btn btn-danger btn-block ">{{$product->status}}</button>
+                                        @endif
+                                        </td>
+                                        <td>{{$product->category->name}}</td>
+                                        <td>{{$product->brand->name}}</td>
 
                                         <td style="width: 50px;">
-                                        {!! Form::open(['route'=>['providers.destroy',$provider], 'method'=>'DELETE']) !!}
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('providers.edit', $provider)}}" title="Editar">
+                                        {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
+
+                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.edit', $product)}}" title="Editar">
                                                 <i class="far fa-edit"></i>
                                             </a>
-                                            
+
                                             <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
-
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('providers.show',$provider)}}" title="Ver mas Información">
+                                        
+                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.show',$product)}}" title="Ver mas Información">
                                                 <i class="far fa-eye"></i>
                                             </a>
                                         {!! Form::close() !!}

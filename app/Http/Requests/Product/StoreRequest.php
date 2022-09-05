@@ -15,12 +15,12 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'=>'required|string|unique:products|max:50',
-            'image'=>'required|string|dimensions:min_width=100,min_height=200',
+            //'image'=>'required|string|dimensions:min_width=100,min_height=200',
             'sell_price'=>'required|',
 
-            'category_id'=>'integer|required|exists:App\Category,id',
-            'brand_id'=>'integer|required|exists:App\Brand,id',
-            'provider_id'=>'integer|required|exists:App\Provider,id',
+            // 'category_id'=>'integer|required|exists:App\Category,id',
+            // 'brand_id'=>'integer|required|exists:App\Brand,id',
+            // 'provider_id'=>'integer|required|exists:App\Provider,id',
         ];
     }
     public function messages()
@@ -31,22 +31,22 @@ class StoreRequest extends FormRequest
             'name.max'=>'Solo se Permiten 50 caracteres',
             'name.unique'=>'El producto ya esta registrado',
 
-            'image.required'=>'La imagen es Requerida',
-            'image.dimensions'=>'Solo se permiten imagenes de 100x200 px.',
+            //'image.required'=>'La imagen es Requerida',
+            //'image.dimensions'=>'Solo se permiten imagenes mayores 100x200 px.',
 
             'sell_price.required'=>'Éste campo es requerido',
 
-            'category_id.integer'=>'El valor tiene que ser entero.',
-            'category_id.required'=>'Éste campo es requerido',
-            'category_id.exists'=>'La categoría no existe',
+            // 'category_id.integer'=>'El valor tiene que ser entero.',
+            // 'category_id.required'=>'Éste campo es requerido',
+            // 'category_id.exists'=>'La categoría no existe',
 
-            'brand_id.integer'=>'El valor tiene que ser entero.',
-            'brand_id.required'=>'Éste campo es requerido',
-            'brand_id.exists'=>'La marca no existe',
+            // 'brand_id.integer'=>'El valor tiene que ser entero.',
+            // 'brand_id.required'=>'Éste campo es requerido',
+            // 'brand_id.exists'=>'La marca no existe',
 
-            'provider_id.integer'=>'El valor tiene que ser entero.',
-            'provider_id.required'=>'Éste campo es requerido',
-            'provider_id.exists'=>'El Proveedor no existe',
+            // 'provider_id.integer'=>'El valor tiene que ser entero.',
+            // 'provider_id.required'=>'Éste campo es requerido',
+            // 'provider_id.exists'=>'El Proveedor no existe',
 
 
         ];

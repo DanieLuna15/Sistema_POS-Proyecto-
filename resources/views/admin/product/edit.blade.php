@@ -110,10 +110,11 @@
                     <div class="card-body">
                       <h4 class="card-title d-flex">Imagen de Producto
                         <small class="ml-auto align-self-end">
-                          <a href="dropify.html" class="font-weight-light" target="_blank">Seleccionar Archivo:</a>  
+                          <img src="{{asset('image/'.$product->image)}}" alt="profile" class="img-lg  mb-12" />
                         </small>
                       </h4>
-                      <input type="file"  name="picture" id="picture" class="dropify"  />
+                      <input type="file" name="picture" id="picture" class="dropify"/></input>
+                    </div>
 
 
                     <div class="form-group">

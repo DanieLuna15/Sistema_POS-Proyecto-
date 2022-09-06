@@ -1,0 +1,37 @@
+    /*
+    var product_id1 = $('#product_id1');
+    product_id1.change(function(){
+        $.ajax({
+            url: "{{route('get_products_by_id')}}",
+            method: 'GET',
+            data:{
+                product_id: product_id1.val(),
+            },
+            success: function(data){
+                $("#code").val(data.code);
+            }
+        });
+    });
+    $(obtener_registro());
+    function obtener_registro(code){
+        $.ajax({
+            url: "{{route('get_products_by_barcode')}}",
+            type: 'GET',
+            data:{
+                code: code
+            },
+            dataType: 'json',
+            success:function(data){
+                console.log(data);
+                $("#product_id1").val(data.id);
+            }
+        });
+    }
+    $(document).on('keyup', '#code', function(){
+        var valorResultado = $(this).val();
+        if(valorResultado!=""){
+            obtener_registro(valorResultado);
+        }else{
+            obtener_registro();
+        }
+    })*/

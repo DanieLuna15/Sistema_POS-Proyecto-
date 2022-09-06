@@ -24,7 +24,7 @@ class Purchase extends Model
         return $this->belongsTo(Provider::class);
     }
 
-    public function purchaseDetails(){
-        return $this->belongsTo(PurchaseDetails::class);
+    public function PurchaseDetails(){
+        return $this->hasMany(PurchaseDetails::class);
     }
 }

@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Gestión de Compras')
+@section('title','Gestión de Ventas')
 @section('styles')
 <style type="text/css">
     .unstyled-button {
@@ -13,8 +13,8 @@
 
 @section('create')
 <li class="nav-item d-none d-lg-flex">
-    <a class="nav-link" href="{{route('purchases.create')}}">
-        <span class="btn btn-primary">+ Registrar nueva Compra</span>
+    <a class="nav-link" href="{{route('sales.create')}}">
+        <span class="btn btn-primary">+ Registrar nueva Venta</span>
     </a>
 </li>
 @endsection
@@ -31,7 +31,7 @@
         <i class="settings-close fa fa-times"></i>
         <ul class="nav nav-tabs" id="setting-panel" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Gestión de Compras</a>
+            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Gestión de Ventas</a>
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
@@ -40,7 +40,7 @@
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
                     <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Compra</button>
+                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Venta</button>
                     </center>
                 </li>
               </ul>
@@ -53,12 +53,12 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Compras
+            Ventas
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Compras</li>
+                <li class="breadcrumb-item active" aria-current="page">Ventas</li>
             </ol>
         </nav>
     </div>
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Todas las Compras:</h4>
+                        <h4 class="card-title">Todas las Ventas:</h4>
                         
                         <div class="dropdown">
                           <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -76,7 +76,7 @@
                           </button>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
                             <h6 class="dropdown-header">Acciones</h6>
-                            <a class="dropdown-item" href="{{route('purchases.create')}}">Nueva Compra +</a>
+                            <a class="dropdown-item" href="{{route('sales.create')}}">Nueva Venta +</a>
                             <a class="dropdown-item" href="#">Ver Historial</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Exportar a PDF</a>
@@ -89,46 +89,45 @@
                         <table id="order-listing" class="table">
                             <thead>
                                 <tr>
-                                    <!-- 'provider_id', 
-                                    'user_id', 
-                                    'purchase_date', 
-                                    'tax', 
-                                    'total', 
-                                    'status', 
-                                    'picture',  -->
+                                <!-- 'client_id', 
+                                'user_id', 
+                                'sale_date', 
+                                'tax', 
+                                'total', 
+                                'status',  -->
 
                                     <th>Id</th>
                                     <th>Fecha y Hora</th>
-                                    <th>Proveedor</th>
+                                    <th>Cliente</th>
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th style="width:50px;">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($purchases as $purchase): ?>
+                                <?php foreach ($sales as $sale): ?>
                                 <tr>
                                     <th scope="row">
-                                        <a href="{{route('purchases.show', $purchase)}}">{{$purchase->id}}</a>
+                                        <a href="{{route('sales.show', $sale)}}">{{$sale->id}}</a>
                                     </th>
-                                        <td>{{$purchase->purchase_date}}</td>
-                                        <td>{{$purchase->provider->name}}</td>
-                                        <td>Bs./ {{$purchase->total}}</td>
+                                        <td>{{$sale->sale_date}}</td>
+                                        <td>{{$sale->client->name}}</td>
+                                        <td>Bs./ {{$sale->total}}</td>
                                         <td>
-                                        @if ($purchase->status=='CONFIRMADO')
-                                            <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
+                                        @if ($sale->status=='CONFIRMADO')
+                                            <button class="btn btn-success btn-block ">{{$sale->status}}</button>
                                         @else 
-                                            @if ($purchase->status=='CANCELADO')
-                                                <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
-                                            @else ($purchase->status=='PENDIENTE')
-                                                <button class="btn btn-warning btn-block ">{{$purchase->status}}</button>
+                                            @if ($sale->status=='CANCELADO')
+                                                <button class="btn btn-danger btn-block ">{{$sale->status}}</button>
+                                            @else ($sale->status=='PAGO PENDIENTE')
+                                                <button class="btn btn-warning btn-block ">{{$sale->status}}</button>
                                             @endif
                                         @endif
                                         </td>
 
                                         <td style="width:50px;">
                                         
-                                       <!-- <a class="jsgrid-button jsgrid-edit-button" href="{{route('purchases.edit', $purchase)}}" title="Editar">
+                                       <!-- <a class="jsgrid-button jsgrid-edit-button" href="{{route('sales.edit', $sale)}}" title="Editar">
                                                 <i class="far fa-edit"></i>
                                         </a>
                                             
@@ -138,7 +137,7 @@
 
                                         <a href="#" class="jsgrid-button jsgrid-edit-button"><i class="far fa-file-pdf"></i></a>
                                         <a href="#" class="jsgrid-button jsgrid-edit-button"><i class="fas fa-print"></i></a>
-                                        <a href="{{route('purchases.show', $purchase)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-eye"></i></a>
+                                        <a href="{{route('sales.show', $sale)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-eye"></i></a>
 
                                     </td>
                                 </tr>

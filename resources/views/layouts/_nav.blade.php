@@ -7,7 +7,7 @@
                 </div>
                 <div class="profile-name">
                     <p class="name">
-                        Bienvenido: Daniel
+                        {{ Auth::user()->name }}
                     </p>
                     <p class="designation">
                         Super Admin
@@ -22,6 +22,7 @@
                     <span class="menu-title">Inventario</span>
                 <i class="menu-arrow"></i>
             </a>
+            
             <div class="collapse" id="page-layouts">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
@@ -51,7 +52,7 @@
                 </ul>
             </div>
         </li>
-
+        {{--
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#sidebar-layouts" aria-expanded="false"
                 aria-controls="sidebar-layouts">
@@ -75,11 +76,26 @@
                     </li>
                 </ul>
             </div>
+        </li>--}}
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('clients.index')}}">
+                <i class="fas fa-users menu-icon"></i>
+                <span class="menu-title">Clientes</span>
+            </a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="{{route('purchases.index')}}">
                 <i class="fas fa-cart-plus menu-icon"></i>
                 <span class="menu-title">Compras</span>
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('sales.index')}}">
+                <i class="fas fa-shopping-cart menu-icon"></i>
+                <span class="menu-title">Ventas</span>
             </a>
         </li>
         {{--

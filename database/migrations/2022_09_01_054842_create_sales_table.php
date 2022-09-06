@@ -20,7 +20,7 @@ class CreateSalesTable extends Migration
             $table->dateTime('sale_date');
             $table->decimal('tax');
             $table->decimal('total');
-            $table->enum('status',['CONFIRMADO','CANCELADO'])->default('CONFIRMADO');
+            $table->enum('status',['PAGO PENDIENTE','CONFIRMADO','CANCELADO'])->default('PAGO PENDIENTE');
 
             $table->timestamps();
         });

@@ -10,7 +10,7 @@
 
 <div class="form-group">
   <label for="tax">Impuesto:</label>
-  <input type="number" name="tax" id="tax" class="form-control" placeholder="18%" aria-describedby="helpId">
+  <input type="number" require name="tax" id="tax" class="form-control" placeholder="Ejemplo: 18%" aria-describedby="helpId">
 </div>
 
 <div class="form-group">

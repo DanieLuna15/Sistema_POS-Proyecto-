@@ -25,25 +25,25 @@
             <div class="collapse" id="page-layouts">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('products.index')}}">
                             <i class="fas fa-boxes menu-icon"></i>
                             <span class="menu-title">Productos</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('categories.index')}}">
                             <i class="fas fa-tags menu-icon"></i>
                             <span class="menu-title">Categorías</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('providers.index')}}">
                             <i class="fas fa-shipping-fast menu-icon"></i>
                             <span class="menu-title">Proveedores</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('brands.index')}}">
                             <i class="fas fa-tasks menu-icon"></i>
                             <span class="menu-title">Marcas</span>
                         </a>
@@ -62,13 +62,13 @@
             <div class="collapse" id="sidebar-layouts">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('clients.index')}}">
                             <i class="fas fa-list-ul menu-icon"></i>
                             <span class="menu-title">Ver todos</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{route('clients.create')}}">
                             <i class="fas fa-plus-square menu-icon"></i>
                             <span class="menu-title">Añadir Nuevo</span>
                         </a>
@@ -76,7 +76,12 @@
                 </ul>
             </div>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('purchases.index')}}">
+                <i class="fas fa-cart-plus menu-icon"></i>
+                <span class="menu-title">Compras</span>
+            </a>
+        </li>
         {{--
         <li class="nav-item">
             <a class="nav-link" href="">
@@ -102,14 +107,9 @@
                 </ul>
             </div>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" href="">
-                <i class="fas fa-cart-plus menu-icon"></i>
-                <span class="menu-title">Compras</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{route('ventas.index')}}">
                 <i class="fas fa-shopping-cart menu-icon"></i>
                 <span class="menu-title">Ventas</span>
             </a>

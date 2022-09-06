@@ -2,16 +2,6 @@
 @section('title','Detalles de Compra')
 @section('styles')
 
-@endsection
-@section('create')
-
-@endsection
-@section('options')
-
-@endsection
-@section('preference')
-
-@endsection
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">
@@ -22,7 +12,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li> 
                 <li class="breadcrumb-item"><a href="{{route('purchases.index')}}">Compras</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Detalles de Compra</li>
+                <li class="breadcrumb-item active" aria-current="page">Detalle de Compra: {{$purchase->id}}</li>
             </ol>
         </nav>
        
@@ -31,9 +21,6 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-
-                
                 <div class="form-group row">
                         <div class="col-md-4 text-center">
                             <label class="form-control-label" for="nombre"><strong>Proveedor</strong></label>
@@ -50,7 +37,7 @@
                     </div>
                     <br /><br />
                     <div class="form-group row ">
-                        <h4 class="card-title ml-3">Detalles de compra:</h4>
+                        <h4 class="card-title ml-3">Detalles de la compra N°: {{$purchase->id}}</h4>
                         <div class="table-responsive col-md-12">
                             <table id="detalles" class="table">
                                 <thead>
@@ -101,9 +88,6 @@
                             </table>
                         </div>
                     </div>
-            
-
-
                 </div>
                 <div class="card-footer text-muted">
                     <a href="{{route('purchases.index')}}" class="btn btn-primary float-right">Regresar</a>

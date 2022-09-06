@@ -112,7 +112,17 @@
                                     </th>
                                         <td>{{$purchase->purchase_date}}</td>
                                         <td>{{$purchase->total}}</td>
-                                        <td>{{$purchase->status}}</td>
+                                        <td>
+                                        @if ($purchase->status=='CONFIRMADO')
+                                            <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
+                                        @else 
+                                            @if ($purchase->status=='CANCELADO')
+                                                <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
+                                            @else ($purchase->status=='PENDIENTE')
+                                                <button class="btn btn-warning btn-block ">{{$purchase->status}}</button>
+                                            @endif
+                                        @endif
+                                        </td>
 
                                         <td style="width:50px;">
                                         

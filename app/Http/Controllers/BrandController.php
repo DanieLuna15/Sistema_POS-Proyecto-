@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Brand\StoreRequest;
 use App\Http\Requests\Brand\UpdateRequest;
 
+use Illuminate\Support\Facades\Auth;
 
 class BrandController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $brands = Brand::get();

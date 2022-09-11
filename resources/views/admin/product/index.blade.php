@@ -53,7 +53,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-        Productos
+        Gestión de Productos
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Productos</h4>
+                        <h4 class="card-title">Productos: </h4>
                         
                         <div class="dropdown">
                           <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

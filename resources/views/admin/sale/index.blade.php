@@ -53,7 +53,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Ventas
+           Gestión de Ventas
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">

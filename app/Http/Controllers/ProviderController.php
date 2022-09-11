@@ -8,8 +8,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Provider\StoreRequest;
 use App\Http\Requests\Provider\UpdateRequest;
 
+use Illuminate\Support\Facades\Auth;
+
 class ProviderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $providers = Provider::get();

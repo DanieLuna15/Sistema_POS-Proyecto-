@@ -8,8 +8,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Client\StoreRequest;
 use App\Http\Requests\Client\UpdateRequest;
 
+use Illuminate\Support\Facades\Auth;
+
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $clients = Client::get();

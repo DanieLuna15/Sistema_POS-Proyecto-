@@ -15,18 +15,20 @@ class StoreRequest extends FormRequest
     {
         return [
             'name'=>'required|string|max:40|unique:categories',
-            'description'=>'nullable|string|max:100',
+            'description'=>'nullable|string|min:5|max:100',
         ];
     }
     public function messages()
     {
         return [
-            'name.required'=>'Éste campo es requerido',
+            //'name.required'=>'Este campo es requerido',
+            'name.required'=>'El campo nombre es requerido',
             'name.string'=>'El valor no es correcto',
             'name.max'=>'Solo se Permiten 40 caracteres',
             'name.unique'=>'Ya existe una categoría con el mismo nombre',
 
             'description.max'=>'Solo se permiten 100 caracteres',
+            'description.min'=>'Solo se permiten mas de 5 caracteres',
             'description.string'=>'El valor no es correcto',
         ];
     }

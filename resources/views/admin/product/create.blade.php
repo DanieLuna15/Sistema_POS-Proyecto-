@@ -28,7 +28,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -60,12 +60,21 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Registro de Producto</h4>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
+                            <ul>
+                                @foreach ($errors->all() as $error )
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-                    
                     {!! Form::open(['route'=>'products.store', 'method'=>'POST','files' => true]) !!}
 
                     <!--'name', 'sell_price','category', 'brand','image',provider',-->
@@ -73,14 +82,14 @@
 
                     <div class="form-group">
                       <label for="name">Nombre Producto: </label>
-                      <input type="text" class="form-control" name="name" 
-                      id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del producto" required>
+                      <input autofocus type="text" class="form-control" name="name"
+                      id="name" aria-describedby="helpId"  value="{{old('name')}}">
                     </div>
 
                     <div class="form-group">
                       <label for="sell_price">Precio de Venta: </label>
-                      <input type="number" class="form-control" name="sell_price" 
-                      id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta" required>
+                      <input type="number" class="form-control" name="sell_price"
+                      id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta" >
                     </div>
 
                     <div class="form-group">
@@ -110,10 +119,10 @@
                     <div class="card-body">
                       <h4 class="card-title d-flex">Imagen de Producto
                         <small class="ml-auto align-self-end">
-                        
+
                         </small>
                       </h4>
-                      <input required type="file"  name="picture" id="picture" class="dropify"  />
+                      <input  type="file"  name="picture" id="picture" class="dropify"  />
                     </div>
 
 
@@ -125,15 +134,15 @@
                         @endforeach
                       </select>
                     </div>
-                    
- 
+
+
 
                      <button type="submit" class="btn btn-primary mr-2">Registrar</button>
                      <a href="{{route('products.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-  
+
                 </div>
             </div>
         </div>

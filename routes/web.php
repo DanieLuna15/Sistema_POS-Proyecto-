@@ -31,6 +31,11 @@ Route::resource('purchases',    PurchaseController::class)-> names('purchases');
 Route::resource('sales',        SaleController::class)->     names('sales');
 
 
+//--
+//Route::get('/','CategoryController@index');
+//Route::post('/categories/getCategories/','CategoryController@getCategories')->name('categories.getCategories');
+//--
+
 
 
 

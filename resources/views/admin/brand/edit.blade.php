@@ -34,7 +34,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -66,17 +66,28 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Edición de Marca</h4>
                     </div>
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
+                            <ul>
+                                @foreach ($errors->all() as $error )
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     {!! Form::model($brand,['route'=>['brands.update',$brand], 'method'=>'PUT']) !!}
-                    
-                
+
+
                     <div class="form-group">
                         <label for="name">Nombre:</label>
-                        <input type="text" name="name" id="name" value="{{$brand->name}}" class="form-control" placeholder="Nombre" required>  
+                        <input type="text" name="name" id="name" value="{{$brand->name}}" class="form-control" placeholder="Nombre" required>
                     </div>
                     <div class="form-group">
                         <label for="description">Descripción:</label>
@@ -89,7 +100,7 @@
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-  
+
                 </div>
             </div>
         </div>

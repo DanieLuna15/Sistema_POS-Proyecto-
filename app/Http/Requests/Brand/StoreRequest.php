@@ -21,7 +21,8 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'=>'Éste campo es requerido',
+            //'name.required'=>'Este campo es requerido',
+            'name.required'=>'El campo nombre es requerido',
             'name.string'=>'El valor no es correcto',
             'name.max'=>'Solo se Permiten 40 caracteres',
             'name.unique'=>'Ya existe una marca con el mismo nombre',

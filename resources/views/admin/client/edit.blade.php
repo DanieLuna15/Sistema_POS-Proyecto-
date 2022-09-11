@@ -34,7 +34,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -66,12 +66,22 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Edición de Cliente</h4>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
+                            <ul>
+                                @foreach ($errors->all() as $error )
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-                    
+
                     {!! Form::model($client,['route'=>['clients.update',$client], 'method'=>'PUT','files' => true]) !!}
 
                     <div class="form-group">
@@ -89,7 +99,7 @@
                     <div class="form-group">
                       <label for="nit">NIT: </label>
                       <input type="number"class="form-control" name="nit" value="{{$client->nit}}"
-                      id=nit" aria-describedby="helpId" placeholder="Ingrese el número Nit" > 
+                      id=nit" aria-describedby="helpId" placeholder="Ingrese el número Nit" >
                       <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                     </div>
 
@@ -113,14 +123,14 @@
                       id=email" aria-describedby="helpId" placeholder="Ingrese el número de telefono/celular" >
                       <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                     </div>
- 
+
 
                      <button type="submit" class="btn btn-primary mr-2">Editar</button>
                      <a href="{{route('clients.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-  
+
                 </div>
             </div>
         </div>

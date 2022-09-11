@@ -27,7 +27,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -59,13 +59,30 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Registro de Marca</h4>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
+                            <ul>
+                                @foreach ($errors->all() as $error )
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     {!! Form::open(['route'=>'brands.store', 'method'=>'POST']) !!}
-                        @include('admin.brand._form')
+                        <div class="form-group">
+                            <label for="name">Nombre:</label>
+                            <input autofocus type="text" placeholder="Nombre" name="name" id="name" value="{{old('name')}}" class="form-control" placeholder="Nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Descripción:</label>
+                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="{{old('description')}}" rows="3" ></textarea>
+                        </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>
                         <a href="{{route('brands.index')}}" class="btn btn-light">

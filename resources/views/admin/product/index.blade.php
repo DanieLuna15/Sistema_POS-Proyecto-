@@ -66,10 +66,10 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Productos: </h4>
-                        
+
                         <div class="dropdown">
                           <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog"></i>
@@ -92,9 +92,9 @@
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Stock</th>
-                                    <th>Estado</th>
                                     <th>Categoría</th>
                                     <th>Marca</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -107,17 +107,20 @@
                                         </td>
 
                                         <td>{{$product->stock}}</td>
-                                        <td>
-                                        @if ($product->status=='ACTIVO')
-                                        <button class="btn btn-success btn-block ">{{$product->status}}</button>
-                                        @else
-                                        <button class="btn btn-danger btn-block ">{{$product->status}}</button>
-                                        @endif
-                                        </td>
+
                                         <td>{{$product->category->name}}</td>
+
                                         <td>{{$product->brand->name}}</td>
 
+                                        <td>
+                                            @if ($product->status=='ACTIVO')
+                                            <button class="btn btn-success btn-block ">{{$product->status}}</button>
+                                            @else
+                                            <button class="btn btn-danger btn-block ">{{$product->status}}</button>
+                                            @endif
+                                            </td>
                                         <td style="width: 50px;">
+
                                         {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
 
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.edit', $product)}}" title="Editar">
@@ -127,7 +130,7 @@
                                             <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
-                                        
+
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.show',$product)}}" title="Ver mas Información">
                                                 <i class="far fa-eye"></i>
                                             </a>

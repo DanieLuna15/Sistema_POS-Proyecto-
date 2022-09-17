@@ -28,7 +28,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -60,44 +60,53 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Edición de Proveedor</h4>
                     </div>
 
-                    
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
+                            <ul>
+                                @foreach ($errors->all() as $error )
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     {!! Form::model($provider,['route'=>['providers.update',$provider], 'method'=>'PUT']) !!}
 
                     <!--'name', 'email','nit', 'address','phone',-->
 
                     <div class="form-group">
                       <label for="name">Nombre:</label>
-                      <input type="text" class="form-control" name="name" 
-                      id="name" value="{{$provider->name}}" aria-describedby="helpId" placeholder="Ingrese el nombre del proveedor" required>
+                      <input type="text" class="form-control" name="name"
+                      id="name" value="{{$provider->name}}" aria-describedby="helpId" placeholder="Ingrese el nombre del proveedor" >
                     </div>
 
                     <div class="form-group">
                       <label for="email">Correo Electrónico:</label>
-                      <input type="email" class="form-control" name="email" 
-                      id="email" value="{{$provider->email}}" aria-describedby="emailHelpId" placeholder="ejemplo@gmail.com" required>
+                      <input type="email" class="form-control" name="email"
+                      id="email" value="{{$provider->email}}" aria-describedby="emailHelpId" placeholder="ejemplo@gmail.com" >
                     </div>
 
                     <div class="form-group">
                       <label for="nit">Numero NIT:</label>
-                      <input type="number" class="form-control" name="nit" 
-                      id="nit" value="{{$provider->nit}}" aria-describedby="helpId" placeholder="Ingrese el numero NIT" required>
+                      <input type="number" class="form-control" name="nit"
+                      id="nit" value="{{$provider->nit}}" aria-describedby="helpId" placeholder="Ingrese el numero NIT" >
                     </div>
 
                     <div class="form-group">
                       <label for="address">Dirección/Pais:</label>
-                      <input type="text" class="form-control" name="address" 
-                      id="address" value="{{$provider->address}}" aria-describedby="helpId" placeholder="Ingrese la dirección del Proveedor" required>
+                      <input type="text" class="form-control" name="address"
+                      id="address" value="{{$provider->address}}" aria-describedby="helpId" placeholder="Ingrese la dirección del Proveedor" >
                     </div>
 
                     <div class="form-group">
                       <label for="phone">Numero de contacto:</label>
-                      <input type="number" class="form-control" name="phone" 
-                      id="phone" value="{{$provider->phone}}" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" required>
+                      <input type="number" class="form-control" name="phone"
+                      id="phone" value="{{$provider->phone}}" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" >
                     </div>
 
                      <button type="submit" class="btn btn-primary mr-2">Actualizar</button>
@@ -105,7 +114,7 @@
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-  
+
                 </div>
             </div>
         </div>

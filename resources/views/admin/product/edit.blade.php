@@ -28,7 +28,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -60,32 +60,41 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Edición de Producto</h4>
                     </div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
+                            <ul>
+                                @foreach ($errors->all() as $error )
+                                    <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
-                    
                     {!! Form::model($product,['route'=>['products.update',$product], 'method'=>'PUT','files' => true]) !!}
                     <!--'name', 'sell_price','category', 'brand','image',provider',-->
 
                     <div class="form-group">
                       <label for="name">Nombre Producto: </label>
-                      <input type="text" class="form-control" name="name" value="{{$product->name}}" 
-                      id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del producto" required>
+                      <input type="text" class="form-control" name="name" value="{{$product->name}}"
+                      id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del producto">
                     </div>
 
                     <div class="form-group">
                       <label for="sell_price">Precio de Venta: </label>
-                      <input type="number" class="form-control" name="sell_price" value="{{$product->sell_price}}"  
-                      id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta" required>
+                      <input type="number" class="form-control" name="sell_price" value="{{$product->sell_price}}"
+                      id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta">
                     </div>
 
                     <div class="form-group">
                       <label for="category_id">Categoría:</label>
                       <select class="form-control" name="category_id" id="category_id">
                         @foreach($categories as $category)
-                        <option value="{{$category->id}}" 
+                        <option value="{{$category->id}}"
                           @if ($category->id==$product->category_id)
                             selected
                           @endif
@@ -121,7 +130,7 @@
                       <label for="provider_id">Proveedor:</label>
                       <select class="form-control" name="provider_id" id="provider_id">
                         @foreach($providers as $provider)
-                        <option value="{{$provider->id}}" 
+                        <option value="{{$provider->id}}"
                           @if ($provider->id==$product->provider_id)
                             selected
                           @endif
@@ -130,14 +139,14 @@
                         @endforeach
                       </select>
                     </div>
- 
+
 
                      <button type="submit" class="btn btn-primary mr-2">Editar</button>
                      <a href="{{route('products.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-  
+
                 </div>
             </div>
         </div>

@@ -83,13 +83,13 @@
                     <div class="form-group">
                       <label for="name">Nombre Producto: </label>
                       <input autofocus type="text" class="form-control" name="name"
-                      id="name" aria-describedby="helpId"  value="{{old('name')}}">
+                      id="name" aria-describedby="helpId"  value="{{old('name')}}" placeholder="Nombre del producto">
                     </div>
 
                     <div class="form-group">
                       <label for="sell_price">Precio de Venta: </label>
                       <input type="number" class="form-control" name="sell_price"
-                      id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta" >
+                      id="sell_price" aria-describedby="emailHelpId" value="{{old('sell_price')}}" placeholder="Precio de venta" >
                     </div>
 
                     <div class="form-group">
@@ -122,7 +122,7 @@
 
                         </small>
                       </h4>
-                      <input  type="file"  name="picture" id="picture" class="dropify"  />
+                      <input  type="file" name="picture" id="picture" class="dropify"  required/>
                     </div>
 
 

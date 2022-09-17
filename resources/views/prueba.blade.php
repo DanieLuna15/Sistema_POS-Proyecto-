@@ -26,7 +26,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -57,10 +57,10 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">PRUEBA</h4>
-                        
+
                         <div class="btn-group">
                             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -107,7 +107,7 @@
                                             </a>
                                         </td>
                                         @endif
-                                        
+
 
                                          <td>{{$product->category->name}}</td>
                                         <td style="width: 50px;">
@@ -116,7 +116,7 @@
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.edit', $product)}}" title="Editar">
                                                 <i class="far fa-edit"></i>
                                             </a>
-                                            
+
                                             <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
@@ -129,7 +129,7 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

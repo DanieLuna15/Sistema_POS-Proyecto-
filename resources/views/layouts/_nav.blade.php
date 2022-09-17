@@ -16,18 +16,24 @@
             </div>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{route('home')}}">
+                <i class="fa fa-home menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false"
                 aria-controls="page-layouts">
                 <i class="fas fa-archive menu-icon"></i>
                     <span class="menu-title">Inventario</span>
                 <i class="menu-arrow"></i>
             </a>
-            
+
             <div class="collapse" id="page-layouts">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('products.index')}}">
-                            <i class="fas fa-boxes menu-icon"></i>
+                            <i class="fas fa-boxes menu-icon "></i>
                             <span class="menu-title">Productos</span>
                         </a>
                     </li>
@@ -91,14 +97,41 @@
                 <span class="menu-title">Compras</span>
             </a>
         </li>
-        
+
         <li class="nav-item">
             <a class="nav-link" href="{{route('sales.index')}}">
                 <i class="fas fa-shopping-cart menu-icon"></i>
                 <span class="menu-title">Ventas</span>
             </a>
         </li>
-        {{--
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('home')}}">
+                <i class="fas fa-chart-line menu-icon"></i>
+                <span class="menu-title">Analítica</span>
+            </a>
+        </li>
+
+        {{--<li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#page-layouts1" aria-expanded="false"
+                aria-controls="page-layouts1">
+                <i class="fas fa-archive menu-icon"></i>
+                    <span class="menu-title">Analítica</span>
+                <i class="menu-arrow"></i>
+            </a>
+
+            <div class="collapse" id="page-layouts1">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('home')}}">
+                            <i class="fas fa-boxes menu-icon"></i>
+                            <span class="menu-title">Pronóstico de demanda</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="">
                 <i class="fa fa-home menu-icon"></i>
@@ -130,10 +163,10 @@
                 <span class="menu-title">Ventas</span>
             </a>
         </li>--}}
-        
 
 
-        
+
+
         {{--<li class="nav-item">
             <a class="nav-link" href="">
                 <i class="fas fa-user-tag menu-icon"></i>

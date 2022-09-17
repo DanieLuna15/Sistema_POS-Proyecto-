@@ -26,15 +26,21 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'=>'Este campo es requerido',
-            'name.string'=>'El valor no es correcto',
-            'name.max'=>'Solo se Permiten 50 caracteres',
-            'name.unique'=>'El producto ya esta registrado',
+            // 'name.required'=>'Este campo es requerido',
+            // 'name.string'=>'El valor no es correcto',
+            // 'name.max'=>'Solo se Permiten 50 caracteres',
+            // 'name.unique'=>'El producto ya esta registrado',
+
+            'name.required'=>'El campo nombre es requerido',
+            'name.string'=>'El valor no es correcto en el campo nombre',
+            'name.max'=>'Solo se Permiten 50 caracteres en el campo nombre',
+            'name.unique'=>'Ya existe un producto con el mismo nombre',
 
             //'image.required'=>'La imagen es Requerida',
             //'image.dimensions'=>'Solo se permiten imagenes de 100x200 px.',
 
-            'sell_price.required'=>'Este campo es requerido',
+            //'sell_price.required'=>'Este campo es requerido',
+            'sell_price.required'=>'El campo precio de venta campo es requerido',
 
             'category_id.integer'=>'El valor tiene que ser entero.',
             'category_id.required'=>'Este campo es requerido',

@@ -87,13 +87,13 @@
                     <div class="form-group">
                       <label for="name">* Nombre: </label>
                       <input type="text"class="form-control" name="name" value="{{$client->name}}"
-                      id=name" aria-describedby="helpId" placeholder="Ingrese el nombre del Cliente" required>
+                      id=name" aria-describedby="helpId" placeholder="Ingrese el nombre del Cliente"> 
                     </div>
 
                     <div class="form-group">
                       <label for="ci">* Cédula de Identidad: </label>
                       <input type="number"class="form-control" name="ci" value="{{$client->ci}}"
-                      id=ci" aria-describedby="helpId" placeholder="Ingrese el número de Carnet" required>
+                      id=ci" aria-describedby="helpId" placeholder="Ingrese el número de Carnet">
                     </div>
 
                     <div class="form-group">

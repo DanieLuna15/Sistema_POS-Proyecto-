@@ -23,12 +23,22 @@ class CreateProductsTable extends Migration
             $table->decimal('sell_price',12,2);
             $table->enum('status',['ACTIVO','DESACTIVADO'])->default('ACTIVO');
 
+            /*
+            $table->string('code')->unique()->nullable();
+            $table->string('name')->unique();
+            $table->integer('stock')->default(0);
+            $table->string('image')->required();
+            $table->decimal('sell_price',12,2)->default(0);
+            $table->enum('status',['ACTIVO','DESACTIVADO'])->default('ACTIVO');
+            */
+
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->unsignedBigInteger('provider_id');
             $table->foreign('provider_id')->references('id')->on('providers');
+
 
             $table->timestamps();
         });

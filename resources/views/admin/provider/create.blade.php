@@ -82,31 +82,31 @@
                     <div class="form-group">
                       <label for="name">Nombre/Razón Social:</label>
                       <input autofocus type="text" class="form-control" name="name"
-                      id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del proveedor" >
+                      id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del proveedor" value="{{old('name')}}">
                     </div>
 
                     <div class="form-group">
                       <label for="email">Correo Electrónico:</label>
                       <input type="email" class="form-control" name="email"
-                      id="email" aria-describedby="emailHelpId" placeholder="ejemplo@gmail.com" >
+                      id="email" aria-describedby="emailHelpId" placeholder="ejemplo@gmail.com" value="{{old('email')}}" >
                     </div>
 
                     <div class="form-group">
                       <label for="nit">Numero NIT:</label>
                       <input type="number" class="form-control" name="nit"
-                      id="nit" aria-describedby="helpId" placeholder="Ingrese el numero NIT" >
+                      id="nit" aria-describedby="helpId" placeholder="Ingrese el numero NIT"  value="{{old('nit')}}">
                     </div>
 
                     <div class="form-group">
                       <label for="address">Dirección/Pais:</label>
                       <input type="text" class="form-control" name="address"
-                      id="address" aria-describedby="helpId" placeholder="Ingrese la dirección del Proveedor" >
+                      id="address" aria-describedby="helpId" placeholder="Ingrese la dirección del Proveedor"  value="{{old('address')}}">
                     </div>
 
                     <div class="form-group">
                       <label for="phone">Numero de contacto:</label>
                       <input type="number" class="form-control" name="phone"
-                      id="phone" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" >
+                      id="phone" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" value="{{old('phone')}}">
                     </div>
 
                      <button type="submit" class="btn btn-primary mr-2">Registrar</button>

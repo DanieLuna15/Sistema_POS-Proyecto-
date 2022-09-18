@@ -35,7 +35,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -66,10 +66,10 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Todas las Compras:</h4>
-                        
+
                         <div class="dropdown">
                           <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog"></i>
@@ -89,12 +89,12 @@
                         <table id="order-listing" class="table">
                             <thead>
                                 <tr>
-                                    <!-- 'provider_id', 
-                                    'user_id', 
-                                    'purchase_date', 
-                                    'tax', 
-                                    'total', 
-                                    'status', 
+                                    <!-- 'provider_id',
+                                    'user_id',
+                                    'purchase_date',
+                                    'tax',
+                                    'total',
+                                    'status',
                                     'picture',  -->
 
                                     <th>Id</th>
@@ -117,24 +117,19 @@
                                         <td>
                                         @if ($purchase->status=='CONFIRMADO')
                                             <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
-                                        @else 
+                                        @else
+                                            <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
+                                            <!--
                                             @if ($purchase->status=='CANCELADO')
-                                                <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
+
                                             @else ($purchase->status=='PENDIENTE')
                                                 <button class="btn btn-warning btn-block ">{{$purchase->status}}</button>
-                                            @endif
+                                            @endif-->
                                         @endif
                                         </td>
 
                                         <td style="width:50px;">
-                                        
-                                       <!-- <a class="jsgrid-button jsgrid-edit-button" href="{{route('purchases.edit', $purchase)}}" title="Editar">
-                                                <i class="far fa-edit"></i>
-                                        </a>
-                                            
-                                        <!--<button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                <i class="far fa-trash-alt"></i>
-                                        </button>-->
+
 
                                         <a href="#" class="jsgrid-button jsgrid-edit-button"><i class="far fa-file-pdf"></i></a>
                                         <a href="#" class="jsgrid-button jsgrid-edit-button"><i class="fas fa-print"></i></a>

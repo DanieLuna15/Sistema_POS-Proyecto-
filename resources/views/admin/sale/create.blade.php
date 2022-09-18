@@ -27,7 +27,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -59,13 +59,13 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
             {!! Form::open(['route'=>'sales.store', 'method'=>'POST']) !!}
-                    
+
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Registro de Venta:</h4>
                     </div>
-                    @include('admin.sale._form')       
+                    @include('admin.sale._form')
                 </div>
                 <div class="card-footer text-muted">
                     <button type="submit" id="guardar" class="btn btn-primary float-right">Registrar</button>
@@ -95,7 +95,7 @@
     $("#guardar").hide();
     $("#product_id").change(mostrarValores);
 
-    
+
     function mostrarValores(){
         datosProducto=document.getElementById('product_id').value.split('_');
         $("#price").val(datosProducto[2]);
@@ -104,7 +104,7 @@
 
 
     function agregar() {
-    
+
         datosProducto=document.getElementById('product_id').value.split('_');
 
         product_id = datosProducto[0];
@@ -114,6 +114,7 @@
         price = $("#price").val();
         stock = $("#stock").val();
         tax = $("#tax").val();
+        //tax = 0;
         if (product_id != "" && quantity != "" && quantity > 0 && discount != "" && price != "") {
             if (parseInt(stock) >= parseInt(quantity)) {
                 subtotal[cont] = (quantity * price) - (quantity * price * discount / 100);

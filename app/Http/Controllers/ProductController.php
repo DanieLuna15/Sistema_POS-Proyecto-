@@ -18,7 +18,7 @@ class ProductController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $products = Product::get();
@@ -79,5 +79,15 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('products.index');
+    }
+    public function change_status(Product $product)
+    {
+        if($product->status == 'ACTIVO'){
+            $product->update([ 'status' =>'DESACTIVADO']);
+            return redirect()->back();
+        }else{
+            $product->update([ 'status' =>'ACTIVO']);
+            return redirect()->back();
+        }
     }
 }

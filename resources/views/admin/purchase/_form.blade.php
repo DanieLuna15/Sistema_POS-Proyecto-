@@ -9,15 +9,15 @@
 
 
 <div class="form-group">
-  <label for="tax">Impuesto:</label>
-  <input type="number" require name="tax" id="tax" class="form-control" placeholder="Ejemplo: 18%" aria-describedby="helpId">
+  <label for="tax">Porcentaje de Impuesto:</label>
+  <input type="number" required name="tax" id="tax" class="form-control" value="0" placeholder="Ejemplo: 18%" aria-describedby="helpId">
 </div>
 
 <div class="form-group">
     <label for="product_id">Producto:</label>
         {{--  <select class="form-control selectpicker" data-live-search="true" name="product_id" id="product_id">  --}}
-    <select class="form-control" name="product_id" id="product_id">
-        <option value="" disabled selected>Seleccione un producto</option>
+    <select class="form-control" name="product_id" id="product_id" required>
+        <!--<option value="0" disabled>Selecccione un producto</option>-->
         @foreach ($products as $product)
         <option value="{{$product->id}}">{{$product->name}}</option>
         @endforeach

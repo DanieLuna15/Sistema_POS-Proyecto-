@@ -14,7 +14,7 @@
     <label for="product_id">Producto:</label>
         {{--  <select class="form-control selectpicker" data-live-search="true" name="product_id" id="product_id">  --}}
     <select class="form-control" name="product_id" id="product_id">
-        <option value="" disabled selected>Seleccione un producto</option>
+        <option value="0" disabled selected>Seleccione un producto</option>
         @foreach ($products as $product)
         <option value="{{$product->id}}_{{$product->stock}}_{{$product->sell_price}}">{{$product->name}}</option>
         @endforeach
@@ -34,7 +34,7 @@
 
 <div class="form-group">
   <label for="price">Precio de Venta:</label>
-  <input require type="number" name="price" id="price" class="form-control" aria-describedby="helpId" disabled> 
+  <input require type="number" name="price" id="price" class="form-control" aria-describedby="helpId" disabled>
 </div>
 
 <div class="form-group">

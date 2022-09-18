@@ -24,7 +24,7 @@ class CreatePurchasesTable extends Migration
             $table->dateTime('purchase_date');
             $table->decimal('tax');
             $table->decimal('total');
-            $table->enum('status',['PENDIENTE','CONFIRMADO','CANCELADO'])->default('PENDIENTE');
+            $table->enum('status',['CONFIRMADO','CANCELADO'])->default('CONFIRMADO');
             $table->STRING('picture')->nullable();
 
             $table->timestamps();

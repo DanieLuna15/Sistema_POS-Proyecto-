@@ -114,7 +114,7 @@
                         id=email" aria-describedby="helpId" placeholder="Ingrese el número de telefono/celular"  value="{{old('email')}}">
                         <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                         </div>
-+-
+
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>
                         <a href="{{route('clients.index')}}" class="btn btn-light">
                             Cancelar

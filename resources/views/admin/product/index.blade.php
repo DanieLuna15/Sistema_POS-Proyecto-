@@ -91,9 +91,9 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Nombre</th>
-                                    <th>Stock</th>
                                     <th>Categoría</th>
                                     <th>Marca</th>
+                                    <th>Stock</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -106,19 +106,27 @@
                                             <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
                                         </td>
 
-                                        <td>{{$product->stock}}</td>
+
 
                                         <td>{{$product->category->name}}</td>
 
                                         <td>{{$product->brand->name}}</td>
 
+                                        <td>{{$product->stock}}</td>
+
                                         <td>
-                                            @if ($product->status=='ACTIVO')
-                                            <button class="btn btn-success btn-block ">{{$product->status}}</button>
-                                            @else
-                                            <button class="btn btn-danger btn-block ">{{$product->status}}</button>
-                                            @endif
-                                            </td>
+                                        @if ($product->status=='ACTIVO')
+                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.products', $product)}}">
+                                                {{$product->status}} <i class="fas fa-check"></i>
+                                            </a>
+                                        @else
+                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block" href="{{route('change.status.products', $product)}}">
+                                                {{$product->status}} <i class="fas fa-times"></i>
+                                            </a>
+                                        @endif
+                                        </td>
+
+
                                         <td style="width: 50px;">
 
                                         {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}

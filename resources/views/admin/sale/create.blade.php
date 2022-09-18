@@ -113,7 +113,7 @@
         discount = $("#discount").val();
         price = $("#price").val();
         stock = $("#stock").val();
-        if (product_id != "" && quantity != "" && quantity > 0 && discount != "" && price != "") {
+        if (product_id != "" && product_id != 0 && quantity != "" && quantity > 0 && discount != "" && price != "") {
             if (parseInt(stock) >= parseInt(quantity)) {
                 subtotal[cont] = (quantity * price) - (quantity * price * discount / 100);
                 total = total + subtotal[cont];

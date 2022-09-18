@@ -23,6 +23,7 @@ class CreatePurchaseDetailsTable extends Migration
 
             $table->integer('quantity');
             $table->decimal('price');
+            //$table->decimal('sell_price');
 
             $table->timestamps();
         });

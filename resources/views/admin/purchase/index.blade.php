@@ -114,18 +114,31 @@
                                         <td>{{$purchase->purchase_date}}</td>
                                         <td>{{$purchase->provider->name}}</td>
                                         <td>Bs./ {{$purchase->total}}</td>
+                                        <!--
                                         <td>
-                                        @if ($purchase->status=='CONFIRMADO')
-                                            <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
-                                        @else
-                                            <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
-                                            <!--
-                                            @if ($purchase->status=='CANCELADO')
+                                            @if ($purchase->status=='CONFIRMADO')
+                                                <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
+                                            @else
+                                                <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
 
-                                            @else ($purchase->status=='PENDIENTE')
-                                                <button class="btn btn-warning btn-block ">{{$purchase->status}}</button>
-                                            @endif-->
-                                        @endif
+                                                @if ($purchase->status=='CANCELADO')
+
+                                                @else ($purchase->status=='PENDIENTE')
+                                                    <button class="btn btn-warning btn-block ">{{$purchase->status}}</button>
+                                                @endif
+                                            @endif
+                                        </td>-->
+
+                                        <td>
+                                            @if ($purchase->status=='CONFIRMADO')
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.purchases', $purchase)}}">
+                                                    {{$purchase->status}} <i class="fas fa-check"></i>
+                                                </a>
+                                            @else
+                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block" href="{{route('change.status.purchases', $purchase)}}">
+                                                    {{$purchase->status}} <i class="fas fa-times"></i>
+                                                </a>
+                                            @endif
                                         </td>
 
                                         <td style="width:50px;">

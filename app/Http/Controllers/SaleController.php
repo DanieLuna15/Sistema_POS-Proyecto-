@@ -30,7 +30,7 @@ class SaleController extends Controller
     public function create()
     {
         $clients = Client::get();
-        $products = Product::get();
+        $products=Product::where('status','ACTIVO')->get();
         return view('admin.sale.create', compact('clients','products'));
     }
 
@@ -55,12 +55,15 @@ class SaleController extends Controller
 
     public function show(Sale $sale)
     {
+        $descuentototal=0;
         $subtotal=0;
         $SaleDetails=$sale->SaleDetails;
         foreach ($SaleDetails as $SaleDetail) {
             $subtotal += $SaleDetail->quantity*$SaleDetail->price-$SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
+            $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
         }
-        return view('admin.sale.show', compact('sale','SaleDetails','subtotal'));
+            $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
+        return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal'));
     }
 
     public function edit(Sale $sale)
@@ -79,5 +82,15 @@ class SaleController extends Controller
     {
         //$sale->delete();
         //return redirect()->route('sales.index');
+    }
+    public function change_status(Sale $sale)
+    {
+        if($sale->status == 'CONFIRMADO'){
+            $sale->update([ 'status' =>'CANCELADO']);
+            return redirect()->back();
+        }else{
+            $sale->update([ 'status' =>'CONFIRMADO']);
+            return redirect()->back();
+        }
     }
 }

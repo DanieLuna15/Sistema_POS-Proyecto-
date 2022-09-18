@@ -37,10 +37,7 @@
   <input require type="number" name="price" id="price" class="form-control" aria-describedby="helpId" disabled>
 </div>
 
-<div class="form-group">
-  <label for="tax">Porcentaje de Ganancia (%):</label>
-  <input require type="number" require name="tax" id="tax" class="form-control" placeholder="Ejemplo: 18%" value="0" aria-describedby="helpId">
-</div>
+
 
 <div class="form-group">
   <label for="discount">Porcentaje de Descuento (%):</label>
@@ -76,6 +73,7 @@
                         <p align="right"><span id="total">Bs/ 0.00</span> </p>
                     </th>
                 </tr>
+                <!--
                 <tr>
                     <th colspan="5">
                         <p align="right">TOTAL GANANCIAS (%):</p>
@@ -84,7 +82,7 @@
                         <p align="right"><span id="total_impuesto">Bs/ 0.00</span></p>
                     </th>
                 </tr>
-                <!--
+                -->
                 <tr>
                     <th colspan="5">
                         <p align="right">TOTAL DESCUENTO (%):</p>
@@ -93,7 +91,7 @@
                         <p align="right"><span id="total_descuento">Bs/ 0.00</span></p>
                     </th>
                 </tr>
-                -->
+
                 <tr>
                     <th colspan="5">
                         <p align="right">TOTAL PAGAR:</p>

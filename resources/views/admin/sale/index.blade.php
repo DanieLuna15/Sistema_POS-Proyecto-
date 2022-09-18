@@ -113,18 +113,31 @@
                                         <td>{{$sale->sale_date}}</td>
                                         <td>{{$sale->client->name}}</td>
                                         <td>Bs./ {{$sale->total}}</td>
+
+                                        <!--<td>
+                                            @if ($sale->status=='CONFIRMADO')
+                                                <button class="btn btn-success btn-block ">{{$sale->status}}</button>
+                                            @else
+                                                <button class="btn btn-danger btn-block ">{{$sale->status}}</button>
+
+                                                @if ($sale->status=='CANCELADO')
+
+                                                @else ($sale->status=='PENDIENTE')
+                                                    <button class="btn btn-warning btn-block ">{{$sale->status}}</button>
+                                                @endif
+                                            @endif
+                                        </td>-->
                                         <td>
                                             @if ($sale->status=='CONFIRMADO')
-                                            <button class="btn btn-success btn-block ">{{$sale->status}}</button>
-                                        @else
-                                            <button class="btn btn-danger btn-block ">{{$sale->status}}</button>
-                                            <!--
-                                            @if ($sale->status=='CANCELADO')
-
-                                            @else ($sale->status=='PENDIENTE')
-                                                <button class="btn btn-warning btn-block ">{{$sale->status}}</button>
-                                            @endif-->
-                                        @endif
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.sales', $sale)}}">
+                                                    {{$sale->status}} <i class="fas fa-check"></i>
+                                                </a>
+                                            @else
+                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block" href="{{route('change.status.sales', $sale)}}">
+                                                    {{$sale->status}} <i class="fas fa-times"></i>
+                                                </a>
+                                            @endif
+                                        </td>
 
                                         <td style="width:50px;">
 

@@ -18,7 +18,7 @@ class CreateSalesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->dateTime('sale_date');
-            $table->decimal('tax');
+            //$table->decimal('tax');
             $table->decimal('total');
             $table->enum('status',['CONFIRMADO','CANCELADO'])->default('CONFIRMADO');
 

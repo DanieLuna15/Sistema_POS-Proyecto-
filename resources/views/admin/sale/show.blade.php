@@ -10,13 +10,13 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li> 
+                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('sales.index')}}">Ventas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Detalle de Venta: {{$sale->id}}</li>
             </ol>
         </nav>
-       
-    </div> 
+
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -45,18 +45,20 @@
                                         <th>Producto</th>
                                         <th>Precio (BS)</th>
                                         <th>Cantidad</th>
+                                        <th>Descuento (%)</th>
                                         <th>SubTotal (BS)</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="3">
+                                        <th colspan="4">
                                             <p align="right">SUBTOTAL:</p>
                                         </th>
                                         <th>
                                             <p align="right">Bs./ {{number_format($subtotal,2)}}</p>
                                         </th>
                                     </tr>
+                                    <!--
                                     <tr>
                                         <th colspan="3">
                                             <p align="right">TOTAL GANANCIAS ({{$sale->tax}}%):</p>
@@ -64,16 +66,24 @@
                                         <th>
                                             <p align="right">Bs./ {{number_format($subtotal*$sale->tax/100,2)}}</p>
                                         </th>
+                                    </tr>-->
+                                    <tr>
+                                        <th colspan="4">
+                                            <p align="right">TOTAL DESCUENTO (%):</p>
+                                        </th>
+                                        <th>
+                                            <p align="right"><span id="total_descuento">Bs./ {{number_format($descuentototal,2)}}</span></p>
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <th colspan="3">
+                                        <th colspan="4">
                                             <p align="right">TOTAL:</p>
                                         </th>
                                         <th>
                                             <p align="right">Bs./{{number_format($sale->total,2)}}</p>
                                         </th>
                                     </tr>
-                    
+
                                 </tfoot>
                                 <tbody>
                                     @foreach($SaleDetails as $SaleDetail)
@@ -81,6 +91,7 @@
                                         <td>{{$SaleDetail->product->name }}</td>
                                         <td>Bs./{{$SaleDetail->price}}</td>
                                         <td>{{$SaleDetail->quantity}}</td>
+                                        <td>{{$SaleDetail->discount}}.%</td>
                                         <td>Bs./{{number_format($SaleDetail->quantity*$SaleDetail->price,2)}}</td>
                                     </tr>
                                     @endforeach

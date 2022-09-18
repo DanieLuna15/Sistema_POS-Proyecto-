@@ -39,8 +39,8 @@ Route::resource('sales',        'SaleController'::class)->     names('sales')->e
 
 //rutas de cambio de estados
 Route::get('change_status/products/{product}','ProductController@change_status')->name('change.status.products');
-//Route::get('change_status/purchases/{purchase}','PurchaseController@change_status')->names('change.status.purchases');
-//Route::get('change_status/sales/{sale}','SaleController@change_status')->names('change.status.sales');
+Route::get('change_status/purchases/{purchase}','PurchaseController@change_status')->name('change.status.purchases');
+Route::get('change_status/sales/{sale}','SaleController@change_status')->name('change.status.sales');
 //fin
 
 

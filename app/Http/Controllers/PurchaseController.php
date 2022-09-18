@@ -32,7 +32,7 @@ class PurchaseController extends Controller
     public function create()
     {
         $providers=Provider::get();
-        $products=Product::get();
+        $products=Product::where('status','ACTIVO')->get();
         return view('admin.purchase.create', compact('providers','products'));
     }
 
@@ -85,5 +85,15 @@ class PurchaseController extends Controller
     {
         //$purchase->delete();
         //return redirect()->route('purchases.index');
+    }
+    public function change_status(Purchase $purchase)
+    {
+        if($purchase->status == 'CONFIRMADO'){
+            $purchase->update([ 'status' =>'CANCELADO']);
+            return redirect()->back();
+        }else{
+            $purchase->update([ 'status' =>'CONFIRMADO']);
+            return redirect()->back();
+        }
     }
 }

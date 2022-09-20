@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 //use App\Order;
 //use App\OrderDetail;
 use App\Sale;
+use App\Brand;
 use App\Product;
 use App\Purchase;
 use Carbon\Carbon;
@@ -33,9 +34,10 @@ class HomeController extends Controller
 
     public function index()
     {
+        $brands = Brand::get();
         $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
         $pronosticos=$respuesta->json();
-        return view('home', compact('pronosticos'));
+        return view('home', compact('pronosticos'), compact('brands'));
     }
 
     public function index1()

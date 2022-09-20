@@ -8,9 +8,7 @@
         background: none;
       }
 </style>
-
 @endsection
-
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">
@@ -28,7 +26,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <div class="row grid-margin">
+                    <div class="d-flex justify-content-between">
                         <div class="col-12">
                             <div class="card card-statistics">
                                 <div class="card-body">
@@ -89,7 +87,7 @@
                     </div>
                 </div>
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-md-6 grid-margin stretch-card">
                             <div class="card">
                             <div class="card-body">
@@ -114,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
@@ -142,6 +140,63 @@
                                     </h4>
                                     <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
                                     <canvas id="pronosticolineas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between">
+                                        <h4 class="card-title">
+                                            <i class="fas fa-table"></i>
+                                            Data historica
+                                        </h4>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table id="order-listing" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>Descripción</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($brands as $brand)
+                                                    <tr>
+                                                        <th scope="row">{{$brand->id}}</th>
+                                                        <td>
+                                                            <a href="{{route('brands.show',$brand)}}">{{$brand->name}}</a>
+                                                        </td>
+
+                                                        <td>{{$brand->description}}</td>
+
+                                                        <td style="width: 50px;">
+                                                            {!! Form::open(['route'=>['brands.destroy',$brand], 'method'=>'DELETE']) !!}
+                                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.edit', $brand)}}" title="Editar">
+                                                                    <i class="far fa-edit"></i>
+                                                                </a>
+
+                                                                <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+
+                                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.show',$brand)}}" title="Ver Productos Relacionados">
+                                                                    <i class="far fa-eye"></i>
+                                                                </a>
+                                                            {!! Form::close() !!}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -311,13 +366,14 @@
                     }]
                 },
                 options: {
+                    /*
                     title:{
                         display:true,
                         text: 'Comportamiento de la Demanda vs Pronóstico',
                         fontSize: 30,
                         padding:30,
                         fontColor: '#12619c'
-                    },
+                    },*/
                     scales: {
                       yAxes: [{
                         ticks: {
@@ -357,26 +413,27 @@
                         label: 'Demanda',
                         data: [<?php foreach ($pronosticos as $pron)
                         {echo ''. $pron['cant_prod_vendidos'].',';} ?>],
-                        backgroundColor: '#2d2d86',
-                        borderColor: '#2d2d86',
+                        backgroundColor: '#61529F',
+                        borderColor: '#61529F',
                         borderWidth: 5,
                     },{
                         label: 'Pronostico',
                         data: [<?php foreach ($pronosticos as $pron1)
                         {echo ''. $pron1['pronostico'].',';} ?>],
-                        backgroundColor: '#994d00',
-                        borderColor: '#994d00',
+                        backgroundColor: '#DD785D',
+                        borderColor: '#DD785D',
                         borderWidth: 5,
                     }]
                 },
                 options: {
+                    /*
                     title:{
                         display:true,
                         text: 'Comportamiento de la Demanda vs Pronóstico',
                         fontSize: 30,
                         padding:30,
                         fontColor: '#12619c'
-                    },
+                    },*/
                     scales: {
                       yAxes: [{
                         ticks: {
@@ -399,7 +456,7 @@
                       fontColor:'black'
                     },
                     tooltips:{
-                      backgroundColor: '#001a33',
+                      backgroundColor: '#1E2778',
                       titleFontSize:20,
                       xPadding:20,
                       yPadding:20,
@@ -414,7 +471,7 @@
                       },
                       point: {
                         radius: 3,
-                        borderWidth: 2,
+                        borderWidth: 3,
                         backgroundColor: 'white',
                         hoverRadius: 6,
                         hoverborderWidth:2
@@ -422,7 +479,6 @@
                     }
                 }
             });
-
     });
 </script>
 @endsection

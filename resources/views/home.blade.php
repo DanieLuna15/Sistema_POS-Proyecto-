@@ -96,7 +96,7 @@
                             <div class="card-body">
                                     <h4 class="card-title">
                                         <i class="fas fa-gift"></i>
-                                        Pronóstico de demanda 2022
+                                        Compras del Mes
                                     </h4>
                                     <canvas id="orders-chart"></canvas>
                                 <div id="orders-chart-legend" class="orders-chart-legend"></div>
@@ -108,7 +108,7 @@
                                 <div class="card-body">
                                     <h4 class="card-title">
                                         <i class="fas fa-chart-line"></i>
-                                        Comportamiento de las Ventas
+                                        Ventas del Mes
                                     </h4>
                                     <h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>
                                     <canvas id="sales-chart"></canvas>
@@ -118,6 +118,37 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <i class="fas fa-chart-line"></i>
+                                        Comportamiento de la Demanda vs Pronóstico BARRAS
+                                    </h4>
+                                    <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
+                                    <canvas id="pronostico"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <i class="fas fa-chart-line"></i>
+                                        Comportamiento de la Demanda vs Pronóstico LINEAS
+                                    </h4>
+                                    <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
+                                    <canvas id="pronosticolineas"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
@@ -212,16 +243,42 @@
                             </div>
                         </div>
                         </div>
+                    </div>-->
+
+
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                            <h4 class="card-title">
+                                <i class="fas fa-table"></i>
+                                Pronostico vs data historica
+                            </h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Pronóstico</th>
+                                        <th>Mes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pronosticos as $pronostico)
+                                        <tr>
+                                            <td>{{$pronostico['cant_prod_vendidos']}}</td>
+                                            <td>{{$pronostico['pronostico']}}</td>
+                                            <td>{{$pronostico['mes']}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
                     </div>
-
-
-
-
-
-
                         <div class="d-flex justify-content-between">
-
-
                             <!--<h4 class="card-title">Categorías:</h4>
                             <div class="dropdown">
                             <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -236,7 +293,6 @@
                                 <a class="dropdown-item" href="#">Exportar a Excel</a>
                             </div>
                             </div>-->
-
                         </div>
                         {{--
                         <div class="table-responsive">
@@ -288,4 +344,148 @@
 @endsection
 @section('scripts')
 {!! Html::script('melody/js/data-table.js') !!}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script>
+    $(function(){
+
+            var varPronostico=document.getElementById('pronostico').getContext('2d');
+            var charPronostico = new Chart(varPronostico, {
+                type: 'bar',
+                data: {
+                    labels: [<?php foreach ($pronosticos as $pronostico)
+                {
+                    $fecha = $pronostico['mes'];
+
+                    echo '"'. $fecha.'",';} ?>],
+                    datasets: [{
+                        label: 'Demanda',
+                        data: [<?php foreach ($pronosticos as $pron)
+                        {echo ''. $pron['cant_prod_vendidos'].',';} ?>],
+                        backgroundColor: '#2d2d86',
+                        borderColor: '#2d2d86',
+                        borderWidth: 5,
+                    },{
+                        label: 'Pronostico',
+                        data: [<?php foreach ($pronosticos as $pron1)
+                        {echo ''. $pron1['pronostico'].',';} ?>],
+                        backgroundColor: '#994d00',
+                        borderColor: '#994d00',
+                        borderWidth: 5,
+                    }]
+                },
+                options: {
+                    title:{
+                        display:true,
+                        text: 'Comportamiento de la Demanda vs Pronóstico',
+                        fontSize: 30,
+                        padding:30,
+                        fontColor: '#12619c'
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                            stepSize: 20,
+                            beginAtZero:true
+                        }
+                      }]
+                    },
+                    legend: {
+                      position: 'bottom',
+                      display: true,
+                      boxWidth: 25,
+                      fontFamily: 'system-ui',
+                      fontColor:'black'
+                    },
+                    elements: {
+                      point: {
+                        radius: 5
+                      }
+                    }
+                }
+            });
+
+
+            var varPronosticolin=document.getElementById('pronosticolineas').getContext('2d');
+            var charPronosticolin = new Chart(varPronosticolin, {
+                type: 'line',
+                data: {
+                    labels: [<?php foreach ($pronosticos as $pronostico)
+                {
+                    $fecha = $pronostico['mes'];
+                    //$fecha = new Intl.DateTimeFormat('es-BO',{month:'long',year:'numeric'}).format(new Date($pronostico['mes']);
+                    //$fecha = new Intl.DateTimeFormat('es-MX', { month: 'long', year: 'numeric' }).format(new Date($pronostico['mes'])));
+
+                    echo '"'. $fecha.'",';} ?>],
+                    datasets: [{
+                        label: 'Demanda',
+                        data: [<?php foreach ($pronosticos as $pron)
+                        {echo ''. $pron['cant_prod_vendidos'].',';} ?>],
+                        backgroundColor: '#2d2d86',
+                        borderColor: '#2d2d86',
+                        borderWidth: 5,
+                    },{
+                        label: 'Pronostico',
+                        data: [<?php foreach ($pronosticos as $pron1)
+                        {echo ''. $pron1['pronostico'].',';} ?>],
+                        backgroundColor: '#994d00',
+                        borderColor: '#994d00',
+                        borderWidth: 5,
+                    }]
+                },
+                options: {
+                    title:{
+                        display:true,
+                        text: 'Comportamiento de la Demanda vs Pronóstico',
+                        fontSize: 30,
+                        padding:30,
+                        fontColor: '#12619c'
+                    },
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                            stepSize: 20,
+                            beginAtZero:true
+                        }
+                      }],
+                      xAxes: [{
+                        gridLines: {
+                            stepSize: 12,
+                            display:false
+                        }
+                      }]
+                    },
+                    legend: {
+                      position: 'bottom',
+                      display: true,
+                      boxWidth: 50,
+                      fontFamily: 'system-ui',
+                      fontColor:'black'
+                    },
+                    tooltips:{
+                      backgroundColor: '#001a33',
+                      titleFontSize:20,
+                      xPadding:20,
+                      yPadding:20,
+                      bodyFontSize:15,
+                      bodySpacing:10,
+                      mode: 'x',
+                    },
+                    elements: {
+                      line:{
+                        borderWidth:1,
+                        fill:false,
+                      },
+                      point: {
+                        radius: 3,
+                        borderWidth: 2,
+                        backgroundColor: 'white',
+                        hoverRadius: 6,
+                        hoverborderWidth:2
+                      }
+                    }
+                }
+            });
+
+    });
+</script>
 @endsection

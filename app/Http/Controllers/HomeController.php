@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use Http;
+
 class HomeController extends Controller
 {
     /**
@@ -31,7 +33,9 @@ class HomeController extends Controller
 
     public function index()
     {
-        return view('home');
+        $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
+        $pronosticos=$respuesta->json();
+        return view('home', compact('pronosticos'));
     }
 
     public function index1()

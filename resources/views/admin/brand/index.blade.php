@@ -35,13 +35,13 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
-                    <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Marca</button>
-                    </center>
+                    <a class="nav-link" href="{{route('brands.create')}}">
+                        <span class="btn btn-primary">Registrar Marca</span>
+                    </a>
                 </li>
               </ul>
             </div>
@@ -66,7 +66,7 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    
+
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Marcas: </h4>
 
@@ -111,7 +111,7 @@
                                                 <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.edit', $brand)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
-                                            
+
                                                 <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>
@@ -127,7 +127,7 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

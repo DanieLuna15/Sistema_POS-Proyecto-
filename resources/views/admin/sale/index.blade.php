@@ -14,7 +14,7 @@
 @section('create')
 <li class="nav-item d-none d-lg-flex">
     <a class="nav-link" href="{{route('sales.create')}}">
-        <span class="btn btn-primary">+ Registrar nueva Venta</span>
+        <span class="btn btn-primary">+ Nueva Venta</span>
     </a>
 </li>
 @endsection
@@ -39,9 +39,9 @@
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
-                    <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Venta</button>
-                    </center>
+                    <a class="nav-link" href="{{route('sales.create')}}">
+                        <span class="btn btn-primary">+ Registrar Venta</span>
+                    </a>
                 </li>
               </ul>
             </div>

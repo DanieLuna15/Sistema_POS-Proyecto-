@@ -39,9 +39,9 @@
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
-                    <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Cliente</button>
-                    </center>
+                    <a class="nav-link" href="{{route('clients.create')}}">
+                        <span class="btn btn-primary">Registrar Cliente</span>
+                    </a>
                 </li>
               </ul>
             </div>
@@ -117,7 +117,7 @@
                                             <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
-                                        
+
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('clients.show',$client)}}" title="Ver mas Información">
                                                 <i class="far fa-eye"></i>
                                             </a>

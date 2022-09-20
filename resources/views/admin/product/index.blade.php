@@ -39,9 +39,9 @@
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
-                    <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Producto</button>
-                    </center>
+                    <a class="nav-link" href="{{route('products.create')}}">
+                        <span class="btn btn-primary">Registrar Producto</span>
+                    </a>
                 </li>
               </ul>
             </div>

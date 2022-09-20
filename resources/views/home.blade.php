@@ -28,7 +28,6 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-
                     <div class="row grid-margin">
                         <div class="col-12">
                             <div class="card card-statistics">
@@ -84,11 +83,11 @@
                                             <label class="badge badge-outline-danger badge-pill">5 hoy</label>
                                         </div>
                                     </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
                     <div class="row">
                         <div class="col-md-6 grid-margin stretch-card">
@@ -147,7 +146,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!--<div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
                         <div class="card">
@@ -244,97 +242,36 @@
                         </div>
                         </div>
                     </div>-->
-
-
                     <div class="row">
                         <div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                            <h4 class="card-title">
-                                <i class="fas fa-table"></i>
-                                Pronostico vs data historica
-                            </h4>
-                            <div class="table-responsive">
-                                <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Cantidad</th>
-                                        <th>Pronóstico</th>
-                                        <th>Mes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($pronosticos as $pronostico)
-                                        <tr>
-                                            <td>{{$pronostico['cant_prod_vendidos']}}</td>
-                                            <td>{{$pronostico['pronostico']}}</td>
-                                            <td>{{$pronostico['mes']}}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                </table>
-                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                <h4 class="card-title">
+                                    <i class="fas fa-table"></i>
+                                    Pronostico vs data historica
+                                </h4>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Cantidad</th>
+                                                <th>Pronóstico</th>
+                                                <th>Mes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($pronosticos as $pronostico)
+                                                <tr>
+                                                    <td>{{$pronostico['cant_prod_vendidos']}}</td>
+                                                    <td>{{$pronostico['pronostico']}}</td>
+                                                    <td>{{$pronostico['mes']}}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                    </div>
-                        <div class="d-flex justify-content-between">
-                            <!--<h4 class="card-title">Categorías:</h4>
-                            <div class="dropdown">
-                            <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
-                                <h6 class="dropdown-header">Acciones</h6>
-                                <a class="dropdown-item" href="{{route('categories.create')}}">Agregar Nuevo +</a>
-                                <a class="dropdown-item" href="#">Ver Historial</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Exportar a PDF</a>
-                                <a class="dropdown-item" href="#">Exportar a Excel</a>
-                            </div>
-                            </div>-->
-                        </div>
-                        {{--
-                        <div class="table-responsive">
-                            <table id="order-listing" class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Descripción</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($categories as $category)
-                                        <tr>
-                                            <th scope="row">{{$category->id}}</th>
-                                            <td>
-                                                <a href="{{route('categories.show',$category)}}">{{$category->name}}</a>
-                                            </td>
-
-                                            <td>{{$category->description}}</td>
-
-                                            <td style="width: 50px;">
-                                                {!! Form::open(['route'=>['categories.destroy',$category], 'method'=>'DELETE']) !!}
-                                                    <a class="jsgrid-button jsgrid-edit-button" href="{{route('categories.edit', $category)}}" title="Editar">
-                                                        <i class="far fa-edit"></i>
-                                                    </a>
-
-                                                    <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>
-
-                                                    <a class="jsgrid-button jsgrid-edit-button" href="{{route('categories.show',$category)}}" title="Ver Productos Relacionados">
-                                                        <i class="far fa-eye"></i>
-                                                    </a>
-                                                {!! Form::close() !!}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>--}}
                     </div>
                 </div>
             </div>

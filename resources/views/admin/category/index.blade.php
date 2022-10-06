@@ -56,7 +56,7 @@
              Gestión de Categorías
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Categorías</li>
             </ol>
@@ -115,7 +115,7 @@
                                                 <a class="jsgrid-button jsgrid-delete-button unstyled-button" href="{{route('categories.edit', $category)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
-                                                
+
                                                 <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>-->

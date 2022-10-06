@@ -48,7 +48,7 @@
             Marcas
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('brands.index')}}">Marcas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Nueva Marca</li>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Descripción:</label>
-                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="(Sin Descripción)" rows="3" ></textarea>
+                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="(Sin Descripción)" rows="3" >(Sin Descripción)</textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>

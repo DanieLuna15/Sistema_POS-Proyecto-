@@ -48,7 +48,7 @@
             Categorías
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Categorías</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Nueva Categoría</li>
@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Descripción:</label>
-                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="(Sin Descripción)" rows="3" ></textarea>
+                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="{{old('description')}}" rows="3" >(Sin Descripción)</textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>

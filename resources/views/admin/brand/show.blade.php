@@ -32,7 +32,7 @@
           </li>
         </ul>
         <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section"> 
+          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
             <div class="list-wrapper px-3">
               <ul class="d-flex flex-column-reverse todo-list">
                 <li>
@@ -53,7 +53,7 @@
             Productos que pertenecen a "{{$brand->name}}"
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('brands.index')}}">Marcas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Productos de: {{$brand->name}}</li>
@@ -64,7 +64,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    
+
 
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Marca: '{{$brand->name}}'</h4>
@@ -102,20 +102,20 @@
                                     <td>
                                         <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
                                     </td>
-                                    
+
                                     <td>{{$product->stock}}</td>
 
                                     <td>{{$product->status}}</td>
 
                                     <td>{{$product->brand->name}}</td>
-                                    
+
                                     <td style="width: 50px;">
                                         {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
 
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.edit', $brand)}}" title="Editar">
                                                 <i class="far fa-edit"></i>
                                             </a>
-                                            
+
                                             <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>

@@ -13,4 +13,8 @@ class Category extends Model
     public function products(){
         return $this->HasMany(Product::class);
     }
+
+    public function historydatas(){
+        return $this->HasMany(Historydata::class);
+    }
 }

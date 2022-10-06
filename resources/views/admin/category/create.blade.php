@@ -81,7 +81,7 @@
                         </div>
                         <div class="form-group">
                             <label for="description">Descripción:</label>
-                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="{{old('description')}}" rows="3" ></textarea>
+                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="(Sin Descripción)" rows="3" ></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>

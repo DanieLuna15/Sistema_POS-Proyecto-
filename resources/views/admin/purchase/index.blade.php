@@ -135,7 +135,7 @@
                                                     {{$purchase->status}} <i class="fas fa-check"></i>
                                                 </a>
                                             @else
-                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block" href="{{route('change.status.purchases', $purchase)}}">
+                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.purchases', $purchase)}}">
                                                     {{$purchase->status}} <i class="fas fa-times"></i>
                                                 </a>
                                             @endif

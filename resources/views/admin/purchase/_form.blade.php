@@ -34,10 +34,10 @@
   <input type="number" name="price" id="price" class="form-control" aria-describedby="helpId">
 </div>
 
-<div class="form-group">
+<!--<div class="form-group">
     <label for="sell_price">Precio de venta Actual:</label>
     <input type="number" name="sell_price" id="sell_price" value="{{$product->sell_price}}" class="form-control" aria-describedby="helpId" disabled>
-  </div>
+</div>-->
 
 <div class="form-group">
     <button type="button" id="agregar" class="btn btn-primary float-right">Agregar Producto</button>

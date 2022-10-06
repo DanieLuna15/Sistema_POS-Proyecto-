@@ -120,7 +120,7 @@
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
                         <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2022.
                             Todos los derechos reservados.</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><a href="#">Comerbol SRL</a> </> <i class="far fa-heart text-danger"></i></span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"><a href="#">ImdiCorp SRL</a> </> <i class="far fa-heart text-danger"></i></span>
                     </div>
                 </footer>
                 <!-- partial -->
@@ -144,8 +144,7 @@
     {!! Html::script('melody/js/settings.js') !!}
     {!! Html::script('melody/js/todolist.js') !!}
     <!-- endinject -->
-    <!-- Custom js for this page-->
-    {!! Html::script('melody/js/dashboard.js') !!}
+
     <!-- End custom js for this page-->
     @yield('scripts')
 

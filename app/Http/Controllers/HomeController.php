@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 //use App\Order;
 //use App\OrderDetail;
 use App\Sale;
-use App\Brand;
+use App\Historydata;
+use App\Category;
 use App\Product;
 use App\Purchase;
 use Carbon\Carbon;
@@ -34,15 +35,41 @@ class HomeController extends Controller
 
     public function index()
     {
-        $brands = Brand::get();
+
+        $categories = Category::get();
+
+        $historydatas = Historydata::get();
+
+        //API MODELO
         $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
         $pronosticos=$respuesta->json();
-        return view('home', compact('pronosticos'), compact('brands'));
+        //API MODELO
+
+
+        $total_datahis = Historydata::select(
+            //DB::raw("count(*) as count"),
+            DB::raw("category_id as category_id"),
+            DB::raw("SUM(quantity) as quantity")
+        )->groupBy('category_id')->get();
+
+        /*
+        $total_datahis=DB::select('SELECT c.name as name,
+        SUM(dh.quantity) as quantity
+        from historydatas dh
+        inner join categories c on dh.category_id=c.id)
+        group by c.name, order by sum(dh.quantity) desc limit 10');
+        */
+        
+        //dd($total_datahis);
+        return view('home', compact('pronosticos','historydatas','categories','total_datahis'));
+
+
     }
 
     public function index1()
     {
-        /*$comprasmes = Purchase::where('status', 'VALID')->select(
+/*
+        $comprasmes = Purchase::where('status', 'VALID')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
             DB::raw("DATE_FORMAT(purchase_date,'%M %Y') as mes")
@@ -88,6 +115,23 @@ class HomeController extends Controller
             'most_ordered_products',
             'orders_of_the_day',
             'orders_of_the_day_status')
-        );*/
+        );
+
+        $total_datahis = Order::where('order_date', Carbon::now()->subdays(30)->format('Y-m-d'))->select(
+            DB::raw("count(*) as count"),
+            DB::raw("shipping_status as status")
+        )->groupBy('status')->get();
+
+        $order_mes = Order::where('order_date', Carbon::now()->subdays(30)->format('Y-m-d'))->select(
+            DB::raw("count(*) as count"),
+            DB::raw("shipping_status as status")
+        )->groupBy('status')->get();
+
+
+        $total_datahis = Historydata::select(
+            DB::raw("SUM(quantity) as quantity"),
+        )->groupBy('category_id')->get();
+
+        dd($total_datahis);*/
     }
 }

@@ -29,8 +29,8 @@ class StoreRequest extends FormRequest
             'name.min'=>'Se necesitan como mínimo 3 caracteres en el campo nombre',
             //'name.max'=>'Solo se Permiten 40 caracteres',
             'name.max'=>'Solo se Permiten 40 caracteres en el campo nombre',
-            //'name.unique'=>'Ya existe una marca con el mismo nombre',
-            'name.unique'=>'Ya existe una marca con el mismo nombre',
+            //'name.unique'=>'Ya existe una Categoría con el mismo nombre',
+            'name.unique'=>'Ya existe una Categoría con el mismo nombre',
 
 
             //'description.min'=>'Se necesitan como mínimo 5 caracteres',

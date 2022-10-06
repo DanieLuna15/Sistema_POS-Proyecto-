@@ -39,6 +39,16 @@
         color: #FFFFFF;
         background: #D2691E;
     }
+    #est {
+        /*position: relative;*/
+        float: right;
+        margin-top: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+        font-size: 20px;
+        color: #FFFFFF;
+        background: #d1b441;
+    }
     section {
         clear: left;
     }
@@ -122,8 +132,15 @@
             </p>  --}}
             <p>
                 Número de Venta:
-
                 {{$sale->id}}
+            </p>
+        </div>
+        <div id="est">
+            {{--  <p>{{$purchase->provider->document_type}} COMPRA<br />
+                {{$purchase->provider->document_number}}</p>  --}}
+            <p>
+                Estado:
+                {{$sale->status}}
             </p>
         </div>
     </header>
@@ -147,7 +164,7 @@
                         <td>{{$SaleDetail->quantity}} Unidades</td>
                         <td>{{$SaleDetail->product->name}}</td>
                         <td>Bs./ {{$SaleDetail->price}}</td>
-                        <td>{{$SaleDetail->discount}}</td>
+                        <td>{{$SaleDetail->discount}}.%</td>
                         <td>Bs./ {{number_format($SaleDetail->quantity*$SaleDetail->price - $SaleDetail->quantity*$SaleDetail->price*$SaleDetail->discount/100,2)}}
                         </td>
                     </tr>

@@ -39,6 +39,16 @@
         color: #FFFFFF;
         background: #33AFFF;
     }
+    #est {
+        /*position: relative;*/
+        float: right;
+        margin-top: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+        font-size: 20px;
+        color: #FFFFFF;
+        background: #19a77f;
+    }
     section {
         clear: left;
     }
@@ -121,6 +131,12 @@
                 {{$purchase->provider->document_number}}</p>  --}}
                 <p>Número de compra:
                     {{$purchase->id}}</p>
+        </div>
+        <div id="est">
+            {{--  <p>{{$purchase->provider->document_type}} COMPRA<br />
+                {{$purchase->provider->document_number}}</p>  --}}
+                <p>Estado:
+                    {{$purchase->status}}</p>
         </div>
     </header>
     <br>

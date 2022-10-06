@@ -13,6 +13,8 @@ use App\SaleDetails;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class SaleController extends Controller
 {
@@ -63,7 +65,6 @@ class SaleController extends Controller
             $subtotal += $SaleDetail->quantity*$SaleDetail->price-$SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
             $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
         }
-            $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
         return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal'));
     }
 
@@ -93,5 +94,21 @@ class SaleController extends Controller
             $sale->update([ 'status' =>'CONFIRMADO']);
             return redirect()->back();
         }
+    }
+
+    public function pdf(Sale $sale)
+    {
+        //dd($sale);
+        $descuentototal=0;
+        $subtotal=0;
+        $SaleDetails=$sale->SaleDetails;
+        foreach ($SaleDetails as $SaleDetail) {
+            $subtotal += $SaleDetail->quantity*$SaleDetail->price-$SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
+            $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
+        }
+        //return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
+        $pdf = PDF::loadView('admin.sale.pdf', compact('sale','subtotal','descuentototal','SaleDetails'));
+        //return $pdf->download('Reporte-Nota_de_Compra_'.$sale->id.'.pdf');
+        return $pdf->download('Nota_de_Venta_N°_'.$sale->id.'_Fec_'.$sale->sale_date.'.pdf');
     }
 }

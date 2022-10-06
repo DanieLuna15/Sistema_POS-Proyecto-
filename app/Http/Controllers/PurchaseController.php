@@ -15,7 +15,7 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
 
-use Barryvdh\DomPDF\Facade\Pdf;;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PurchaseController extends Controller
 {

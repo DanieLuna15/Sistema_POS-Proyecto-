@@ -90,7 +90,7 @@
                                     <tr>
                                         <td>{{$SaleDetail->product->name }}</td>
                                         <td>Bs./{{$SaleDetail->price}}</td>
-                                        <td>{{$SaleDetail->quantity}}</td>
+                                        <td>{{$SaleDetail->quantity}} Unidades</td>
                                         <td>{{$SaleDetail->discount}}.%</td>
                                         <td>Bs./{{number_format($SaleDetail->quantity*$SaleDetail->price,2)}}</td>
                                     </tr>

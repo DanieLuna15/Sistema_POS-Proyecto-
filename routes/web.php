@@ -35,8 +35,9 @@ Route::resource('sales',        'SaleController'::class)->     names('sales')->e
     'edit','update','destroy'
 ]);
 
-//rutas de impresión de tickets de comrpa y venta
+//rutas de impresión de tickets de compra y venta
 Route::get('purchases/pdf/{purchase}', 'PurchaseController@pdf'::class)->     name('purchases.pdf');
+Route::get('sales/pdf/{sale}', 'SaleController@pdf'::class)->     name('sales.pdf');
 //fin
 
 //rutas de cambio de estados

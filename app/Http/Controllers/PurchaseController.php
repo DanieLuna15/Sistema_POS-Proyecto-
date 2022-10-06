@@ -15,6 +15,8 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
 
+use Barryvdh\DomPDF\Facade\Pdf;;
+
 class PurchaseController extends Controller
 {
 
@@ -58,21 +60,18 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-
         $subtotal=0;
         $PurchaseDetails=$purchase->PurchaseDetails;
         foreach($PurchaseDetails as $PurchaseDetail){
             $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
         }
-
-
         return view('admin.purchase.show', compact('purchase','PurchaseDetails','subtotal'));
     }
 
     public function edit(Purchase $purchase)
     {
-        $providers = Provider::get();
-        return view('admin.purchase.edit', compact('purchase'));
+        //$providers = Provider::get();
+        //return view('admin.purchase.edit', compact('purchase'));
     }
 
     public function update(UpdateRequest $request, Purchase $purchase)
@@ -95,5 +94,19 @@ class PurchaseController extends Controller
             $purchase->update([ 'status' =>'CONFIRMADO']);
             return redirect()->back();
         }
+    }
+
+    public function pdf(Purchase $purchase)
+    {
+        //dd($purchase);
+        $subtotal=0;
+        $PurchaseDetails=$purchase->PurchaseDetails;
+        foreach($PurchaseDetails as $PurchaseDetail){
+            $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
+        }
+        //return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
+        $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails'));
+        //return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'.pdf');
+        return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'_Fec_'.$purchase->purchase_date.'.pdf');
     }
 }

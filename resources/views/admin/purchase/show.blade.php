@@ -10,13 +10,13 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li> 
+                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('purchases.index')}}">Compras</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Detalle de Compra: {{$purchase->id}}</li>
             </ol>
         </nav>
-       
-    </div> 
+
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -73,14 +73,14 @@
                                             <p align="right">Bs./{{number_format($purchase->total,2)}}</p>
                                         </th>
                                     </tr>
-                    
+
                                 </tfoot>
                                 <tbody>
                                     @foreach($PurchaseDetails as $PurchaseDetail)
                                     <tr>
                                         <td>{{$PurchaseDetail->product->name }}</td>
                                         <td>Bs./{{$PurchaseDetail->price}}</td>
-                                        <td>{{$PurchaseDetail->quantity}}</td>
+                                        <td>{{$PurchaseDetail->quantity}} Unidades</td>
                                         <td>Bs./{{number_format($PurchaseDetail->quantity*$PurchaseDetail->price,2)}}</td>
                                     </tr>
                                     @endforeach

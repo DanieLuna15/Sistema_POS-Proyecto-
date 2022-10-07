@@ -35,7 +35,7 @@
         margin-top: 2%;
         margin-left: 2%;
         margin-right: 2%;
-        font-size: 20px;
+        font-size: 18px;
         color: #FFFFFF;
         background: #33AFFF;
     }
@@ -45,7 +45,7 @@
         margin-top: 2%;
         margin-left: 2%;
         margin-right: 2%;
-        font-size: 20px;
+        font-size: 18px;
         color: #FFFFFF;
         background: #19a77f;
     }

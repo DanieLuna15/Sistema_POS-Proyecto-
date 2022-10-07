@@ -83,6 +83,8 @@
 {!! Html::script('melodyjs/alerts.js') !!}
 {!! Html::script('melodyjs/avgrund.js') !!}
 
+{!! Html::script('melody/js/select2.js') !!}
+
 <script>
     $(document).ready(function () {
         $("#agregar").click(function () {

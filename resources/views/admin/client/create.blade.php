@@ -109,10 +109,16 @@
                         </div>
 
                         <div class="form-group">
-                        <label for="email">Correo Electrónico: </label>
-                        <input type="email"class="form-control" name="email"
-                        id=email" aria-describedby="helpId" placeholder="Ingrese el número de telefono/celular"  value="{{old('email')}}">
-                        <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
+
+                            <label for="email">Correo Electrónico: </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">@</span>
+                                </div>
+                                <input type="email"class="form-control" name="email"
+                        id=email" aria-describedby="helpId" placeholder="Ingrese el correo electrónico del cliente"  value="{{old('email')}}">
+                            </div>
+                            <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                         </div>
 
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>

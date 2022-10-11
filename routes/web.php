@@ -21,6 +21,13 @@ Route::get('/prueba', function () {
     return view('prueba');
 });
 
+//rutas de reportes
+Route::get('sales/reports_day','ReportController@reports_day')->name('reports.day');
+Route::get('sales/reports_date','ReportController@reports_date')->name('reports.date');
+//Para la consulta
+Route::post('sales/report_results','ReportController@report_results')->name('report.results');
+//fin rutas de reportes
+
 //rutas de gestion basica de inventario
 Route::resource('brands',       'BrandController')->    names('brands');
 Route::resource('categories',   'CategoryController')-> names('categories');
@@ -48,13 +55,6 @@ Route::get('change_status/sales/{sale}','SaleController@change_status')->name('c
 Route::get('purchases/pdf/{purchase}', 'PurchaseController@pdf'::class)->     name('purchases.pdf');
 Route::get('sales/pdf/{sale}', 'SaleController@pdf'::class)->     name('sales.pdf');
 //fin rutas de impresión de tickets de compra y venta
-
-//rutas de reportes
-Route::get('sales/reports_day','ReportController@reports_day')->name('reports.day');
-Route::get('sales/reports_date','ReportController@reports_date')->name('reports.date');
-//Para la consulta
-Route::post('sales/report_results','ReportController@report_results')->name('report.results');
-//fin rutas de reportes
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

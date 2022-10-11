@@ -31,25 +31,25 @@
 
             <div class="collapse" id="page-layouts">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item d-none d-lg-block">
+                    <li class="nav-item ">
                         <a class="nav-link" href="{{route('products.index')}}">
                             <i class="fas fa-boxes menu-icon "></i>
                             <span class="menu-title">Productos</span>
                         </a>
                     </li>
-                    <li class="nav-item d-none d-lg-block">
+                    <li class="nav-item ">
                         <a class="nav-link" href="{{route('categories.index')}}">
                             <i class="fas fa-tags menu-icon"></i>
                             <span class="menu-title">Categorías</span>
                         </a>
                     </li>
-                    <li class="nav-item d-none d-lg-block">
+                    <li class="nav-item ">
                         <a class="nav-link" href="{{route('providers.index')}}">
                             <i class="fas fa-shipping-fast menu-icon"></i>
                             <span class="menu-title">Proveedores</span>
                         </a>
                     </li>
-                    <li class="nav-item d-none d-lg-block">
+                    <li class="nav-item ">
                         <a class="nav-link" href="{{route('brands.index')}}">
                             <i class="fas fa-tasks menu-icon"></i>
                             <span class="menu-title">Marcas</span>
@@ -115,22 +115,22 @@
         </li>--}}
 
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#page-layouts2" aria-expanded="false"
-                aria-controls="page-layouts2">
+            <a class="nav-link" data-toggle="collapse" href="#page-layouts3" aria-expanded="false"
+                aria-controls="page-layouts3">
                 <i class="fas fa-file menu-icon"></i>
                     <span class="menu-title">Reportes</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="page-layouts2">
+            <div class="collapse" id="page-layouts3">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link" href="#">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{route('reports.day')}}">
                             <i class="fas fa-th-list menu-icon"></i>
                             <span class="menu-title">Reportes por día</span>
                         </a>
                     </li>
-                    <li class="nav-item d-none d-lg-block">
-                        <a class="nav-link" href="#">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{route('reports.date')}}">
                             <i class="fas fa-calendar menu-icon"></i>
                             <span class="menu-title">Reportes por Fecha</span>
                         </a>

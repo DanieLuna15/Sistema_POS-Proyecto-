@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sale;
+use App\Purchase;
 use Carbon\Carbon;
 
 class ReportController extends Controller
@@ -21,14 +22,14 @@ class ReportController extends Controller
         $sales = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
                     ->where('status','CONFIRMADO')
                     ->get();
-
         $total = $sales -> sum('total');
         $cantventas = $sales -> count('id');
-
 
         return view('admin.report.reports_day', compact('sales','total','cantventas'));
         //return view('admin.report.reports_day', compact('sales','total','cantventas','fi','ff'));
     }
+
+
 
     public function reports_month(){
         $sales = Sale::whereRaw('month(sale_date) = month(now())')
@@ -54,8 +55,7 @@ class ReportController extends Controller
         $fi = Carbon::now('America/La_Paz');
         $ff = Carbon::now('America/La_Paz');
 
-        $sales = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
-                    ->where('status','CONFIRMADO')
+        $sales = Sale::where('status','CONFIRMADO')
                     ->get();
         $total = $sales -> sum('total');
         $cantventas = $sales -> count('id');

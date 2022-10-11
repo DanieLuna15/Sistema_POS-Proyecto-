@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title','Ventas por rango de Fechas')
+@section('title','Compras por rango de Fechas')
 <!--Reporte de Ventas-->
 @section('styles')
 <style type="text/css">
@@ -21,13 +21,13 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Ventas por rango de Fechas
+            Compras por rango de Fechas
             <!--Reporte de Ventas-->
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Ventas por rango de Fechas<!--Reporte de Ventas--></li>
+                <li class="breadcrumb-item active" aria-current="page">Compras por rango de Fechas<!--Reporte de Ventas--></li>
             </ol>
         </nav>
     </div>
@@ -50,7 +50,7 @@
                           </div>
                         </div>
                     </div>
-                    {!! Form::open(['route'=>'report.results', 'method'=>'POST']) !!}
+                    {!! Form::open(['route'=>'reportcm.resultscm', 'method'=>'POST']) !!}
                     <div class="row ">
                         <div class="col-12 col-md-4">
                             <span>Fecha Inicial:</span>
@@ -88,13 +88,13 @@
                         <div class="col-12 col-md-3 text-center">
                             <span>Cantidad de registros: <b></b></span>
                             <div class="form-group">
-                                <strong>{{$cantventas}}</strong>
+                                <strong>{{$cantcompras}}</strong>
                             </div>
                         </div>
                         <div class="col-12 col-md-3 text-center">
-                            <span>Total de Gastos: <b> </b></span>
+                            <span>Total de ingresos: <b> </b></span>
                             <div class="form-group">
-                                <strong>Bs./ {{$total}}</strong>
+                                <strong>Bs./ {{$totalcm}}</strong>
                             </div>
                         </div>
                     </div>
@@ -105,49 +105,49 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Fecha y Hora</th>
-                                    <th>Cliente</th>
+                                    <th>Proveedor</th>
                                     <th>Total</th>
                                     <th>Estado</th>
                                     <th style="width:50px;">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($sales as $sale): ?>
+                                <?php foreach ($purchases as $purchase): ?>
                                     <tr>
                                         <th scope="row">
-                                            <a href="{{route('sales.show', $sale)}}">{{$sale->id}}</a>
+                                            <a href="{{route('purchases.show', $purchase)}}">{{$purchase->id}}</a>
                                         </th>
-                                        <td>{{$sale->sale_date}}</td>
-                                        <td>{{$sale->client->name}}</td>
-                                        <td>Bs./ {{$sale->total}}</td>
+                                        <td>{{$purchase->purchase_date}}</td>
+                                        <td>{{$purchase->provider->name}}</td>
+                                        <td>Bs./ {{$purchase->total}}</td>
                                         <!--<td>
-                                            @if ($sale->status=='CONFIRMADO')
-                                                <button class="btn btn-success btn-block ">{{$sale->status}}</button>
+                                            @if ($purchase->status=='CONFIRMADO')
+                                                <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
                                             @else
-                                                <button class="btn btn-danger btn-block ">{{$sale->status}}</button>
+                                                <button class="btn btn-danger btn-block ">{{$purchase->status}}</button>
 
-                                                @if ($sale->status=='CANCELADO')
+                                                @if ($purchase->status=='CANCELADO')
 
-                                                @else ($sale->status=='PENDIENTE')
-                                                    <button class="btn btn-warning btn-block ">{{$sale->status}}</button>
+                                                @else ($purchase->status=='PENDIENTE')
+                                                    <button class="btn btn-warning btn-block ">{{$purchase->status}}</button>
                                                 @endif
                                             @endif
                                         </td>-->
                                         <td>
-                                            @if ($sale->status=='CONFIRMADO')
-                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.sales', $sale)}}">
-                                                    {{$sale->status}} <i class="fas fa-check"></i>
+                                            @if ($purchase->status=='CONFIRMADO')
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.purchases', $purchase)}}">
+                                                    {{$purchase->status}} <i class="fas fa-check"></i>
                                                 </a>
                                             @else
-                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $sale)}}">
-                                                    {{$sale->status}} <i class="fas fa-times"></i>
+                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.purchases', $purchase)}}">
+                                                    {{$purchase->status}} <i class="fas fa-times"></i>
                                                 </a>
                                             @endif
                                         </td>
                                         <td style="width:50px;">
-                                            <a href="{{route('sales.pdf', $sale)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-file-pdf"></i></a>
+                                            <a href="{{route('purchases.pdf', $purchase)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-file-pdf"></i></a>
                                             <a href="#" class="jsgrid-button jsgrid-edit-button"><i class="fas fa-print"></i></a>
-                                            <a href="{{route('sales.show', $sale)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-eye"></i></a>
+                                            <a href="{{route('purchases.show', $purchase)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

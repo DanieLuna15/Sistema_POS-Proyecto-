@@ -22,12 +22,16 @@ Route::get('/prueba', function () {
 });
 
 //rutas de reportes
-Route::get('sales/reports_day','ReportController@reports_day')->name('reports.day');
-Route::get('sales/reports_month','ReportController@reports_month')->name('reports.month');
-Route::get('sales/reports_year','ReportController@reports_year')->name('reports.year');
-Route::get('sales/reports_date','ReportController@reports_date')->name('reports.date');
-//Para la consulta
-Route::post('sales/report_results','ReportController@report_results')->name('report.results');
+//rutas de VENTAS
+Route::get('reportsales/reports_day','ReportController@reports_day')->name('reports.day');
+Route::get('reportsales/reports_month','ReportController@reports_month')->name('reports.month');
+Route::get('reportsales/reports_year','ReportController@reports_year')->name('reports.year');
+Route::get('reportsales/reports_date','ReportController@reports_date')->name('reports.date');
+Route::post('reportsales/report_results','ReportController@report_results')->name('report.results');
+//rutas de COMPRAS
+Route::get('reportpurchases/reportscm_datecm','ReportcmController@reportscm_datecm')->name('reportscm.datecm');
+Route::get('reportpurchases/reportscm_daycm','ReportcmController@reportscm_daycm')->name('reportscm.daycm');
+Route::post('reportpurchases/reportcm_resultscm','ReportcmController@reportcm_resultscm')->name('reportcm.resultscm');
 //fin rutas de reportes
 
 //rutas de gestion basica de inventario

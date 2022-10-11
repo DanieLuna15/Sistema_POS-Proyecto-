@@ -114,8 +114,8 @@
                                         <td>{{$purchase->purchase_date}}</td>
                                         <td>{{$purchase->provider->name}}</td>
                                         <td>Bs./ {{$purchase->total}}</td>
-                                        <!--
-                                        <td>
+                                        
+                                        <!--<td>
                                             @if ($purchase->status=='CONFIRMADO')
                                                 <button class="btn btn-success btn-block ">{{$purchase->status}}</button>
                                             @else

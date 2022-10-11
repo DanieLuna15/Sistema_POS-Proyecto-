@@ -22,32 +22,6 @@ class CategoryController extends Controller
         return view('admin.category.index', compact('categories'));
     }
 
-    ##AJAX request
-    /*public function getCategories(Request $request){
-        $search = $request->search;
-        if($search== ''){
-            $employes=Categories::orderby('name',asc)
-                        ->select('id','name')
-                        ->limit(5)
-                        ->get();
-        }else{
-            $employes=Categories::orderby('name',asc)
-                        ->select('id','name')
-                        ->where('name','like','%'.$search.'%')
-                        ->limit(5)
-                        ->get();
-        }
-        $response=array();
-        foreach($categories as $category){
-            $response[]=array(
-                "id" => $category->id,
-                "text" => $category-name
-            );
-        }
-        echo json_encode($response);
-        exit;
-    }*/
-
     public function create()
     {
         return view('admin.category.create');

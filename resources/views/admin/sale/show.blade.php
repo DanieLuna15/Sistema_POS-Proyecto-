@@ -9,7 +9,7 @@
             Detalles de Venta
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('sales.index')}}">Ventas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Detalle de Venta: {{$sale->id}}</li>
@@ -20,24 +20,37 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <br />
                 <div class="card-body">
-                <div class="form-group row">
-                        <div class="col-md-4 text-center">
-                            <label class="form-control-label" for="nombre"><strong>Cliente</strong></label>
-                            <p>{{$sale->client->name}}</p>
+                    <div class="row ">
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Cliente: <b> </b></span>
+                            <div class="form-group">
+                                <strong>{{$sale->client->name}}</strong>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <label class="form-control-label" for="num_compra"><strong>Número Venta</strong></label>
-                            <p>{{$sale->id}}</p>
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Número Venta: <b></b></span>
+                            <div class="form-group">
+                                <strong>{{$sale->id}}</strong>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <label class="form-control-label" for="num_compra"><strong>Usuario Vendedor</strong></label>
-                            <p>{{$sale->user->name}}</p>
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Usuario Vendedor: <b> </b></span>
+                            <div class="form-group">
+                                <strong>{{$sale->user->name}}</strong>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Fecha Venta: <b> </b></span>
+                            <div class="form-group">
+                                <strong>{{$sale->sale_date}}</strong>
+                            </div>
                         </div>
                     </div>
-                    <br /><br />
+                    <br /> <br />
                     <div class="form-group row ">
-                        <h4 class="card-title ml-3">Detalles de la compra N°: {{$sale->id}}</h4>
+                        <h4 class="card-title ml-3">Detalles de la Venta N°: {{$sale->id}}</h4>
                         <div class="table-responsive col-md-12">
                             <table id="detalles" class="table">
                                 <thead>

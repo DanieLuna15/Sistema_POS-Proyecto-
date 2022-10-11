@@ -16,13 +16,18 @@ class ReportController extends Controller
     }
 
     public function reports_day(){
+        //$fi = Carbon::now('America/La_Paz');
+        //$ff = Carbon::now('America/La_Paz');
         $sales = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
                     ->where('status','CONFIRMADO')
                     ->get();
+
         $total = $sales -> sum('total');
         $cantventas = $sales -> count('id');
 
+
         return view('admin.report.reports_day', compact('sales','total','cantventas'));
+        //return view('admin.report.reports_day', compact('sales','total','cantventas','fi','ff'));
     }
 
     public function reports_month(){
@@ -48,9 +53,6 @@ class ReportController extends Controller
     public function reports_date(){
         $fi = Carbon::now('America/La_Paz');
         $ff = Carbon::now('America/La_Paz');
-
-        //$fi = $fi->format('d/m/Y');
-        //$ff = $ff->format('d/m/Y');
 
         $sales = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
                     ->where('status','CONFIRMADO')

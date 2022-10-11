@@ -56,7 +56,7 @@
         Gestión de Compras
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Compras</li>
             </ol>
@@ -114,7 +114,7 @@
                                         <td>{{$purchase->purchase_date}}</td>
                                         <td>{{$purchase->provider->name}}</td>
                                         <td>Bs./ {{$purchase->total}}</td>
-                                        
+
                                         <!--<td>
                                             @if ($purchase->status=='CONFIRMADO')
                                                 <button class="btn btn-success btn-block ">{{$purchase->status}}</button>

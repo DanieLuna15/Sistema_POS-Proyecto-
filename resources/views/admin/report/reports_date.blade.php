@@ -25,7 +25,7 @@
             <!--Reporte de Ventas-->
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Reporte por rango de Fechas<!--Reporte de Ventas--></li>
             </ol>
@@ -76,13 +76,13 @@
                         <div class="col-12 col-md-3 text-center">
                             <span>Fecha Inicio: <b></b></span>
                             <div class="form-group">
-                                <strong>{{$fi}}</strong>
+                                <strong>{{ Carbon\Carbon::parse($fi)->format('d/m/Y') }}</strong>
                             </div>
                         </div>
                         <div class="col-12 col-md-3 text-center">
                             <span>Fecha Fin: <b> </b></span>
                             <div class="form-group">
-                                <strong>{{$ff}}</strong>
+                                <strong>{{ Carbon\Carbon::parse($ff)->format('d/m/Y') }}</strong>
                             </div>
                         </div>
                         <div class="col-12 col-md-3 text-center">
@@ -135,7 +135,7 @@
                                         </td>-->
                                         <td>
                                             @if ($sale->status=='CONFIRMADO')
-                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.sales', $sale)}}">
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block disabled" href="{{route('change.status.sales', $sale)}}">
                                                     {{$sale->status}} <i class="fas fa-check"></i>
                                                 </a>
                                             @else

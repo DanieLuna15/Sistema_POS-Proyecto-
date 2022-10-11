@@ -56,7 +56,7 @@
         Gestión de Productos
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Productos</li>
             </ol>
@@ -140,7 +140,7 @@
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
                                             -->
-                                            
+
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.show',$product)}}" title="Ver mas Información">
                                                 <i class="far fa-eye"></i>
                                             </a>

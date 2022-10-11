@@ -19,14 +19,14 @@
             {{$product->nombre}}
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li> 
+            <ol class="breadcrumb breadcrumb-custom">
+                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('products.index')}}">Productos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$product->nombre}}</li>
             </ol>
         </nav>
-       
-    </div> 
+
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -92,7 +92,7 @@
                                     </span>
                                 </p>
                             </div>
-                            
+
                             @if ($product->status=='ACTIVO')
                             <button class="btn btn-success btn-block">{{$product->status}}</button>
                             @else
@@ -111,15 +111,15 @@
                                 <div class="d-flex align-items-start profile-feed-item">
 
 
-                                <!--'codigo', 
+                                <!--'codigo',
                                 'nombre',
-                                'stock', 
+                                'stock',
                                 'imagen',
-                                'precio_venta', 
+                                'precio_venta',
                                 'estado',
-                                'category_id', 
+                                'category_id',
                                 'v',-->
-                                   
+
 
                                     <div class="form-group col-md-6">
                                         <strong><i class="fab fa-product-hunt mr-1"></i> Código de Barras:</strong>

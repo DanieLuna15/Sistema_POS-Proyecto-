@@ -181,7 +181,7 @@
                     </tr>
                     <tr>
                         <th colspan="4">
-                            <p align="right">Total Descuento (%):</p>
+                            <p align="right">Total Descuento:</p>
                         </th>
                         <th>
                             <p align="right"><span id="total_descuento">Bs./ {{number_format($descuentototal,2)}}</span></p>

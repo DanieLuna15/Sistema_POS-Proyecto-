@@ -23,6 +23,8 @@ Route::get('/prueba', function () {
 
 //rutas de reportes
 Route::get('sales/reports_day','ReportController@reports_day')->name('reports.day');
+Route::get('sales/reports_month','ReportController@reports_month')->name('reports.month');
+Route::get('sales/reports_year','ReportController@reports_year')->name('reports.year');
 Route::get('sales/reports_date','ReportController@reports_date')->name('reports.date');
 //Para la consulta
 Route::post('sales/report_results','ReportController@report_results')->name('report.results');

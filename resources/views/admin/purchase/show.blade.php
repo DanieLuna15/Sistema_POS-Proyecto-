@@ -9,7 +9,7 @@
             Detalles de Compra
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('purchases.index')}}">Compras</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Detalle de Compra: {{$purchase->id}}</li>
@@ -20,22 +20,35 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <br />
                 <div class="card-body">
-                <div class="form-group row">
-                        <div class="col-md-4 text-center">
-                            <label class="form-control-label" for="nombre"><strong>Proveedor</strong></label>
-                            <p>{{$purchase->provider->name}}</p>
+                    <div class="row ">
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Proveedor: <b> </b></span>
+                            <div class="form-group">
+                                <strong>{{$purchase->provider->name}}</strong>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <label class="form-control-label" for="num_compra"><strong>Número Compra</strong></label>
-                            <p>{{$purchase->id}}</p>
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Número Compra: <b></b></span>
+                            <div class="form-group">
+                                <strong>{{$purchase->id}}</strong>
+                            </div>
                         </div>
-                        <div class="col-md-4 text-center">
-                            <label class="form-control-label" for="num_compra"><strong>Comprador</strong></label>
-                            <p>{{$purchase->user->name}}</p>
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Usuario Comprador: <b> </b></span>
+                            <div class="form-group">
+                                <strong>{{$purchase->user->name}}</strong>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 text-center">
+                            <span>Fecha Compra: <b> </b></span>
+                            <div class="form-group">
+                                <strong>{{$purchase->purchase_date}}</strong>
+                            </div>
                         </div>
                     </div>
-                    <br /><br />
+                    <br /> <br />
                     <div class="form-group row ">
                         <h4 class="card-title ml-3">Detalles de la compra N°: {{$purchase->id}}</h4>
                         <div class="table-responsive col-md-12">

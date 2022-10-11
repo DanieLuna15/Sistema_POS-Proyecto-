@@ -55,7 +55,7 @@
             Clientes
         </h3>
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('clients.index')}}">Clientes</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edición de Cliente</li>
@@ -87,7 +87,7 @@
                     <div class="form-group">
                       <label for="name">* Nombre: </label>
                       <input type="text"class="form-control" name="name" value="{{$client->name}}"
-                      id=name" aria-describedby="helpId" placeholder="Ingrese el nombre del Cliente"> 
+                      id=name" aria-describedby="helpId" placeholder="Ingrese el nombre del Cliente">
                     </div>
 
                     <div class="form-group">

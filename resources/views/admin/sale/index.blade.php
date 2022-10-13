@@ -89,13 +89,6 @@
                         <table id="order-listing" class="table">
                             <thead>
                                 <tr>
-                                <!-- 'client_id',
-                                'user_id',
-                                'sale_date',
-                                'tax',
-                                'total',
-                                'status',  -->
-
                                     <th>Id</th>
                                     <th>Fecha y Hora</th>
                                     <th>Cliente</th>

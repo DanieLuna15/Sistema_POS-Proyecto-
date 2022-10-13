@@ -190,7 +190,7 @@
                         <div class="col-12 col-md-4 text-center">
                             <span>Total de Gastos: <b> </b></span>
                             <div class="form-group">
-                                <strong>Bs./ {{$totalcm}}</strong>
+                                <strong>Bs./ {{$totalcm}}.00</strong>
                             </div>
                         </div>
                     </div>

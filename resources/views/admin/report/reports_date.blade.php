@@ -92,9 +92,9 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-3 text-center">
-                            <span>Total de Gastos: <b> </b></span>
+                            <span>Total de Ingresos: <b> </b></span>
                             <div class="form-group">
-                                <strong>Bs./ {{$total}}</strong>
+                                <strong>Bs./ {{$total}}.00</strong>
                             </div>
                         </div>
                     </div>

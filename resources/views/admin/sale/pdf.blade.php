@@ -21,13 +21,13 @@
         margin-top: 0%;
         margin-left: 2%;
         margin-right: 2%;
-        /*text-align: justify;*/
+        text-align: left;
     }
     #encabezado {
         text-align: center;
         margin-left: 35%;
         margin-right: 35%;
-        font-size: 15px;
+        font-size: 55px;
     }
     #fact {
         /*position: relative;*/
@@ -108,16 +108,16 @@
             <table id="datos">
                 <thead>
                     <tr>
-                        <th id="">DATOS DEL VENDEDOR</th>
+                        <th id="">Datos del Cliente</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th>
-                            <p id="proveedor">
-                                Nombre: {{$sale->user->name}}<br>
-
-                                Email: {{$sale->user->email}}
+                            <p id="cliente">
+                                Nombre: {{$sale->client->name}}<br>
+                                CI: {{$sale->client->ci}}<br>
+                                Teléfono: {{$sale->client->phone}}
                             </p>
                         </th>
                     </tr>
@@ -145,55 +145,76 @@
         </div>
     </header>
     <br>
+
+    <br>
+    <section>
+        <div>
+            <table id="facvendedor" style="text-align:center">
+                <thead>
+                    <tr id="fv">
+                        <th>Usuario Vendedor</th>
+                        <th>Fecha de Venta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{$sale->user->name}}</td>
+                        <td>{{$sale->sale_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
     <br>
     <section>
         <div>
             <table id="facproducto" style="text-align:center">
                 <thead>
                     <tr id="fa">
-                        <th>CANTIDAD</th>
-                        <th>PRODUCTO</th>
-                        <th>PRECIO VENTA(BS)</th>
-                        <th>DESCUENTO(%)</th>
-                        <th>SUBTOTAL(BS)</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario(Bs.)</th>
+                        <th>Descuento(%)</th>
+                        <th>SubTotal(Bs.)</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($SaleDetails as $SaleDetail)
                     <tr>
-                        <td>{{$SaleDetail->quantity}} Unidades</td>
                         <td>{{$SaleDetail->product->name}}</td>
+                        <td>{{$SaleDetail->quantity}} Unidades</td>
                         <td>Bs./ {{$SaleDetail->price}}</td>
                         <td>{{$SaleDetail->discount}}.%</td>
-                        <td>Bs./ {{number_format($SaleDetail->quantity*$SaleDetail->price - $SaleDetail->quantity*$SaleDetail->price*$SaleDetail->discount/100,2)}}
-                        </td>
+                        <td>Bs./ {{number_format($SaleDetail->quantity*$SaleDetail->price - $SaleDetail->quantity*$SaleDetail->price*$SaleDetail->discount/100,2)}}</td>
                     </tr>
                     @endforeach
                 </tbody>
-                <tfoot>
+                <tfoot style="text-align:center">
                     <tr>
                         <th colspan="4">
                             <p align="right">Subtotal:</p>
                         </th>
-                        <th>
+                        <td>
                             <p align="right">Bs./ {{number_format($subtotal,2)}}</p>
-                        </th>
+                        </td>
                     </tr>
+
                     <tr>
                         <th colspan="4">
                             <p align="right">Total Descuento:</p>
                         </th>
-                        <th>
+                        <td>
                             <p align="right"><span id="total_descuento">Bs./ {{number_format($descuentototal,2)}}</span></p>
-                        </th>
+                        </td>
                     </tr>
+
                     <tr>
                         <th colspan="4">
                             <p align="right">Total a Pagar:</p>
                         </th>
-                        <th>
+                        <td>
                             <p align="right">Bs./{{number_format($sale->total,2)}}</p>
-                        </th>
+                        </td>
                     </tr>
                 </tfoot>
             </table>

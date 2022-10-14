@@ -3,7 +3,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Reporte de purchase</title>
+<title>Nota de Compra</title>
 <style>
     body {
         /*position: relative;*/
@@ -21,7 +21,7 @@
         margin-top: 0%;
         margin-left: 2%;
         margin-right: 2%;
-        text-align: justify;
+        text-align: left;
     }
     #encabezado {
         text-align: center;
@@ -52,7 +52,7 @@
     section {
         clear: left;
     }
-    #cliente {
+    #proveedor {
         text-align: left;
     }
     #faproveedor {
@@ -109,7 +109,7 @@
             <table id="datos">
                 <thead>
                     <tr>
-                        <th id="">DATOS DEL PROVEEDOR</th>
+                        <th id="">Datos del Proveedor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -117,10 +117,11 @@
                         <th>
                             <p id="proveedor">
                                 Nombre: {{$purchase->provider->name}}<br>
-                                {{--  {{$purchase->provider->document_type}}-COMPRA: {{$purchase->provider->document_number}}<br>  --}}
-                                Dirección: {{$purchase->provider->address}}<br>
+                                {{--  {{$purchase->provider->document_type}}-COMPRA: {{$purchase->provider->document_number}}<br>
+                                {{-- Dirección: {{$purchase->provider->address}}<br> --}}
                                 Teléfono: {{$purchase->provider->phone}}<br>
-                                Email: {{$purchase->provider->email}}</p>
+                                Email: {{$purchase->provider->email}}
+                            </p>
                         </th>
                     </tr>
                 </tbody>
@@ -129,14 +130,18 @@
         <div id="fact">
             {{--  <p>{{$purchase->provider->document_type}} COMPRA<br />
                 {{$purchase->provider->document_number}}</p>  --}}
-                <p>Número de compra:
-                    {{$purchase->id}}</p>
+            <p>
+                Número de compra:
+                {{$purchase->id}}
+            </p>
         </div>
         <div id="est">
             {{--  <p>{{$purchase->provider->document_type}} COMPRA<br />
                 {{$purchase->provider->document_number}}</p>  --}}
-                <p>Estado:
-                    {{$purchase->status}}</p>
+            <p>
+                Estado:
+                {{$purchase->status}}
+            </p>
         </div>
     </header>
     <br>
@@ -148,14 +153,14 @@
             <table id="faccomprador" style="text-align:center">
                 <thead>
                     <tr id="fv">
-                        <th>USUARIO COMPRADOR</th>
-                        <th>FECHA COMPRA</th>
+                        <th>Usuario Comprador</th>
+                        <th>Fecha de Compra</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{{$purchase->user->name}}</td>
-                        <td>{{$purchase->created_at}}</td>
+                        <td>{{$purchase->purchase_date}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -167,24 +172,23 @@
             <table id="facproducto" style="text-align:center">
                 <thead>
                     <tr id="fa">
-                        <th>CANTIDAD</th>
-                        <th>PRODUCTO</th>
-                        <th>PRECIO COMPRA (BS)</th>
-                        <th>SUBTOTAL (BS)</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario (Bs.)</th>
+                        <th>SubTotal (Bs.)</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($PurchaseDetails as $PurchaseDetail)
                     <tr>
-                        <td>     {{$PurchaseDetail->quantity}} Unidades </td>
                         <td>	 {{$PurchaseDetail->product->name}}</td>
+                        <td>     {{$PurchaseDetail->quantity}} Unidades </td>
                         <td>Bs./ {{$PurchaseDetail->price}}</td>
                         <td>Bs./ {{number_format($PurchaseDetail->quantity*$PurchaseDetail->price,2)}}</td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot style="text-align:center">
-
                     <tr>
                         <th colspan="3">
                             <p align="right">Subtotal:</p>
@@ -199,7 +203,7 @@
                             <p align="right">Total Impuesto ({{$purchase->tax}}%):</p>
                         </th>
                         <td>
-                            <p align="right">Bs./ {{number_format($subtotal*$purchase->tax/100,2)}}</p>
+                            <p align="right"><span id="total_impuesto">Bs./ {{number_format($subtotal*$purchase->tax/100,2)}}</span></p>
                         </td>
                     </tr>
                     <tr>
@@ -210,7 +214,6 @@
                             <p align="right">Bs./ {{number_format($purchase->total,2)}}<p>
                         </td>
                     </tr>
-
                 </tfoot>
             </table>
         </div>

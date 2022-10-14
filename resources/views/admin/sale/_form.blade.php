@@ -7,9 +7,6 @@
         </select>
 </div>
 
-
-
-
 <div class="form-group">
     <label for="product_id">Producto:</label>
         {{--  <select class="form-control selectpicker" data-live-search="true" name="product_id" id="product_id">  --}}
@@ -21,12 +18,10 @@
     </select>
 </div>
 
-
 <div class="form-group">
   <label for="stock"> Stock Actual:</label>
   <input type="text" name="stock" id="stock" value="0" class="form-control" disabled>
 </div>
-
 
 <div class="form-group">
   <label for="quantity">Cantidad:</label>
@@ -47,14 +42,10 @@
 
 </div>
 
-
-
 <div class="form-group">
   <label for="discount">Porcentaje de Descuento (%):</label>
-  <input require type="number" name="discount" id="discount" class="form-control" aria-describedby="helpId" value="0">
+  <input type="number" name="discount" id="discount" class="form-control" aria-describedby="helpId" value="0">
 </div>
-
-
 
 <div class="form-group">
     <button type="button" id="agregar" class="btn btn-primary float-right">Agregar Producto</button>

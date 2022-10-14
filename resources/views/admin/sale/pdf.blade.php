@@ -216,6 +216,11 @@
                             <p align="right">Bs./{{number_format($sale->total,2)}}</p>
                         </td>
                     </tr>
+                    <tr>
+                        <th colspan="5">
+                            <p align="center"> Son: {{$totalLiteral}}</p>
+                        </th>
+                    </tr>
                 </tfoot>
             </table>
         </div>

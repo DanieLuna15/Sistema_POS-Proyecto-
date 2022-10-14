@@ -9,8 +9,8 @@
 
 
 <div class="form-group">
-  <label for="tax">Porcentaje de Impuesto:</label>
-  <input type="number" required name="tax" id="tax" class="form-control" value="0" placeholder="Ejemplo: 18%" aria-describedby="helpId">
+  <label for="tax">Porcentaje de Impuesto(%):</label>
+  <input type="number" name="tax" id="tax" class="form-control" placeholder="Ejemplo: 18%" aria-describedby="helpId" value="0">
 </div>
 
 <div class="form-group">

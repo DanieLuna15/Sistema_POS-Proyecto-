@@ -16,6 +16,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
+/*
+para libreria
+*/
+use App\NumerosEnLetras;
 
 class PurchaseController extends Controller
 {
@@ -100,12 +104,15 @@ class PurchaseController extends Controller
     {
         //dd($purchase);
         $subtotal=0;
+        //Para mostrar el total en letras
+        $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',false,'Centavos');
+        //dd($totalLiteral);
         $PurchaseDetails=$purchase->PurchaseDetails;
         foreach($PurchaseDetails as $PurchaseDetail){
             $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
         }
         //return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
-        $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails'));
+        $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails','totalLiteral'));
         //return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'.pdf');
         return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'_Fec_'.$purchase->purchase_date.'.pdf');
     }

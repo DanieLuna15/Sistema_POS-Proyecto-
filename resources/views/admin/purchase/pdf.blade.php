@@ -214,6 +214,11 @@
                             <p align="right">Bs./ {{number_format($purchase->total,2)}}<p>
                         </td>
                     </tr>
+                    <tr>
+                        <th colspan="4">
+                            <p align="center"> Son: {{$totalLiteral}}</p>
+                        </th>
+                    </tr>
                 </tfoot>
             </table>
         </div>

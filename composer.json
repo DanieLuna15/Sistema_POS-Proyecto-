@@ -16,7 +16,8 @@
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
-        "laravelcollective/html": "^6.3"
+        "laravelcollective/html": "^6.3",
+        "luecano/numero-a-letras": "3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -108,19 +108,26 @@
         price = $("#price").val();
         tax = $("#tax").val();
 
-        if (product_id != "" && product_id != 0 && quantity != "" && quantity > 0 && price != "") {
-            subtotal[cont] = quantity * price;
-            total = total + subtotal[cont];
-            var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar('+cont+');"><i class="fa fa-times"></i></button></td> <td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td> <td> <input type="hidden" id="price[]" name="price[]" value="' + price + '"> <input class="form-control" type="number" id="price[]" value="' + price + '" disabled> </td>  <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input class="form-control" type="number" value="' + quantity + '" disabled> </td> <td align="right">Bs./ ' + subtotal[cont] + ' </td></tr>';
-            cont++;
-            limpiar();
-            totales();
-            evaluar();
-            $('#detalles').append(fila);
+        if (product_id != "" && product_id != 0 && quantity != "" && quantity > 0 && tax != "" && price != "") {
+            if (parseInt(tax) >= 0 && parseInt(tax) <= 18) {
+                subtotal[cont] = quantity * price;
+                total = total + subtotal[cont];
+                var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar('+cont+');"><i class="fa fa-times"></i></button></td> <td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td> <td> <input type="hidden" id="price[]" name="price[]" value="' + price + '"> <input class="form-control" type="number" id="price[]" value="' + price + '" disabled> </td>  <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input class="form-control" type="number" value="' + quantity + '" disabled> </td> <td align="right">Bs./ ' + subtotal[cont] + ' </td></tr>';
+                cont++;
+                limpiar();
+                totales();
+                evaluar();
+                $('#detalles').append(fila);
+            } else {
+                Swal.fire({
+                    type: 'error',
+                    text: 'El porcentaje de descuento debe ser mayor o igual a cero y no puede exceder del 18%.',
+                })
+            }
         } else {
             Swal.fire({
                 type: 'error',
-                text: 'Rellene todos los campos del detalle de la compra',
+                text: 'Rellene todos los campos del detalle de la compra.',
             })
         }
     }

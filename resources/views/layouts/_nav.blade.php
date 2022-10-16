@@ -81,7 +81,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{route('home')}}">
+            <a class="nav-link" href="{{route('analytics.index')}}">
                 <i class="fas fa-chart-line menu-icon"></i>
                 <span class="menu-title">Analítica</span>
             </a>
@@ -137,7 +137,7 @@
                 </ul>
             </div>
         </li>
-        
+
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#reportesv" aria-expanded="false"
                 aria-controls="reportesv">

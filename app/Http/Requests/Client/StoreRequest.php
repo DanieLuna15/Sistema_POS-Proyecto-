@@ -20,6 +20,7 @@ class StoreRequest extends FormRequest
             'address'=>'nullable|string|max:255',
             'phone'=>'required|string|nullable|unique:clients|max:8|min:8',
             'email'=>'nullable|string|max:40|unique:clients|email:rfc,dns',
+            'email'=>'required|string|max:40|unique:providers|email:rfc,dns',
         ];
     }
     public function messages()
@@ -76,6 +77,7 @@ class StoreRequest extends FormRequest
             'email.unique'=>'Esta direccion de correo electrónico ya se encuentra registrada',
             'email.max'=>'Solo se Permiten 40 caracteres en el campo Correo',
             'email.email'=>'No es un correo electronico valido',
+
         ];
     }
 }

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 use Http;
 
-class HomeController extends Controller
+class AnalyticsController extends Controller
 {
     public function __construct()
     {
@@ -49,7 +49,7 @@ class HomeController extends Controller
         */
 
         //dd($total_datahis);
-        return view('home', compact('pronosticos','historydatas','categories','total_datahis'));
+        return view('admin.analytics.index', compact('pronosticos','historydatas','categories','total_datahis'));
 
 
     }

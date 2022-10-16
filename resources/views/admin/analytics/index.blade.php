@@ -13,79 +13,18 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Dashboard
+            Analítica
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel administrador</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Analítica</li>
             </ol>
         </nav>
     </div>
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div class="col-12">
-                            <div class="card card-statistics">
-                                <div class="card-body">
-                                    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between">
-                                        <div class="statistics-item">
-                                            <p>
-                                            <i class="icon-sm fa fa-user mr-2"></i>
-                                            Total Clientes
-                                            </p>
-                                            <h2>50</h2>
-                                            <label class="badge badge-outline-success badge-pill">2 nuevos hoy</label>
-                                        </div>
-                                        <div class="statistics-item">
-                                            <p>
-                                            <i class="icon-sm fas fa-hourglass-half mr-2"></i>
-                                            Total Proveedores
-                                            </p>
-                                            <h2>15</h2>
-                                            <label class="badge badge-outline-danger badge-pill">10 nuevos hoy</label>
-                                        </div>
-                                        <!--
-                                        <div class="statistics-item">
-                                            <p>
-                                            <i class="icon-sm fas fa-cloud-download-alt mr-2"></i>
-                                            Downloads
-                                            </p>
-                                            <h2>3500</h2>
-                                            <label class="badge badge-outline-success badge-pill">12% increase</label>
-                                        </div>
-                                        <div class="statistics-item">
-                                            <p>
-                                            <i class="icon-sm fas fa-check-circle mr-2"></i>
-                                            Update
-                                            </p>
-                                            <h2>7500</h2>
-                                            <label class="badge badge-outline-success badge-pill">57% increase</label>
-                                        </div>-->
-                                        <div class="statistics-item">
-                                            <p>
-                                            <i class="icon-sm fas fa-chart-line mr-2"></i>
-                                            Ventas
-                                            </p>
-                                            <h2>260</h2>
-                                            <label class="badge badge-outline-success badge-pill">25 hoy</label>
-                                        </div>
-                                        <div class="statistics-item">
-                                            <p>
-                                            <i class="icon-sm fas fa-circle-notch mr-2"></i>
-                                            Compras
-                                            </p>
-                                            <h2>200</h2>
-                                            <label class="badge badge-outline-danger badge-pill">5 hoy</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                     <!--<div class="row">
                         <div class="col-md-6 grid-margin stretch-card">
@@ -214,6 +153,7 @@
         var pieChart = new Chart(pieChartCanvas, {
             type: 'pie',
 
+
             data: {
             datasets: [{
                 data: [<?php foreach ($total_datahis as $total)
@@ -246,18 +186,18 @@
             }],
 
             // These labels appear in the legend and in the tooltips when hovering different arcs
-                labels: [
-                    'Fotografía',
-                    'Seguridad Y Vigilancia',
-                    'Audio',
-                    'Dispositivos Audivisuales',
-                    'Consolas de Videojuegos',
-                    'Almacenamiento',
-                    'Proyectores de Video',
-                    'Computadoras y Componentes',
-                    'Laptops',
-                    'Redes'
-                ],
+            labels: [
+                'Fotografía',
+                'Seguridad Y Vigilancia',
+                'Audio',
+                'Dispositivos Audivisuales',
+                'Consolas de Videojuegos',
+                'Almacenamiento',
+                'Proyectores de Video',
+                'Computadoras y Componentes',
+                'Laptops',
+                'Redes'
+            ],
             },
             options: {
             responsive: true,
@@ -284,12 +224,13 @@
             }
             }
         });
-            document.getElementById('sales-status-chart-legend').innerHTML = pieChart.generateLegend();
+        document.getElementById('sales-status-chart-legend').innerHTML = pieChart.generateLegend();
         }
     });
 </script>
 <script>
     $(function(){
+
             var varPronostico=document.getElementById('pronostico').getContext('2d');
             var charPronostico = new Chart(varPronostico, {
                 type: 'bar',
@@ -346,6 +287,7 @@
                     }
                 }
             });
+
 
             var varPronosticolin=document.getElementById('pronosticolineas').getContext('2d');
             var charPronosticolin = new Chart(varPronosticolin, {
@@ -428,6 +370,7 @@
                     }
                 }
             });
+
 
     });
 </script>

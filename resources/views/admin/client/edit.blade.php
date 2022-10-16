@@ -80,9 +80,7 @@
                             </ul>
                         </div>
                     @endif
-
-
-                    {!! Form::model($client,['route'=>['clients.update',$client], 'method'=>'PUT','files' => true]) !!}
+                    {!! Form::model($client,['route'=>['clients.update',$client], 'method'=>'PUT']) !!}
 
                     <div class="form-group">
                       <label for="name">* Nombre: </label>
@@ -110,7 +108,6 @@
                       <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                     </div>
 
-
                     <div class="form-group">
                       <label for="phone">* Teléfono: </label>
                       <input type="number"class="form-control" name="phone" value="{{$client->phone}}"
@@ -119,11 +116,10 @@
 
                     <div class="form-group">
                       <label for="email">Correo Electrónico: </label>
-                      <input type="email"class="form-control" name="correo" value="{{$client->email}}"
+                      <input type="email"class="form-control" name="email" value="{{$client->email}}"
                       id=email" aria-describedby="helpId" placeholder="Ingrese el número de telefono/celular" >
                       <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                     </div>
-
 
                      <button type="submit" class="btn btn-primary mr-2">Editar</button>
                      <a href="{{route('clients.index')}}" class="btn btn-light">

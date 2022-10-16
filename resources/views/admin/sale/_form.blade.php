@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="client_id">Cliente:</label>
-        <select class="js-example-basic-single w-100" name="client_id" id="client_id">
+        <select class="js-example-basic-single w-responsive form-control" name="client_id" id="client_id">
             @foreach($clients as $client)
             <option value="{{$client->id}}">{{$client->name}}</option>
             @endforeach
@@ -10,7 +10,7 @@
 <div class="form-group">
     <label for="product_id">Producto:</label>
         {{--  <select class="form-control selectpicker" data-live-search="true" name="product_id" id="product_id">  --}}
-    <select class="js-example-basic-single w-100" name="product_id" id="product_id">
+    <select class="js-example-basic-single w-responsive form-control" name="product_id" id="product_id">
         <option value="0" disabled selected>Seleccione un producto</option>
         @foreach ($products as $product)
         <option value="{{$product->id}}_{{$product->stock}}_{{$product->sell_price}}">{{$product->name}}</option>

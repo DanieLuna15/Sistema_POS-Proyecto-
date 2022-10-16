@@ -128,7 +128,7 @@
 
                     <div class="form-group">
                       <label for="provider_id">Proveedor:</label>
-                      <select class="js-example-basic-single w-100" name="provider_id" id="provider_id">
+                      <select class="js-example-basic-single w-responsive form-control" name="provider_id" id="provider_id">
                         @foreach($providers as $provider)
                         <option value="{{$provider->id}}">{{$provider->name}}</option>
                         @endforeach

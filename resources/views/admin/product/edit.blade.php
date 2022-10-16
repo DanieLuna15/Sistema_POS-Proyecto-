@@ -92,7 +92,7 @@
 
                     <div class="form-group">
                       <label for="category_id">Categoría:</label>
-                      <select class="form-control" name="category_id" id="category_id">
+                      <select class="js-example-basic-single w-responsive form-control" name="category_id" id="category_id">
                         @foreach($categories as $category)
                         <option value="{{$category->id}}"
                           @if ($category->id==$product->category_id)
@@ -105,7 +105,7 @@
 
                     <div class="form-group">
                       <label for="brand_id">Marca:</label>
-                      <select class="form-control" name="brand_id" id="brand_id">
+                      <select class="js-example-basic-single w-responsive form-control" name="brand_id" id="brand_id">
                         @foreach($brands as $brand)
                         <option value="{{$brand->id}}"
                           @if ($brand->id==$product->brand_id)
@@ -128,7 +128,7 @@
 
                     <div class="form-group">
                       <label for="provider_id">Proveedor:</label>
-                      <select class="form-control" name="provider_id" id="provider_id">
+                      <select class="js-example-basic-single w-responsive form-control" name="provider_id" id="provider_id">
                         @foreach($providers as $provider)
                         <option value="{{$provider->id}}"
                           @if ($provider->id==$product->provider_id)
@@ -155,4 +155,5 @@
 @endsection
 @section('scripts')
 {!! Html::script('melody/js/dropify.js') !!}
+{!! Html::script('melody/js/select2.js') !!}
 @endsection

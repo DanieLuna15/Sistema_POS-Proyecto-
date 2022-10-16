@@ -62,5 +62,9 @@ Route::get('purchases/pdf/{purchase}', 'PurchaseController@pdf'::class)->     na
 Route::get('sales/pdf/{sale}', 'SaleController@pdf'::class)->     name('sales.pdf');
 //fin rutas de impresión de tickets de compra y venta
 
+//rutas para el modulo de analítica
+Route::resource('analytics',       'AnalyticsController')->    names('analytics');
+//fin rutas para el modulo de analítica
+
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

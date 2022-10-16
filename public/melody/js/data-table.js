@@ -4,7 +4,7 @@
     $('#order-listing').DataTable({
       "aLengthMenu": [
         [5, 10, 15, -1],
-        [5, 10, 15, "All"]
+        [5, 10, 15, "Todo"]
       ],
       "iDisplayLength": 10,
       "language": {

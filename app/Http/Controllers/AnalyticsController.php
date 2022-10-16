@@ -34,24 +34,24 @@ class AnalyticsController extends Controller
         $pronosticos=$respuesta->json();
         //API MODELO
 
-        $total_datahis = Historydata::select(
+        /*$total_datahis = Historydata::select(
             //DB::raw("count(*) as count"),
             DB::raw("category_id as category_id"),
             DB::raw("SUM(quantity) as quantity")
-        )->groupBy('category_id')->get();
-
-        /*
-        $total_datahis=DB::select('SELECT c.name as name,
-        SUM(dh.quantity) as quantity
-        from historydatas dh
-        inner join categories c on dh.category_id=c.id)
-        group by c.name, order by sum(dh.quantity) desc limit 10');
+        )->groupBy('category_id')->orderBy('quantity','desc')->get();
         */
 
+
+        $total_datahis=DB::select('SELECT c.name as namecategory,
+        SUM(dh.quantity) as quantity
+        from historydatas as dh
+        inner join categories as c on dh.category_id=c.id
+        group by c.name order by SUM(dh.quantity) desc');
+
         //dd($total_datahis);
+
+
         return view('admin.analytics.index', compact('pronosticos','historydatas','categories','total_datahis'));
-
-
     }
 
     public function index1()

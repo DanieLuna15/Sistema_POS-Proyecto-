@@ -187,16 +187,9 @@
 
             // These labels appear in the legend and in the tooltips when hovering different arcs
             labels: [
-                'Fotografía',
-                'Seguridad Y Vigilancia',
-                'Audio',
-                'Dispositivos Audivisuales',
-                'Consolas de Videojuegos',
-                'Almacenamiento',
-                'Proyectores de Video',
-                'Computadoras y Componentes',
-                'Laptops',
-                'Redes'
+                <?php foreach($total_datahis as $totalnames):?>
+                    "<?php echo $totalnames->namecategory?>",
+                <?php endforeach; ?>
             ],
             },
             options: {
@@ -370,8 +363,6 @@
                     }
                 }
             });
-
-
     });
 </script>
 @endsection

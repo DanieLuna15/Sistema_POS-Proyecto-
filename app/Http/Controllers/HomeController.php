@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 //use App\Order;
 //use App\OrderDetail;
 use App\Sale;
-use App\Historydata;
+use App\Client;
 use App\Category;
 use App\Product;
+use App\Provider;
 use App\Purchase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,39 +25,104 @@ class HomeController extends Controller
 
     public function index()
     {
+        //PARA DASHBOARD
+        //---------------------------------------------
+        $salesTotal = Sale::where('status','CONFIRMADO')
+        ->get();
+        $totalvn = $salesTotal -> sum('total');
+        $cantventasTotal = $salesTotal -> count('id');
 
-        $categories = Category::get();
+        $salesHoy = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
+                ->where('status','CONFIRMADO')
+                ->get();
 
-        $historydatas = Historydata::get();
+        $salesMes = Sale::whereRaw('month(sale_date) = month(now())')
+                ->where('status','CONFIRMADO')
+                ->get();
+        $totalvnmes = $salesMes -> sum('total');
 
-        //API MODELO
-        $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
-        $pronosticos=$respuesta->json();
-        //API MODELO
+        $totalsalesHoy = $salesHoy -> sum('total');
+        $cantventasHoy = $salesHoy -> count('id');
+        //---------------------------------------------
+        $comprasTotal = Purchase::where('status','CONFIRMADO')
+                ->get();
+        $totalcm = $comprasTotal -> sum('total');
+        $cantcomprasTotal = $comprasTotal -> count('id');
 
-        $total_datahis = Historydata::select(
-            //DB::raw("count(*) as count"),
-            DB::raw("category_id as category_id"),
-            DB::raw("SUM(quantity) as quantity")
-        )->groupBy('category_id')->get();
+        $comprasHoy = Purchase::whereDate('purchase_date', Carbon::today('America/La_Paz'))
+                ->where('status','CONFIRMADO')
+                ->get();
+        $totalcomprasHoy = $comprasHoy -> sum('total');
+        $cantcomprasHoy = $comprasHoy -> count('id');
+        //---------------------------------------------
+        $clientesTotal = Client::get();
+        $cantclientesTotal = $clientesTotal -> count('id');
 
-        /*
-        $total_datahis=DB::select('SELECT c.name as name,
-        SUM(dh.quantity) as quantity
-        from historydatas dh
-        inner join categories c on dh.category_id=c.id)
-        group by c.name, order by sum(dh.quantity) desc limit 10');
-        */
+        $clientesHoy = Client::whereDate('created_at', Carbon::today('America/La_Paz'))
+                ->get();
+        $totalclientesHoy = $clientesHoy -> sum('total');
+        $cantclientesHoy = $clientesHoy -> count('id');
+        //---------------------------------------------
+        $provsTotal = Provider::get();
+        $cantprovsTotal = $provsTotal -> count('id');
 
-        //dd($total_datahis);
-        return view('home', compact('pronosticos','historydatas','categories','total_datahis'));
+        $provsHoy = Provider::whereDate('created_at', Carbon::today('America/La_Paz'))
+                ->get();
+        $totalprovsHoyHoy = $provsHoy -> sum('total');
+        $cantprovsHoy = $provsHoy -> count('id');
+        //FIN DASHBOARD
+
+        //cONSULTAS PARA GRÁFICOS
+        $comprasmes = Purchase::where('status', 'CONFIRMADO')->select(
+            DB::raw("count(*) as count"),
+            DB::raw("SUM(total) as totalmes"),
+            DB::raw("DATE_FORMAT(purchase_date,'%M %Y') as mes")
+        )->groupBy('mes')->take(12)->get();
+
+        $ventasmes = Sale::where('status', 'CONFIRMADO')->select(
+            DB::raw("count(*) as count"),
+            DB::raw("SUM(total) as totalmes"),
+            DB::raw("DATE_FORMAT(sale_date,'%M %Y') as mes")
+        )->groupBy('mes')->take(12)->get();
+
+        $ventasdia = Sale::where('status', 'CONFIRMADO')->select(
+            DB::raw("count(*) as count"),
+            DB::raw("SUM(total) as total"),
+            DB::raw("DATE_FORMAT(sale_date,'%D %M %Y') as date")
+        )->groupBy('date')->take(30)->orderBy('date','ASC')->get();
+
+        $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="CONFIRMADO") as totalcompra,
+                                    (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="CONFIRMADO") as totalventa');
 
 
+        $productosmasvendidos=DB::select('SELECT p.code as code,
+        sum(dv.quantity) as quantity, p.name as name , p.id as id , p.stock as stock from products p
+        inner join sale_details dv on p.id=dv.product_id
+        inner join sales v on dv.sale_id=v.id where v.status="CONFIRMADO"
+        and MONTH(v.sale_date)=MONTH(curdate())
+        group by p.code ,p.name, p.id , p.stock order by sum(dv.quantity) desc limit 10');
+
+        //dd($productosmasvendidos);
+        //dd($ventasdia);
+        return view('home', compact(
+            'cantventasTotal',
+            'totalvn',
+            'cantventasHoy',
+            'cantcomprasTotal',
+            'totalcm',
+            'cantcomprasHoy',
+            'cantclientesTotal',
+            'cantclientesHoy',
+            'cantprovsTotal',
+            'cantprovsHoy',
+            'totales',
+            'productosmasvendidos')
+        );
     }
 
     public function index1()
     {
-/*
+        /*
         $comprasmes = Purchase::where('status', 'VALID')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),

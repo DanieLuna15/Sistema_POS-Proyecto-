@@ -38,7 +38,8 @@ class SaleController extends Controller
     public function create()
     {
         $clients = Client::get();
-        $products=Product::where('status','ACTIVO')->get();
+        $products=Product::where('status','ACTIVO')
+                ->where('stock',">",0)->get();
 
         return view('admin.sale.create', compact('clients','products'));
     }

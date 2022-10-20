@@ -20,7 +20,6 @@ class StoreRequest extends FormRequest
             'address'=>'nullable|string|max:255',
             'phone'=>'required|string|nullable|unique:clients|max:8|min:8',
             'email'=>'nullable|string|max:40|unique:clients|email:rfc,dns',
-            'email'=>'required|string|max:40|unique:providers|email:rfc,dns',
         ];
     }
     public function messages()

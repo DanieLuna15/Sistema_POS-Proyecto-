@@ -93,7 +93,7 @@
             <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-gift"></i>
-                        Compras del Mes (GRAFICO 1)
+                        Compras vs Ventas (GRAFICO 1)
                     </h4>
                     <canvas id="orders-chart"></canvas>
                 <div id="orders-chart-legend" class="orders-chart-legend"></div>

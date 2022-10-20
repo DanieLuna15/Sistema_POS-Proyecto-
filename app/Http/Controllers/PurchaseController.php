@@ -21,6 +21,9 @@ para libreria
 */
 use App\NumerosEnLetras;
 
+
+//Para sweet alert en Compras
+use RealRashid\SweetAlert\Facades\Alert;
 class PurchaseController extends Controller
 {
 
@@ -59,6 +62,7 @@ class PurchaseController extends Controller
         }
         //dd($results);
         $purchase->purchaseDetails()->createMany($results);
+        Alert::toast('Compra registrada con éxito.', 'success');
         return redirect()->route('purchases.index');
     }
 

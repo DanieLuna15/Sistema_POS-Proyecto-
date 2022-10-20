@@ -48,13 +48,13 @@
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-bullhorn mr-1"></i>
-                        Total Ingresos
+                        Total Monto en Ventas
                         </p>
                         <h2>{{$totalvn}} Bs.</h2>
                         @if ($totalvn>$totalcm)
-                            <label class="badge badge-outline-success badge-pill">{{$totalcm}} Bs. En Gastos</label>
+                            <label class="badge badge-outline-success badge-pill">{{$totalcm}} Bs. Monto en Compras</label>
                         @else
-                            <label class="badge badge-outline-warning badge-pill">{{$totalcm}} Bs. En Gastos</label>
+                            <label class="badge badge-outline-warning badge-pill">{{$totalcm}} Bs. Monto en Compras</label>
                         @endif
 
                     </div>

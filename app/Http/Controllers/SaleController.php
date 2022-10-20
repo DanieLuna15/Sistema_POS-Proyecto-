@@ -20,7 +20,8 @@ para libreria
 */
 use App\NumerosEnLetras;
 
-
+//Para sweet alert en Ventas
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SaleController extends Controller
 {
@@ -50,6 +51,7 @@ class SaleController extends Controller
             'user_id'=>Auth::user()->id,
             'sale_date'=>Carbon::now('America/La_Paz'),
         ]);
+
         foreach($request->product_id as $key=>$product){
             $results[]= array(
                 "product_id"=>$request->product_id[$key],
@@ -59,7 +61,7 @@ class SaleController extends Controller
             );
         }
         $sale->saleDetails()->createMany($results);
-
+        Alert::toast('Venta registrada con éxito.', 'success');
         return redirect()->route('sales.index');
     }
 

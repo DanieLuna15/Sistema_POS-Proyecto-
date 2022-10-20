@@ -84,6 +84,7 @@
 {!! Html::script('melodyjs/avgrund.js') !!}
 
 {!! Html::script('melody/js/select2.js') !!}
+{!! Html::script('js/sweetalert2.all.min.js') !!}
 
 <script>
     $(document).ready(function () {
@@ -114,38 +115,53 @@
         discount = $("#discount").val();
         price = $("#price").val();
         stock = $("#stock").val();
-        if (product_id != "" && product_id != 0 && quantity != "" && quantity > 0 && discount != "" && price != "") {
-            if (parseInt(stock) >= parseInt(quantity)) {
-                if (parseInt(discount) >= 0 && parseInt(discount) <= 50) {
-                    subtotal[cont] = (quantity * price) - (quantity * price * discount / 100);
-                    total = total + subtotal[cont];
-                    total_descuento =0;
-                    var fila = '<tr class="selected" id="fila' + cont + '"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar(' + cont + ');"><i class="fa fa-times fa-2x"></i></button></td> <td><input type="hidden" name="product_id[]" value="' + product_id + '">' + product + '</td> <td> <input type="hidden" name="price[]" value="' + parseFloat(price).toFixed(2) + '"> <input class="form-control" type="number" value="' + parseFloat(price).toFixed(2) + '" disabled> </td> <td> <input type="hidden" name="discount[]" value="' + parseFloat(discount) + '"> <input class="form-control" type="number" value="' + parseFloat(discount) + '" disabled> </td> <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input type="number" value="' + quantity + '" class="form-control" disabled> </td> <td align="right">Bs/' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
-                    cont++;
-                    limpiar();
-                    totales();
-                    evaluar();
-                    $('#detalles').append(fila);
+        if (parseInt(product_id) > 0) {
+            if (product_id != "" && product_id != 0 && quantity != "" && discount != "" && price != "") {
+                if (parseInt(quantity) > 0) {
+                    if (parseInt(stock) >= parseInt(quantity)) {
+                        if (parseInt(discount) >= 0 && parseInt(discount) <= 50) {
+                            subtotal[cont] = (quantity * price) - (quantity * price * discount / 100);
+                            total = total + subtotal[cont];
+                            total_descuento =0;
+                            var fila = '<tr class="selected" id="fila' + cont + '"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar(' + cont + ');"><i class="fa fa-times fa-2x"></i></button></td> <td><input type="hidden" name="product_id[]" value="' + product_id + '">' + product + '</td> <td> <input type="hidden" name="price[]" value="' + parseFloat(price).toFixed(2) + '"> <input class="form-control" type="number" value="' + parseFloat(price).toFixed(2) + '" disabled> </td> <td> <input type="hidden" name="discount[]" value="' + parseFloat(discount) + '"> <input class="form-control" type="number" value="' + parseFloat(discount) + '" disabled> </td> <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input type="number" value="' + quantity + '" class="form-control" disabled> </td> <td align="right">Bs/' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
+                            cont++;
+                            limpiar();
+                            totales();
+                            evaluar();
+                            $('#detalles').append(fila);
+                        }   else {
+                            Swal.fire({
+                                type: 'warning',
+                                text: 'El porcentaje de descuento debe ser mayor o igual a cero y no puede exceder del 50%.',
+                            })
+                        }
+                    }   else {
+                        Swal.fire({
+                            type: 'warning',
+                            text: 'La cantidad a vender supera el stock.',
+                        })
+                    }
                 }   else {
                     Swal.fire({
-                        type: 'error',
-                        text: 'El porcentaje de descuento debe ser mayor o igual a cero y no puede exceder del 50%.',
+                        type: 'warning',
+                        text: 'La Cantidad debe ser mayor a 0.',
                     })
                 }
-            } else {
+            }   else {
                 Swal.fire({
                     type: 'error',
-                    text: 'La cantidad a vender supera el stock.',
+                    text: 'Rellene todos los campos del detalle de la venta.',
                 })
             }
-        } else {
+        }   else {
             Swal.fire({
-                type: 'error',
-                text: 'Rellene todos los campos del detalle de la venta.',
+                    type: 'warning',
+                    text: 'Primero debes elegir un Producto.',
             })
         }
     }
     function limpiar() {
+        $("#stock").val(stock-quantity);
         $("#quantity").val("");
         $("#discount").val("0");
     }

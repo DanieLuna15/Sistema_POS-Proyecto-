@@ -9,6 +9,8 @@ use App\Http\Requests\Category\UpdateRequest;
 
 use Illuminate\Support\Facades\Auth;
 
+//Para sweet alert en Categorias
+use RealRashid\SweetAlert\Facades\Alert;
 class CategoryController extends Controller
 {
     public function __construct()
@@ -30,6 +32,7 @@ class CategoryController extends Controller
     public function store(StoreRequest $request)
     {
         Category::create($request->all());
+        Alert::toast('Categoría registrada con éxito.', 'success');
         return redirect()->route('categories.index');
     }
 

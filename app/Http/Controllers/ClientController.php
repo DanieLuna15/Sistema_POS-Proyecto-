@@ -10,13 +10,16 @@ use App\Http\Requests\Client\UpdateRequest;
 
 use Illuminate\Support\Facades\Auth;
 
+//Para sweet alert en Clientes
+use RealRashid\SweetAlert\Facades\Alert;
+
 class ClientController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $clients = Client::get();
@@ -31,6 +34,7 @@ class ClientController extends Controller
     public function store(StoreRequest $request)
     {
         Client::create($request->all());
+        Alert::toast('Cliente registrado con éxito.', 'success');
         return redirect()->route('clients.index');
     }
 

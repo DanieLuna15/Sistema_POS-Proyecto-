@@ -11,6 +11,8 @@ use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 
 use Illuminate\Support\Facades\Auth;
+//Para sweet alert en Productos
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProductController extends Controller
 {
@@ -45,7 +47,7 @@ class ProductController extends Controller
         ]);
 
         $product->update(['code'=>$product->id]);
-
+        Alert::toast('Producto registrado con éxito.', 'success');
         return redirect()->route('products.index');
     }
 

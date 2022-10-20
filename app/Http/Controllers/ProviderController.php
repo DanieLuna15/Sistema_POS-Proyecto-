@@ -10,13 +10,15 @@ use App\Http\Requests\Provider\UpdateRequest;
 
 use Illuminate\Support\Facades\Auth;
 
+//Para sweet alert en Proveedores
+use RealRashid\SweetAlert\Facades\Alert;
 class ProviderController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $providers = Provider::get();
@@ -31,6 +33,7 @@ class ProviderController extends Controller
     public function store(StoreRequest $request)
     {
         Provider::create($request->all());
+        Alert::toast('Proveedor registrado con éxito.', 'success');
         return redirect()->route('providers.index');
     }
 

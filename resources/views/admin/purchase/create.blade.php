@@ -84,6 +84,7 @@
 {!! Html::script('melodyjs/avgrund.js') !!}
 
 {!! Html::script('melody/js/select2.js') !!}
+{!! Html::script('js/sweetalert2.all.min.js') !!}
 
 <script>
     $(document).ready(function () {
@@ -108,23 +109,44 @@
         price = $("#price").val();
         tax = $("#tax").val();
 
-        if (product_id != "" && product_id != 0 && quantity != "" && quantity > 0 && tax != "" && price != "") {
-            if (parseInt(tax) >= 0 && parseInt(tax) <= 18) {
-                subtotal[cont] = quantity * price;
-                total = total + subtotal[cont];
-                var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar('+cont+');"><i class="fa fa-times"></i></button></td> <td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td> <td> <input type="hidden" id="price[]" name="price[]" value="' + price + '"> <input class="form-control" type="number" id="price[]" value="' + price + '" disabled> </td>  <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input class="form-control" type="number" value="' + quantity + '" disabled> </td> <td align="right">Bs./ ' + subtotal[cont] + ' </td></tr>';
-                cont++;
-                limpiar();
-                totales();
-                evaluar();
-                $('#detalles').append(fila);
-            } else {
+        if (product_id != "" && product_id != 0 && quantity != "" && tax != "" && price != "") {
+            if (parseInt(product_id) > 0) {
+                if (parseInt(quantity) > 0) {
+                    if (parseInt(price) > 0) {
+                        if (parseInt(tax) >= 0 && parseInt(tax) <= 18) {
+                            subtotal[cont] = quantity * price;
+                            total = total + subtotal[cont];
+                            var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar('+cont+');"><i class="fa fa-times"></i></button></td> <td><input type="hidden" name="product_id[]" value="'+product_id+'">'+product+'</td> <td> <input type="hidden" id="price[]" name="price[]" value="' + price + '"> <input class="form-control" type="number" id="price[]" value="' + price + '" disabled> </td>  <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input class="form-control" type="number" value="' + quantity + '" disabled> </td> <td align="right">Bs./ ' + subtotal[cont] + ' </td></tr>';
+                            cont++;
+                            limpiar();
+                            totales();
+                            evaluar();
+                            $('#detalles').append(fila);
+                        }   else {
+                            Swal.fire({
+                                type: 'warning',
+                                text: 'El porcentaje de Impuesto debe ser mayor o igual a cero y no puede exceder del 18% (IVA).',
+                            })
+                        }
+                    }   else {
+                        Swal.fire({
+                            type: 'warning',
+                            text: 'El precio de compra debe ser mayor a 0.',
+                        })
+                    }
+                }   else {
+                    Swal.fire({
+                        type: 'warning',
+                        text: 'La Cantidad debe ser mayor a 0.',
+                    })
+                }
+            }   else {
                 Swal.fire({
-                    type: 'error',
-                    text: 'El porcentaje de descuento debe ser mayor o igual a cero y no puede exceder del 18%.',
+                    type: 'warning',
+                    text: 'Primero debes elegir un Producto.',
                 })
             }
-        } else {
+        }   else {
             Swal.fire({
                 type: 'error',
                 text: 'Rellene todos los campos del detalle de la compra.',

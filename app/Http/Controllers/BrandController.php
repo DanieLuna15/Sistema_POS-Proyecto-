@@ -10,13 +10,15 @@ use App\Http\Requests\Brand\UpdateRequest;
 
 use Illuminate\Support\Facades\Auth;
 
+//Para sweet alert en Marcas
+use RealRashid\SweetAlert\Facades\Alert;
 class BrandController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    
+
     public function index()
     {
         $brands = Brand::get();
@@ -31,6 +33,7 @@ class BrandController extends Controller
     public function store(StoreRequest $request)
     {
         Brand::create($request->all());
+        Alert::toast('Marca registrada con éxito.', 'success');
         return redirect()->route('brands.index');
     }
 

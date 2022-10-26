@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-//use App\Order;
-//use App\OrderDetail;
 use App\Sale;
 use App\Client;
 use App\Category;
@@ -94,13 +92,32 @@ class HomeController extends Controller
         $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="CONFIRMADO") as totalcompra,
                                     (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="CONFIRMADO") as totalventa');
 
-
         $productosmasvendidos=DB::select('SELECT p.code as code,
         sum(dv.quantity) as quantity, p.name as name , p.id as id , p.stock as stock from products p
         inner join sale_details dv on p.id=dv.product_id
         inner join sales v on dv.sale_id=v.id where v.status="CONFIRMADO"
         and MONTH(v.sale_date)=MONTH(curdate())
         group by p.code ,p.name, p.id , p.stock order by sum(dv.quantity) desc limit 10');
+
+        $categoríasmasvendidas=DB::select('SELECT c.name as namecategory,
+        sum(dv.quantity) as quantity from products p
+        inner join sale_details dv on p.id=dv.product_id
+        inner join sales v on dv.sale_id=v.id
+        inner join categories c on p.category_id=c.id where v.status="CONFIRMADO" and MONTH(v.sale_date)=MONTH(curdate())
+        group by c.name order by sum(dv.quantity) desc limit 5');
+
+        $marcasmasvendidas=DB::select('SELECT m.name as namebrand,
+        sum(dv.quantity) as quantity from products p
+        inner join sale_details dv on p.id=dv.product_id
+        inner join sales v on dv.sale_id=v.id
+        inner join brands m on p.brand_id=m.id where v.status="CONFIRMADO" and MONTH(v.sale_date)=MONTH(curdate())
+        group by m.name order by sum(dv.quantity) desc limit 5');
+
+        $productosmenorstock=DB::select('SELECT name as nameproduct,
+        stock from products
+        where stock BETWEEN 0 AND 15
+        order by stock desc limit 6');
+
 
         //dd($productosmasvendidos);
         //dd($ventasdia);
@@ -116,7 +133,10 @@ class HomeController extends Controller
             'cantprovsTotal',
             'cantprovsHoy',
             'totales',
-            'productosmasvendidos')
+            'productosmasvendidos',
+            'categoríasmasvendidas',
+            'marcasmasvendidas',
+            'productosmenorstock')
         );
     }
 

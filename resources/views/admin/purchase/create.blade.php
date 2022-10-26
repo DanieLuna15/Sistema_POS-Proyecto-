@@ -111,7 +111,7 @@
 
         if (product_id != "" && product_id != 0 && quantity != "" && tax != "" && price != "") {
             if (parseInt(product_id) > 0) {
-                if (parseInt(quantity) > 0) {
+                if (parseInt(quantity) > 0 && quantity % 1 == 0) {
                     if (parseInt(price) > 0) {
                         if (parseInt(tax) >= 0 && parseInt(tax) <= 18) {
                             subtotal[cont] = quantity * price;
@@ -137,7 +137,7 @@
                 }   else {
                     Swal.fire({
                         type: 'warning',
-                        text: 'La Cantidad debe ser mayor a 0.',
+                        text: 'La Cantidad debe ser mayor a 0 y un número entero.',
                     })
                 }
             }   else {

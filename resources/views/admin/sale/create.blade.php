@@ -117,7 +117,7 @@
         stock = $("#stock").val();
         if (parseInt(product_id) > 0) {
             if (product_id != "" && product_id != 0 && quantity != "" && discount != "" && price != "") {
-                if (parseInt(quantity) > 0) {
+                if (parseInt(quantity) > 0 && quantity % 1 == 0) {
                     if (parseInt(stock) >= parseInt(quantity)) {
                         if (parseInt(discount) >= 0 && parseInt(discount) <= 50) {
                             subtotal[cont] = (quantity * price) - (quantity * price * discount / 100);
@@ -144,7 +144,7 @@
                 }   else {
                     Swal.fire({
                         type: 'warning',
-                        text: 'La Cantidad debe ser mayor a 0.',
+                        text: 'La Cantidad debe ser mayor a 0 y un número entero.',
                     })
                 }
             }   else {

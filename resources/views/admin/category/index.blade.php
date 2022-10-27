@@ -12,42 +12,11 @@
 @endsection
 
 @section('create')
-<li class="nav-item d-none d-lg-flex">
-    <a class="nav-link" href="{{route('categories.create')}}">
-        <span class="btn btn-primary">+ Crear nuevo</span>
-    </a>
-</li>
 @endsection
 
 @section('options')
-<li class="nav-item nav-settings d-none d-lg-block">
-    <a class="nav-link" href="#">
-        <i class="fas fa-ellipsis-h"></i>
-    </a>
-</li>
 @endsection
 @section('preference')
-    <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close fa fa-times"></i>
-        <ul class="nav nav-tabs" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Categorías</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                    <a class="nav-link" href="{{route('categories.create')}}">
-                        <span class="btn btn-primary">Registrar Categoría</span>
-                    </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-    </div>
 @endsection
 @section('content')
 <div class="content-wrapper">
@@ -69,21 +38,11 @@
 
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Categorías:</h4>
-
-                        <div class="dropdown">
-                          <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-cog"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
-                            <h6 class="dropdown-header">Acciones</h6>
-                            <a class="dropdown-item" href="{{route('categories.create')}}">Agregar Nuevo +</a>
-                            <a class="dropdown-item" href="#">Ver Historial</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Exportar a PDF</a>
-                            <a class="dropdown-item" href="#">Exportar a Excel</a>
-                          </div>
+                        <div class="btn-group">
+                            <a href="{{route('categories.create')}}" type="button" class="btn btn-info ">
+                                <i class="fas fa-plus"></i> Nuevo
+                            </a>
                         </div>
-
                     </div>
 
                     <div class="table-responsive">

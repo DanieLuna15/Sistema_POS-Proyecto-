@@ -71,23 +71,32 @@ class HomeController extends Controller
         //FIN DASHBOARD
 
         //cONSULTAS PARA GRÁFICOS
+        DB::statement("SET lc_time_names = 'es_MX'");
         $comprasmes = Purchase::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
-            DB::raw("DATE_FORMAT(purchase_date,'%M %Y') as mes")
-        )->groupBy('mes')->take(12)->get();
+            DB::raw("DATE_FORMAT(purchase_date,'%b %Y') as mes")
+        )->groupBy('mes')->take(12)->orderBy('purchase_date','ASC')->get();
 
         $ventasmes = Sale::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
-            DB::raw("DATE_FORMAT(sale_date,'%M %Y') as mes")
-        )->groupBy('mes')->take(12)->get();
+            DB::raw("DATE_FORMAT(sale_date,'%b %Y') as mes")
+        )->groupBy('mes')->take(12)->orderBy('sale_date','ASC')->get();
+        //dd($ventasmes);
 
         $ventasdia = Sale::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as total"),
-            DB::raw("DATE_FORMAT(sale_date,'%D %M %Y') as date")
-        )->groupBy('date')->take(30)->orderBy('date','ASC')->get();
+            DB::raw("DATE_FORMAT(sale_date,'%e %b') as date")
+        )->groupBy('date')->take(30)->orderBy('sale_date','ASC')->get();
+
+        $comprasdia = Purchase::where('status', 'CONFIRMADO')->select(
+            DB::raw("count(*) as count"),
+            DB::raw("SUM(total) as total"),
+            DB::raw("DATE_FORMAT(purchase_date,'%e %b') as date")
+        )->groupBy('date')->take(30)->orderBy('purchase_date','ASC')->get();
+
 
         $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="CONFIRMADO") as totalcompra,
                                     (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="CONFIRMADO") as totalventa');
@@ -122,6 +131,10 @@ class HomeController extends Controller
         //dd($productosmasvendidos);
         //dd($ventasdia);
         return view('home', compact(
+            'comprasmes',
+            'ventasmes',
+            'ventasdia',
+            'comprasdia',
             'cantventasTotal',
             'totalvn',
             'cantventasHoy',

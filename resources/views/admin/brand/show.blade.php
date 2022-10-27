@@ -10,42 +10,14 @@
 </style>
 @endsection
 @section('create')
-<li class="nav-item d-none d-lg-flex">
-    <a class="nav-link" href="{{route('brands.create')}}">
-        <span class="btn btn-primary">+ Crear nuevo</span>
-    </a>
-</li>
 @endsection
+
 @section('options')
-<li class="nav-item nav-settings d-none d-lg-block">
-    <a class="nav-link" href="#">
-        <i class="fas fa-ellipsis-h"></i>
-    </a>
-</li>
 @endsection
+
 @section('preference')
-<div id="right-sidebar" class="settings-panel">
-        <i class="settings-close fa fa-times"></i>
-        <ul class="nav nav-tabs" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Gestión de Productos</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                    <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Registrar Producto</button>
-                    </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-    </div>
 @endsection
+
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">
@@ -64,25 +36,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-
-
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Marca: '{{$brand->name}}'</h4>
-                        <div class="dropdown">
-                          <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-cog"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
-                            <h6 class="dropdown-header">Acciones</h6>
-                            <a class="dropdown-item" href="{{route('brands.create')}}">Agregar Nuevo +</a>
-                            <a class="dropdown-item" href="#">Ver Historial</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Exportar a PDF</a>
-                            <a class="dropdown-item" href="#">Exportar a Excel</a>
-                          </div>
-                        </div>
                     </div>
-
                     <div class="table-responsive">
                         <table id="order-listing" class="table">
                             <thead>
@@ -116,9 +72,11 @@
                                                 <i class="far fa-edit"></i>
                                             </a>
 
+                                            <!--
                                             <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                 <i class="far fa-trash-alt"></i>
                                             </button>
+                                            -->
 
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.show',$brand)}}" title="Ver Productos Relacionados">
                                                 <i class="far fa-eye"></i>

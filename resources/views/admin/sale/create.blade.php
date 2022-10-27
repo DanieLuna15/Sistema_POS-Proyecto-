@@ -8,39 +8,14 @@
         background: none;
       }
 </style>
-
 @endsection
 
 @section('options')
-<li class="nav-item nav-settings d-none d-lg-block">
-    <a class="nav-link" href="#">
-        <i class="fas fa-ellipsis-h"></i>
-    </a>
-</li>
 @endsection
+
 @section('preference')
-    <div id="right-sidebar" class="settings-panel">
-        <i class="settings-close fa fa-times"></i>
-        <ul class="nav nav-tabs" id="setting-panel" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">Gestión de Ventas</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="setting-content">
-          <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
-            <div class="list-wrapper px-3">
-              <ul class="d-flex flex-column-reverse todo-list">
-                <li>
-                    <center>
-                        <button type="submit" class="add btn btn-primary todo-list-add-btn" id="add-task-todo">Nueva Venta</button>
-                    </center>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-    </div>
 @endsection
+
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">

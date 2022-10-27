@@ -8,7 +8,7 @@ use App\Http\Requests\Category\StoreRequest;
 use App\Http\Requests\Category\UpdateRequest;
 
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 //Para sweet alert en Categorias
 use RealRashid\SweetAlert\Facades\Alert;
 class CategoryController extends Controller
@@ -20,8 +20,14 @@ class CategoryController extends Controller
 
     public function index()
     {
+        $cantprodCategory=DB::select('SELECT c.name , count(p.id) as cantProduct
+        FROM categories as c inner join products as p
+        on c.id = p.category_id
+        WHERE p.status="ACTIVO"
+        group by c.name');
+
         $categories = Category::get();
-        return view('admin.category.index', compact('categories'));
+        return view('admin.category.index', compact('categories','cantprodCategory'));
     }
 
     public function create()

@@ -51,6 +51,7 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Imagen</th>
                                     <th>Nombre</th>
                                     <th>Categoría</th>
                                     <th>Marca</th>
@@ -63,10 +64,10 @@
                                 <?php foreach ($products as $product): ?>
                                 <tr>
                                     <th scope="row">{{$product->id}}</th>
+                                        <td><img src="{{asset('image/'.$product->image)}}" alt="profile" class="img-lg  mb-3" /></td>
                                         <td>
                                             <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
                                         </td>
-
                                         <td>{{$product->category->name}}</td>
 
                                         <td>{{$product->brand->name}}</td>

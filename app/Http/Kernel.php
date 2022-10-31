@@ -62,5 +62,10 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        
+        //Configuracion de middleware de la libreria
+        'role'=>\Caffeinated\Shinobi\Middleware\UserHasRole::class,
+        'allrole'=>\Caffeinated\Shinobi\Middleware\UserHasAllRoles::class,
+        'anyrole'=>\Caffeinated\Shinobi\Middleware\UserHasAnyRoles::class,
     ];
 }

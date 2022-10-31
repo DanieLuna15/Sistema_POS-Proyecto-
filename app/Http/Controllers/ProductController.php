@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 //Para sweet alert en Productos
 use RealRashid\SweetAlert\Facades\Alert;
 
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -23,7 +24,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::get();
+        $products = Product::orderBy('created_at','DESC')->get();
         return view('admin.product.index', compact('products'));
     }
 

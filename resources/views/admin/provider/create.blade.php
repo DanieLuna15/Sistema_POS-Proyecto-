@@ -20,7 +20,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Proveedores
+            Nuevo Proveedor:
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
@@ -34,10 +34,10 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Registro de Proveedor</h4>
+                        <h4 class="card-title">Datos del Proveedor:</h4>
                     </div>
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
@@ -50,8 +50,6 @@
                     @endif
 
                     {!! Form::open(['route'=>'providers.store', 'method'=>'POST']) !!}
-
-                    <!--'name', 'email','nit', 'address','phone',-->
 
                     <div class="form-group">
                       <label for="name">Nombre/Razón Social:</label>
@@ -88,7 +86,6 @@
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-
                 </div>
             </div>
         </div>

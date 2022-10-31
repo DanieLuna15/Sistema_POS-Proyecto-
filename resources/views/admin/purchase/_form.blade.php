@@ -7,7 +7,6 @@
         </select>
 </div>
 
-
 <div class="form-group">
   <label for="tax">Porcentaje de Impuesto(%):</label>
   <input type="number" name="tax" id="tax" class="form-control" placeholder="Ejemplo: 18%" aria-describedby="helpId" value="0">

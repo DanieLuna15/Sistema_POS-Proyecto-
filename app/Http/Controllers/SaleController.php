@@ -32,7 +32,8 @@ class SaleController extends Controller
 
     public function index()
     {
-        $sales = Sale::get();
+        $sales = Sale::orderBy('sale_date','DESC')->get();
+        //dd($sales);
         return view('admin.sale.index', compact('sales'));
     }
 

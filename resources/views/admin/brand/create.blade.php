@@ -20,13 +20,13 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Marcas
+            Nueva Marca:
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
                 <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
                 <li class="breadcrumb-item"><a href="{{route('brands.index')}}">Marcas</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Nueva Marca</li>
+                <li class="breadcrumb-item active" aria-current="page">Registro de Marca</li>
             </ol>
         </nav>
     </div>
@@ -36,7 +36,7 @@
                 <div class="card-body">
 
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Registro de Marca</h4>
+                        <h4 class="card-title">Datos de la Marca:</h4>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">

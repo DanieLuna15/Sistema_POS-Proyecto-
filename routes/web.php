@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,46 +19,45 @@ Route::get('/', function () {
 Route::get('/prueba', function () {
     return view('prueba');
 });
-
 //rutas de reportes
-//rutas de VENTAS
-Route::get('reportsales/reports_day','ReportController@reports_day')->name('reports.day');
-Route::get('reportsales/reports_month','ReportController@reports_month')->name('reports.month');
-Route::get('reportsales/reports_year','ReportController@reports_year')->name('reports.year');
-Route::get('reportsales/reports_date','ReportController@reports_date')->name('reports.date');
-Route::post('reportsales/report_results','ReportController@report_results')->name('report.results');
-//rutas de COMPRAS
-Route::get('reportpurchases/reportscm_datecm','ReportcmController@reportscm_datecm')->name('reportscm.datecm');
-Route::get('reportpurchases/reportscm_daycm','ReportcmController@reportscm_daycm')->name('reportscm.daycm');
-Route::post('reportpurchases/reportcm_resultscm','ReportcmController@reportcm_resultscm')->name('reportcm.resultscm');
+    //rutas de VENTAS
+    Route::get('reportsales/reports_day',       'ReportController@reports_day')     ->name('reports.day');
+    Route::get('reportsales/reports_month',     'ReportController@reports_month')   ->name('reports.month');
+    Route::get('reportsales/reports_year',      'ReportController@reports_year')    ->name('reports.year');
+    Route::get('reportsales/reports_date',      'ReportController@reports_date')    ->name('reports.date');
+    Route::post('reportsales/report_results',   'ReportController@report_results')  ->name('report.results');
+    //rutas de COMPRAS
+    Route::get('reportpurchases/reportscm_datecm',      'ReportcmController@reportscm_datecm')      ->name('reportscm.datecm');
+    Route::get('reportpurchases/reportscm_daycm',       'ReportcmController@reportscm_daycm')       ->name('reportscm.daycm');
+    Route::post('reportpurchases/reportcm_resultscm',   'ReportcmController@reportcm_resultscm')    ->name('reportcm.resultscm');
 //fin rutas de reportes
 
-//rutas de gestion basica de inventario
-Route::resource('brands',       'BrandController')->    names('brands');
-Route::resource('categories',   'CategoryController')-> names('categories');
-Route::resource('clients',      'ClientController')->   names('clients');
-Route::resource('products',     'ProductController')->  names('products');
-Route::resource('providers',    'ProviderController')-> names('providers');
-//fin rutas de gestion basica de inventario
+//rutas de gestion de inventario
+Route::resource('brands',       'BrandController')      ->  names('brands');
+Route::resource('categories',   'CategoryController')   ->  names('categories');
+Route::resource('clients',      'ClientController')     ->  names('clients');
+Route::resource('products',     'ProductController')    ->  names('products');
+Route::resource('providers',    'ProviderController')   ->  names('providers');
+//fin rutas de gestion de inventario
 
 //rutas de proceso de compra-venta con excepciones
-Route::resource('purchases',    'PurchaseController'::class)-> names('purchases')->except([
+Route::resource('purchases',    'PurchaseController'::class)->  names('purchases')->except([
     'edit','update','destroy'
 ]);
-Route::resource('sales',        'SaleController'::class)->     names('sales')->except([
+Route::resource('sales',        'SaleController'::class)    ->  names('sales')->except([
     'edit','update','destroy'
 ]);
 //fin rutas de proceso de compra-venta con excepciones
 
 //rutas de cambio de estados
-Route::get('change_status/products/{product}','ProductController@change_status')->name('change.status.products');
-Route::get('change_status/purchases/{purchase}','PurchaseController@change_status')->name('change.status.purchases');
-Route::get('change_status/sales/{sale}','SaleController@change_status')->name('change.status.sales');
+Route::get('change_status/products/ {product}',         'ProductController@change_status')  ->name('change.status.products');
+Route::get('change_status/purchases/{purchase}',        'PurchaseController@change_status') ->name('change.status.purchases');
+Route::get('change_status/sales/    {sale}',            'SaleController@change_status')     ->name('change.status.sales');
 //fin rutas de cambio de estados
 
 //rutas de impresión de tickets de compra y venta
-Route::get('purchases/pdf/{purchase}', 'PurchaseController@pdf'::class)->     name('purchases.pdf');
-Route::get('sales/pdf/{sale}', 'SaleController@pdf'::class)->     name('sales.pdf');
+Route::get('purchases/pdf/{purchase}',  'PurchaseController@pdf'::class) ->     name('purchases.pdf');
+Route::get('sales/pdf/{sale}',          'SaleController@pdf'::class)     ->     name('sales.pdf');
 //fin rutas de impresión de tickets de compra y venta
 
 //rutas para el modulo de analítica

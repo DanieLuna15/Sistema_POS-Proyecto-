@@ -20,7 +20,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Proveedores
+            Edición de Proveedor:
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
@@ -36,7 +36,7 @@
                 <div class="card-body">
 
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Edición de Proveedor</h4>
+                        <h4 class="card-title">Datos del Proveedor:</h4>
                     </div>
 
                     @if ($errors->any())

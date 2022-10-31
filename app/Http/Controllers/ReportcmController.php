@@ -15,8 +15,6 @@ class ReportcmController extends Controller
         $this->middleware('can:reports.date')->only(['reports_date']);*/
     }
     public function reportscm_daycm(){
-        //$fi = Carbon::now('America/La_Paz');
-        //$ff = Carbon::now('America/La_Paz');
         $purchases = Purchase::whereDate('purchase_date', Carbon::today('America/La_Paz'))
                     ->where('status','CONFIRMADO')
                     ->get();
@@ -24,7 +22,6 @@ class ReportcmController extends Controller
         $cantcompras = $purchases -> count('id');
 
         return view('admin.report.reportscm_daycm', compact('purchases','totalcm','cantcompras'));
-        //return view('admin.report.reports_daycm', compact('purchases','totalcm','cantcompras','fi','ff'));
     }
     public function reportscm_datecm(){
         $fi = Carbon::now('America/La_Paz');
@@ -46,7 +43,6 @@ class ReportcmController extends Controller
                 ->get();
         $totalcm = $purchases -> sum('total');
         $cantcompras = $purchases -> count('id');
-
 
         return view('admin.report.reportscm_datecm', compact('purchases','totalcm','cantcompras','fi','ff'));
     }

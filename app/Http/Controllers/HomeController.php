@@ -70,7 +70,7 @@ class HomeController extends Controller
         $cantprovsHoy = $provsHoy -> count('id');
         //FIN DASHBOARD
 
-        //cONSULTAS PARA GRÁFICOS
+        //CONSULTAS PARA GRÁFICOS
         DB::statement("SET lc_time_names = 'es_MX'");
         $comprasmes = Purchase::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),

@@ -38,7 +38,7 @@
                 <div class="card-body">
 
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Registro de Cliente</h4>
+                        <h4 class="card-title">Datos del Cliente: </h4>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">

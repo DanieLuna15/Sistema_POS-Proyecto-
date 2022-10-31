@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a7d2ba1e3ba7540fb70db3ea4abfca8",
+    "content-hash": "ff058b8815a02f441a68bb33aff51bd1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -198,6 +198,70 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "caffeinated/shinobi",
+            "version": "v5.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/caffeinated/shinobi.git",
+                "reference": "759e0eb25bcbe9d6bdcd3ef1689b0fcd8694dc0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/caffeinated/shinobi/zipball/759e0eb25bcbe9d6bdcd3ef1689b0fcd8694dc0d",
+                "reference": "759e0eb25bcbe9d6bdcd3ef1689b0fcd8694dc0d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.10@dev",
+                "orchestra/testbench": "^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Caffeinated\\Shinobi\\ShinobiServiceProvider"
+                    ],
+                    "aliases": {
+                        "Shinobi": "Caffeinated\\Shinobi\\Facades\\Shinobi"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Caffeinated\\Shinobi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shea Lewis",
+                    "email": "shea.lewis89@gmail.com"
+                }
+            ],
+            "description": "Laravel Roles and Permissions",
+            "keywords": [
+                "auth",
+                "caffeinated",
+                "laravel",
+                "permissions",
+                "roles",
+                "shinobi"
+            ],
+            "support": {
+                "issues": "https://github.com/caffeinated/shinobi/issues",
+                "source": "https://github.com/caffeinated/shinobi/tree/master"
+            },
+            "abandoned": true,
+            "time": "2020-04-02T19:07:09+00:00"
         },
         {
             "name": "doctrine/inflector",

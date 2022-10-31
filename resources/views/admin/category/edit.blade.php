@@ -23,7 +23,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Categorías
+            Edición de Categoría:
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
@@ -39,7 +39,7 @@
                 <div class="card-body">
 
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Edición de Categoría</h4>
+                        <h4 class="card-title">Datos de la Categoría:</h4>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">

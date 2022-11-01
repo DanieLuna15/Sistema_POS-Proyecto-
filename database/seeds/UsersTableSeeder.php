@@ -10,7 +10,8 @@ class UsersTableSeeder extends Seeder
         Role::create([
             'name'=>'Admin',
             'slug'=>'admin',
-            'special'=>'all_access',
+            'description'=>'Usuario con todos los accesos permitidos.',
+            'special'=>'all-access',
         ]);
     }
 }

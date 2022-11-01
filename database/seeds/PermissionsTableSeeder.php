@@ -67,5 +67,67 @@ class PermissionsTableSeeder extends Seeder
                             'description'=>'Eliminación de una marca del sistema',
         ]);;
         // FIN CATEGORIAS
+
+        //USUARIOS
+        Permission::create(['name'=>'Navegación por Usuarios',
+                            'slug'=>'users.index',
+                            'description'=>'Listado y navegación por todos los registrados usuario en el sistema',
+        ]);
+        Permission::create(['name'=>'Creación de Usuarios',
+                            'slug'=>'users.create',
+                            'description'=>'Acceder a la vista de Creación de usuarios en el sistema',
+        ]);
+        Permission::create(['name'=>'Registro Usuarios',
+                            'slug'=>'users.store',
+                            'description'=>'Registro y almacenamiento de usuarios en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de marca',
+                            'slug'=>'users.show',
+                            'description'=>'Visualización en detalle cada usuario del sistema',
+        ]);
+        Permission::create(['name'=>'Edición de Usuarios',
+                            'slug'=>'users.edit',
+                            'description'=>'Edición de cualquier dato de usuarios del sistema',
+        ]);
+        Permission::create(['name'=>'Modificación de Usuarios',
+                            'slug'=>'users.update',
+                            'description'=>'Modificación de cualquier dato de un usuario del sistema',
+        ]);
+        Permission::create(['name'=>'Eliminación de Usuarios',
+                            'slug'=>'users.destroy',
+                            'description'=>'Eliminación de un usuario del sistema',
+        ]);;
+        // FIN USUARIOS
+
+        //ROLES
+        Permission::create(['name'=>'Navegación por Roles',
+                            'slug'=>'roles.index',
+                            'description'=>'Listado y navegación por todos los roles del sistema',
+        ]);
+        Permission::create(['name'=>'Creación de Roles',
+                            'slug'=>'roles.create',
+                            'description'=>'Acceder a la vista de Creación de roles en el sistema',
+        ]);
+        Permission::create(['name'=>'Registro Roles',
+                            'slug'=>'roles.store',
+                            'description'=>'Registro y almacenamiento de roles de usuarios en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de Rol',
+                            'slug'=>'roles.show',
+                            'description'=>'Visualización en detalle el listado de de roles de usuarios en el sistema',
+        ]);
+        Permission::create(['name'=>'Edición de Roles',
+                            'slug'=>'roles.edit',
+                            'description'=>'Edición de cualquier dato de un rol del sistema',
+        ]);
+        Permission::create(['name'=>'Modificación de Roles',
+                            'slug'=>'roles.update',
+                            'description'=>'Modificación de cualquier dato de un rol del sistema',
+        ]);
+        Permission::create(['name'=>'Eliminación de Roles',
+                            'slug'=>'roles.destroy',
+                            'description'=>'Eliminación de un rol del sistema',
+        ]);;
+        // FIN CATEGORIAS
     }
 }

@@ -64,5 +64,12 @@ Route::get('sales/pdf/{sale}',          'SaleController@pdf'::class)     ->     
 Route::resource('analytics',       'AnalyticsController')->    names('analytics');
 //fin rutas para el modulo de analítica
 
+//rutas para el modulo de usuarios
+Route::resource('user',       'UserController')->    names('users');
+//fin rutas para el modulo de usuarios
+
+//rutas para el modulo de roles
+Route::resource('role',       'RoleController')->    names('roles');
+//fin rutas para el modulo de roles
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

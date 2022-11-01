@@ -69,9 +69,18 @@
 
                         <div class="form-group">
                             <label for="password">Contraseña:</label>
-                            <input autofocus type="password" placeholder="Contraseña" name="password" id="password"
-                            class="form-control">
+                            <div class="input-group">
+                                <input autofocus type="password" placeholder="Contraseña" name="password" id="password"
+                                class="form-control">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-primary" type="button"><i class="far fa-eye"></i></button>
+                                    <!--<a href="#" class="btn btn-sm btn-primary"
+                                        title="Ver detalles"><i class="far fa-eye "></i>
+                                    </a>-->
+                                </div>
+                            </div>
                         </div>
+
 
                         <h3>Listado de Roles</h3>
                         <div class="form-group">

@@ -7,6 +7,8 @@ use App\User;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
 //Para sweet alert en Usuarios
 use RealRashid\SweetAlert\Facades\Alert;
 class UserController extends Controller
@@ -36,7 +38,7 @@ class UserController extends Controller
         return view('admin.user.create', compact('roles'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $user = User::create($request->all());
         //Para encriptar la contraseña antes de guardar
@@ -56,7 +58,7 @@ class UserController extends Controller
         return view('admin.user.edit', compact('user','roles'));
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateRequest $request, User $user)
     {
         $user->update($request->all());
         //$user -> update(['password'=> Hash::make($request->password)]);

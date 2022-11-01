@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Caffeinated\Shinobi\Models\Role;
 use Caffeinated\Shinobi\Models\Permission;
 
+use App\Http\Requests\Role\StoreRequest;
+use App\Http\Requests\Role\UpdateRequest;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -32,7 +34,7 @@ class RoleController extends Controller
         return view('admin.role.create', compact('permissions'));
     }
 
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $role = Role::create($request->all());
         $role->permissions()->sync($request->get('permissions'));
@@ -50,7 +52,7 @@ class RoleController extends Controller
         return view('admin.role.edit', compact('role','permissions'));
     }
 
-    public function update(Request $request, Role $role)
+    public function update(UpdateRequest $request, Role $role)
     {
         $role->update($request->all());
         $role->permissions()->sync($request->get('permissions'));

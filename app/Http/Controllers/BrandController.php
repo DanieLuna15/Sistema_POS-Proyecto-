@@ -17,6 +17,12 @@ class BrandController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware('can:brands.create')->only(['create','store']);
+        $this->middleware('can:brands.index')->only(['index']);
+        $this->middleware('can:brands.edit')->only(['edit','update']);
+        $this->middleware('can:brands.show')->only(['show']);
+        $this->middleware('can:brands.destroy')->only(['destroy']);
     }
 
     public function index()

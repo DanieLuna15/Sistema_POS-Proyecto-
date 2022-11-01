@@ -14,11 +14,7 @@ class PermissionsTableSeeder extends Seeder
         ]);
         Permission::create(['name'=>'Creación de Categorías',
                             'slug'=>'categories.create',
-                            'description'=>'Acceder a la vista de Creación de categorias de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Registro Categorías',
-                            'slug'=>'categories.store',
-                            'description'=>'Registro y almacenamiento de categorias de productos en el sistema',
+                            'description'=>'Creación de categorias de productos en el sistema',
         ]);
         Permission::create(['name'=>'Visualización de detalle de Categoría',
                             'slug'=>'categories.show',
@@ -28,14 +24,10 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'categories.edit',
                             'description'=>'Edición de cualquier dato de una categoría del sistema',
         ]);
-        Permission::create(['name'=>'Modificación de Categorías',
-                            'slug'=>'categories.update',
-                            'description'=>'Modificación de cualquier dato de una categoría del sistema',
-        ]);
         Permission::create(['name'=>'Eliminación de Categorías',
                             'slug'=>'categories.destroy',
                             'description'=>'Eliminación de una categoría del sistema',
-        ]);;
+        ]);
         // FIN CATEGORIAS
         //CATEGORIAS
         Permission::create(['name'=>'Navegación por Marcas',
@@ -44,11 +36,7 @@ class PermissionsTableSeeder extends Seeder
         ]);
         Permission::create(['name'=>'Creación de Marcas',
                             'slug'=>'brands.create',
-                            'description'=>'Acceder a la vista de Creación de marca de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Registro Marcas',
-                            'slug'=>'brands.store',
-                            'description'=>'Registro y almacenamiento de marca de productos en el sistema',
+                            'description'=>'Creación de marca de productos en el sistema',
         ]);
         Permission::create(['name'=>'Visualización de detalle de marca',
                             'slug'=>'brands.show',
@@ -58,15 +46,38 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'brands.edit',
                             'description'=>'Edición de cualquier dato de una marca del sistema',
         ]);
-        Permission::create(['name'=>'Modificación de Marcas',
-                            'slug'=>'brands.update',
-                            'description'=>'Modificación de cualquier dato de una marca del sistema',
-        ]);
         Permission::create(['name'=>'Eliminación de Marcas',
                             'slug'=>'brands.destroy',
                             'description'=>'Eliminación de una marca del sistema',
-        ]);;
+        ]);
         // FIN CATEGORIAS
+
+        //PRODUCTOS
+        Permission::create(['name'=>'Navegación por Productos',
+                            'slug'=>'products.index',
+                            'description'=>'Listado y navegación por todas los productos en el sistema',
+        ]);
+        Permission::create(['name'=>'Creación de Productos',
+                            'slug'=>'products.create',
+                            'description'=>'Creación de productos en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de Categoría',
+                            'slug'=>'products.show',
+                            'description'=>'Visualización en detalle los productos en el sistema',
+        ]);
+        Permission::create(['name'=>'Edición de Productos',
+                            'slug'=>'products.edit',
+                            'description'=>'Edición de cualquier dato de un producto del sistema',
+        ]);
+        Permission::create(['name'=>'Eliminación de Productos',
+                            'slug'=>'products.destroy',
+                            'description'=>'Eliminación de un producto del sistema',
+        ]);
+        Permission::create(['name'=>'Cambiar Estado de Producto',
+                            'slug'=>'change.status.products',
+                            'description'=>'Permite el cambio de estado de un producto',
+        ]);
+        // FIN PRODUCTOS
 
         //USUARIOS
         Permission::create(['name'=>'Navegación por Usuarios',
@@ -75,11 +86,7 @@ class PermissionsTableSeeder extends Seeder
         ]);
         Permission::create(['name'=>'Creación de Usuarios',
                             'slug'=>'users.create',
-                            'description'=>'Acceder a la vista de Creación de usuarios en el sistema',
-        ]);
-        Permission::create(['name'=>'Registro Usuarios',
-                            'slug'=>'users.store',
-                            'description'=>'Registro y almacenamiento de usuarios en el sistema',
+                            'description'=>'Creación de usuarios en el sistema',
         ]);
         Permission::create(['name'=>'Visualización de detalle de marca',
                             'slug'=>'users.show',
@@ -89,14 +96,14 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'users.edit',
                             'description'=>'Edición de cualquier dato de usuarios del sistema',
         ]);
-        Permission::create(['name'=>'Modificación de Usuarios',
-                            'slug'=>'users.update',
-                            'description'=>'Modificación de cualquier dato de un usuario del sistema',
-        ]);
         Permission::create(['name'=>'Eliminación de Usuarios',
                             'slug'=>'users.destroy',
                             'description'=>'Eliminación de un usuario del sistema',
-        ]);;
+        ]);
+        Permission::create(['name'=>'Cambiar Estado de Usuario',
+                            'slug'=>'change.status.users',
+                            'description'=>'Permite el cambio de estado de un usuario',
+        ]);
         // FIN USUARIOS
 
         //ROLES
@@ -108,10 +115,6 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'roles.create',
                             'description'=>'Acceder a la vista de Creación de roles en el sistema',
         ]);
-        Permission::create(['name'=>'Registro Roles',
-                            'slug'=>'roles.store',
-                            'description'=>'Registro y almacenamiento de roles de usuarios en el sistema',
-        ]);
         Permission::create(['name'=>'Visualización de detalle de Rol',
                             'slug'=>'roles.show',
                             'description'=>'Visualización en detalle el listado de de roles de usuarios en el sistema',
@@ -120,14 +123,10 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'roles.edit',
                             'description'=>'Edición de cualquier dato de un rol del sistema',
         ]);
-        Permission::create(['name'=>'Modificación de Roles',
-                            'slug'=>'roles.update',
-                            'description'=>'Modificación de cualquier dato de un rol del sistema',
-        ]);
         Permission::create(['name'=>'Eliminación de Roles',
                             'slug'=>'roles.destroy',
                             'description'=>'Eliminación de un rol del sistema',
-        ]);;
+        ]);
         // FIN CATEGORIAS
     }
 }

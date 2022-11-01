@@ -53,6 +53,7 @@ Route::resource('sales',        'SaleController'::class)    ->  names('sales')->
 Route::get('change_status/products/ {product}',         'ProductController@change_status')  ->name('change.status.products');
 Route::get('change_status/purchases/{purchase}',        'PurchaseController@change_status') ->name('change.status.purchases');
 Route::get('change_status/sales/    {sale}',            'SaleController@change_status')     ->name('change.status.sales');
+Route::get('change_status/users/    {user}',            'UserController@change_status')     ->name('change.status.users');
 //fin rutas de cambio de estados
 
 //rutas de impresión de tickets de compra y venta
@@ -65,11 +66,11 @@ Route::resource('analytics',       'AnalyticsController')->    names('analytics'
 //fin rutas para el modulo de analítica
 
 //rutas para el modulo de usuarios
-Route::resource('user',       'UserController')->    names('users');
+Route::resource('users',       'UserController')->    names('users');
 //fin rutas para el modulo de usuarios
 
 //rutas para el modulo de roles
-Route::resource('role',       'RoleController')->    names('roles');
+Route::resource('roles',       'RoleController')->    names('roles');
 //fin rutas para el modulo de roles
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

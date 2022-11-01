@@ -31,24 +31,30 @@
 
             <div class="collapse" id="page-layouts">
                 <ul class="nav flex-column sub-menu">
+                    @can('products.index')
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('products.index')}}">
                             <i class="fas fa-boxes menu-icon "></i>
                             <span class="menu-title">Productos</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('categories.index')
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('categories.index')}}">
                             <i class="fas fa-tags menu-icon"></i>
                             <span class="menu-title">Categorías</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('brands.index')
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('brands.index')}}">
                             <i class="fas fa-tasks menu-icon"></i>
                             <span class="menu-title">Marcas</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </div>
         </li>
@@ -163,19 +169,24 @@
             </div>
         </li>
 
-
-        {{--<li class="nav-item">
-            <a class="nav-link" href="">
+        @can('users.index')
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('users.index')}}">
                 <i class="fas fa-user-tag menu-icon"></i>
                 <span class="menu-title">Usuarios</span>
             </a>
         </li>
+        @endcan
+        @can('roles.index')
         <li class="nav-item">
-            <a class="nav-link" href="">
+            <a class="nav-link" href="{{route('roles.index')}}">
                 <i class="fas fa-user-cog menu-icon"></i>
                 <span class="menu-title">Roles</span>
             </a>
         </li>
+        @endcan
+
+        {{--
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#page-layouts3" aria-expanded="false"
                 aria-controls="page-layouts3">

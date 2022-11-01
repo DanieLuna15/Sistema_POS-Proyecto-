@@ -73,7 +73,7 @@ class UserController extends Controller
     public function change_status(User $user)
     {
         if($user->status == 'HABILITADO'){
-            $user->update([ 'status' =>'DESHABILITADO']);
+            $user->update([ 'status' => 'DESHABILITADO']);
             Alert::toast('Usuario Deshabilitado con éxito.', 'success');
             return redirect()->back();
         }else{

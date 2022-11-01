@@ -50,10 +50,10 @@ Route::resource('sales',        'SaleController'::class)    ->  names('sales')->
 //fin rutas de proceso de compra-venta con excepciones
 
 //rutas de cambio de estados
-Route::get('change_status/products/ {product}',         'ProductController@change_status')  ->name('change.status.products');
-Route::get('change_status/purchases/{purchase}',        'PurchaseController@change_status') ->name('change.status.purchases');
-Route::get('change_status/sales/    {sale}',            'SaleController@change_status')     ->name('change.status.sales');
-Route::get('change_status/users/    {user}',            'UserController@change_status')     ->name('change.status.users');
+Route::get('change_status/products/{product}',      'ProductController@change_status')  ->name('change.status.products');
+Route::get('change_status/purchases/{purchase}',    'PurchaseController@change_status') ->name('change.status.purchases');
+Route::get('change_status/sales/{sale}',            'SaleController@change_status')     ->name('change.status.sales');
+Route::get('change_status/users/{user}',            'UserController@change_status')     ->name('change.status.users');
 //fin rutas de cambio de estados
 
 //rutas de impresión de tickets de compra y venta

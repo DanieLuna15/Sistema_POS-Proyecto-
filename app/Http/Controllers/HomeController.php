@@ -71,12 +71,13 @@ class HomeController extends Controller
         //FIN DASHBOARD
 
         //CONSULTAS PARA GRÁFICOS
-        DB::statement("SET lc_time_names = 'es_MX'");
+        DB::statement("SET lc_time_names = 'es_ES'");
         $comprasmes = Purchase::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
             DB::raw("DATE_FORMAT(purchase_date,'%b %Y') as mes")
         )->groupBy('mes')->take(12)->orderBy('purchase_date','ASC')->get();
+        //dd($comprasmes);
 
         $ventasmes = Sale::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
@@ -85,18 +86,18 @@ class HomeController extends Controller
         )->groupBy('mes')->take(12)->orderBy('sale_date','ASC')->get();
         //dd($ventasmes);
 
-        $ventasdia = Sale::where('status', 'CONFIRMADO')->select(
+        $ventasdia = Sale::whereRaw('year(sale_date) = year(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as total"),
             DB::raw("DATE_FORMAT(sale_date,'%e %b') as date")
         )->groupBy('date')->take(30)->orderBy('sale_date','ASC')->get();
+        $cantventasdia = $ventasdia -> sum('count');
 
         $comprasdia = Purchase::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as total"),
             DB::raw("DATE_FORMAT(purchase_date,'%e %b') as date")
         )->groupBy('date')->take(30)->orderBy('purchase_date','ASC')->get();
-
 
         $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="CONFIRMADO") as totalcompra,
                                     (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="CONFIRMADO") as totalventa');
@@ -127,13 +128,13 @@ class HomeController extends Controller
         where stock BETWEEN 0 AND 15
         order by stock desc limit 6');
 
-
         //dd($productosmasvendidos);
         //dd($ventasdia);
         return view('home', compact(
             'comprasmes',
             'ventasmes',
             'ventasdia',
+            'cantventasdia',
             'comprasdia',
             'cantventasTotal',
             'totalvn',

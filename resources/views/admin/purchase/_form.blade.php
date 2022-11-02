@@ -32,7 +32,6 @@
   <label for="price">Precio de Compra:</label>
   <input type="number" name="price" id="price" class="form-control" aria-describedby="helpId">
 </div>
-
 <!--<div class="form-group">
     <label for="sell_price">Precio de venta Actual:</label>
     <input type="number" name="sell_price" id="sell_price" value="{{$product->sell_price}}" class="form-control" aria-describedby="helpId" disabled>

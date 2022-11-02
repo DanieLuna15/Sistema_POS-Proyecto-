@@ -44,7 +44,7 @@
                         <div class="col-12 col-md-3 text-center">
                             <span>Fecha Venta: <b> </b></span>
                             <div class="form-group">
-                                <strong>{{$sale->sale_date}}</strong>
+                                <strong>{{ Carbon\Carbon::parse($sale->sale_date)->format('d/m/Y H:i:s') }}</strong>
                             </div>
                         </div>
                     </div>

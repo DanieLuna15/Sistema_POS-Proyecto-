@@ -112,7 +112,7 @@ class SaleController extends Controller
         $descuentototal=0;
         $subtotal=0;
         //Para mostrar el total en letras
-        $totalLiteral=NumerosEnLetras::convertir($sale->total,'Bolivianos',false,'Centavos');
+        $totalLiteral=NumerosEnLetras::convertir($sale->total,'Bolivianos',true);
         //dd($totalLiteral);
         //
         $SaleDetails=$sale->SaleDetails;

@@ -102,16 +102,16 @@ public static function convertir($number, $currency = '', $format = false, $deci
             if ($cientos == '001') {
                 $converted .= 'un ';
             } else if (intval($cientos) > 0) {
-                $converted .= sprintf('%s ', self::convertGroup($cientos));
+                $converted .= sprintf('%s', self::convertGroup($cientos));
             }
         }
 
 
         if($format){
             if(empty($decimales)){
-                $valor_convertido = number_format($number, 2, ',', '.') . ' (' . ucfirst($converted) . '00/100 '.$currency.')';
+                $valor_convertido = number_format($number, 2, ',', '.') . ' (' . ucfirst($converted) .'con ' . '00/100 '.$currency.')';
             } else {
-                $valor_convertido = number_format($number, 2, ',', '.') . ' (' . ucfirst($converted) . $decNumberStr . '/100 '.$currency.')';
+                $valor_convertido = number_format($number, 2, ',', '.') . ' (' . ucfirst($converted) .'con ' . $decNumberStr . '/100 '.$currency.')';
             }
         }else{
             if(empty($decimales)){

@@ -47,15 +47,16 @@
                         </div>
                     </div>
 
+
                     <div class="table-responsive">
                         <table id="order-listing" class="table">
                             <thead>
                                 <tr>
 
                                     <th>Id</th>
-                                    <th>Fecha y Hora</th>
                                     <th>Proveedor</th>
-                                    <th>Total</th>
+                                    <th>Total /Bs.</th>
+                                    <th>Fecha y Hora</th>
                                     <th>Estado</th>
                                     <th style="width:50px;">Acciones</th>
                                 </tr>
@@ -66,10 +67,9 @@
                                     <th scope="row">
                                         <a href="{{route('purchases.show', $purchase)}}">{{$purchase->id}}</a>
                                     </th>
-
-                                    <td>{{$purchase->purchase_date}}</td>
                                     <td>{{$purchase->provider->name}}</td>
-                                    <td>Bs./ {{$purchase->total}}</td>
+                                    <td>{{$purchase->total}}</td>
+                                    <td>{{ Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y H:i:s') }}</td>
 
                                         <!--<td>
                                             @if ($purchase->status=='CONFIRMADO')
@@ -97,17 +97,13 @@
                                         @endif
                                     </td>
 
-
-
                                     <td style="width: 20%;">
-
                                         <a href="{{route('purchases.pdf', $purchase)}}" class="btn btn-outline-danger"
                                         title="Generar PDF"><i class="far fa-file-pdf"></i></a>
                                         <a href="#" class="btn btn-outline-warning"
                                         title="Imprimir boleta"><i class="fas fa-print"></i></a>
                                         <a href="{{route('purchases.show', $purchase)}}" class="btn btn-outline-info"
                                         title="Ver detalles"><i class="far fa-eye"></i></a>
-
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

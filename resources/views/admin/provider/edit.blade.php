@@ -83,7 +83,7 @@
                       id="phone" value="{{$provider->phone}}" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" >
                     </div>
 
-                     <button type="submit" class="btn btn-primary mr-2">Actualizar</button>
+                     <button type="submit" class="btn btn-primary mr-2">Guardar Cambios</button>
                      <a href="{{route('providers.index')}}" class="btn btn-light">
                         Cancelar
                      </a>

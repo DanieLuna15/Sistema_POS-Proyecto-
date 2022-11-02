@@ -51,9 +51,9 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Fecha y Hora</th>
                                     <th>Cliente</th>
-                                    <th>Total</th>
+                                    <th>Total /Bs.</th>
+                                    <th>Fecha y Hora</th>
                                     <th>Estado</th>
                                     <th style="width:100px;">Acciones</th>
                                 </tr>
@@ -64,9 +64,9 @@
                                     <th scope="row">
                                         <a href="{{route('sales.show', $sale)}}">{{$sale->id}}</a>
                                     </th>
-                                    <td>{{$sale->sale_date}}</td>
                                     <td>{{$sale->client->name}}</td>
-                                    <td>Bs./ {{$sale->total}}</td>
+                                    <td>{{$sale->total}}</td>
+                                    <td>{{ Carbon\Carbon::parse($sale->sale_date)->format('d/m/Y H:i:s') }}</td>
                                     <td style="width: 10%;">
                                         @if ($sale->status=='CONFIRMADO')
                                             <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $sale)}}">
@@ -79,14 +79,12 @@
                                         @endif
                                     </td>
                                     <td style="width: 20%;">
-
                                         <a href="{{route('sales.pdf', $sale)}}" class="btn btn-outline-danger"
                                         title="Generar PDF"><i class="far fa-file-pdf"></i></a>
                                         <a href="" class="btn btn-outline-warning"
                                         title="Imprimir boleta"><i class="fas fa-print"></i></a>
                                         <a href="{{route('sales.show', $sale)}}" class="btn btn-outline-info"
                                         title="Ver detalles"><i class="far fa-eye"></i></a>
-
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

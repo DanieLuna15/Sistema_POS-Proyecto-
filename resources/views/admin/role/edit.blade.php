@@ -91,7 +91,7 @@
                             </ul>
                         </div>
 
-                        <button type="submit" class="btn btn-primary mr-2">Actualizar</button>
+                        <button type="submit" class="btn btn-primary mr-2">Guardar Cambios</button>
                         <a href="{{route('roles.index')}}" class="btn btn-light">
                             Cancelar
                         </a>

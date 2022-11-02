@@ -109,7 +109,7 @@ class PurchaseController extends Controller
         //dd($purchase);
         $subtotal=0;
         //Para mostrar el total en letras
-        $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',false,'Centavos');
+        $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',true);
         //dd($totalLiteral);
         $PurchaseDetails=$purchase->PurchaseDetails;
         foreach($PurchaseDetails as $PurchaseDetail){

@@ -56,9 +56,7 @@
                         @else
                             <label class="badge badge-outline-warning badge-pill">{{$totalcm}} Bs. Monto en Compras</label>
                         @endif
-
                     </div>
-
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-shopping-cart mr-1"></i>
@@ -105,7 +103,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-chart-line"></i>
-                        Cantidad de Ventas Diarías
+                        Cantidad de Ventas Diarías,  Total : {{$cantventasdia}} en los ult 30 dias
                     </h4>
                     <!--<h2 class="mb-5">7 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>
                     <canvas id="sales-chart"></canvas>-->

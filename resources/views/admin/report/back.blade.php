@@ -8,9 +8,8 @@
                             <i class="fa fa-cog"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
-                            <h6 class="dropdown-header">Acciones</h6>
-                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Exportar a PDF</a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Exportar a Excel</a>
                           </div>
                         </div>

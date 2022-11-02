@@ -60,6 +60,7 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <th scope="row">{{$user->id}}</th>
+
                                         <td>
                                             <a href="{{route('users.show',$user)}}">{{$user->name}}</a>
                                         </td>
@@ -77,21 +78,20 @@
                                                 </a>
                                             @endif
                                         </td>
-                                        <td style="width: 50px;">
+                                        <td style="width: 20%;">
                                             {!! Form::open(['route'=>['users.destroy',$user], 'method'=>'DELETE']) !!}
-                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('users.edit', $user)}}" title="Editar">
+                                                <a class="btn btn-outline-warning" href="{{route('users.edit', $user)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
                                                 <!--
                                                 <a class="jsgrid-button jsgrid-delete-button unstyled-button" href="{{route('users.edit', $user)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
-
                                                 <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
                                                     <i class="far fa-trash-alt"></i>
-                                                </button>-->
-
-                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('users.show',$user)}}" title="Ver Productos Relacionados">
+                                                </button>
+                                                -->
+                                                <a class="btn btn-outline-info" href="{{route('users.show',$user)}}" title="Ver Detalle">
                                                     <i class="far fa-eye"></i>
                                                 </a>
                                             {!! Form::close() !!}
@@ -102,7 +102,6 @@
                         </table>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

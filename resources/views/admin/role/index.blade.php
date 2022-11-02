@@ -65,9 +65,9 @@
 
                                         <td>{{$role->description}}</td>
 
-                                        <td style="width: 50px;">
+                                        <td style="width: 20%;">
                                             {!! Form::open(['route'=>['roles.destroy',$role], 'method'=>'DELETE']) !!}
-                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('roles.edit', $role)}}" title="Editar">
+                                                <a class="btn btn-outline-warning" href="{{route('roles.edit', $role)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
                                                 <!--
@@ -79,7 +79,7 @@
                                                     <i class="far fa-trash-alt"></i>
                                                 </button>-->
 
-                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('roles.show',$role)}}" title="Ver Productos Relacionados">
+                                                <a class="btn btn-outline-info" href="{{route('roles.show',$role)}}" title="Ver Detalle">
                                                     <i class="far fa-eye"></i>
                                                 </a>
                                             {!! Form::close() !!}

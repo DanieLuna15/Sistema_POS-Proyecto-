@@ -26,8 +26,6 @@ class ReportController extends Controller
         return view('admin.report.reports_day', compact('sales','total','cantventas'));
     }
 
-
-
     public function reports_month(){
         $sales = Sale::whereRaw('month(sale_date) = month(now())')
                     ->where('status','CONFIRMADO')

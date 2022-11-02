@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Hash;
 
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
+
+use Illuminate\Support\Facades\DB;
+
 //Para sweet alert en Usuarios
 use RealRashid\SweetAlert\Facades\Alert;
 class UserController extends Controller
@@ -29,6 +32,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::get();
+        /*$users=DB::select('SELECT u.id as id , u.name as nameu , r.name as namer , u.email as email, u.status as status
+        FROM (users as u inner join role_user as ru on u.id=ru.user_id)
+		inner join roles as r on r.id = ru.role_id');*/
+        //dd($users);
         return view('admin.user.index', compact('users'));
     }
 
@@ -49,7 +56,18 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        /*$total_purchases = 0;
+        foreach ($user -> sales as $key =>  $sale) {
+            $total_purchases+=$sale->total;
+        }
+        dd($total_purchases);
+        $total_amount_sold = 0;
+        foreach ($user->purchases as $key =>  $purchase) {
+            $total_amount_sold+=$purchase->total;
+        }*/
+
         return view('admin.user.show', compact('user'));
+        //return view('admin.user.show', compact('user', 'total_purchases', 'total_amount_sold'));
     }
 
     public function edit(User $user)

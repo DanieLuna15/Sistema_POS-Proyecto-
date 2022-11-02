@@ -216,7 +216,7 @@
                     </tr>
                     <tr>
                         <th colspan="4">
-                            <p align="center"> Son: {{$totalLiteral}}</p>
+                            <p align="right"> Son: {{$totalLiteral}}</p>
                         </th>
                     </tr>
                 </tfoot>

@@ -166,9 +166,8 @@
                             <i class="fa fa-cog"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
-                            <h6 class="dropdown-header">Acciones</h6>
+                             <a class="dropdown-item" href="#">Exportar a PDF</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Exportar a PDF</a>
                             <a class="dropdown-item" href="#">Exportar a Excel</a>
                           </div>
                         </div>
@@ -195,14 +194,16 @@
                         </div>
                     </div>
 
+
                     <div class="table-responsive">
                         <table id="order-listing" class="table">
                             <thead>
                                 <tr>
+
                                     <th>Id</th>
-                                    <th>Fecha y Hora</th>
                                     <th>Proveedor</th>
-                                    <th>Total</th>
+                                    <th>Total /Bs.</th>
+                                    <th>Fecha y Hora</th>
                                     <th>Estado</th>
                                     <th style="width:50px;">Acciones</th>
                                 </tr>
@@ -213,9 +214,9 @@
                                     <th scope="row">
                                         <a href="{{route('purchases.show', $purchase)}}">{{$purchase->id}}</a>
                                     </th>
-                                        <td>{{$purchase->purchase_date}}</td>
-                                        <td>{{$purchase->provider->name}}</td>
-                                        <td>Bs./ {{$purchase->total}}</td>
+                                    <td>{{$purchase->provider->name}}</td>
+                                    <td>{{$purchase->total}}</td>
+                                    <td>{{ Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y H:i:s') }}</td>
 
                                         <!--<td>
                                             @if ($purchase->status=='CONFIRMADO')
@@ -230,23 +231,28 @@
                                                 @endif
                                             @endif
                                         </td>-->
-                                        <td>
-                                            @if ($purchase->status=='CONFIRMADO')
-                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.purchases', $purchase)}}">
-                                                    {{$purchase->status}} <i class="fas fa-check"></i>
-                                                </a>
-                                            @else
-                                                <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.purchases', $purchase)}}">
-                                                    {{$purchase->status}} <i class="fas fa-times"></i>
-                                                </a>
-                                            @endif
-                                        </td>
-                                        <td style="width:50px;">
-                                            <a href="{{route('purchases.pdf', $purchase)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-file-pdf"></i></a>
-                                            <a href="#" class="jsgrid-button jsgrid-edit-button"><i class="fas fa-print"></i></a>
-                                            <a href="{{route('purchases.show', $purchase)}}" class="jsgrid-button jsgrid-edit-button"><i class="far fa-eye"></i></a>
-                                        </td>
-                                    </tr>
+
+                                    <td style="width: 10%;">
+                                        @if ($purchase->status=='CONFIRMADO')
+                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.purchases', $purchase)}}">
+                                                {{$purchase->status}} <i class="fas fa-check"></i>
+                                            </a>
+                                        @else
+                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.purchases', $purchase)}}">
+                                                {{$purchase->status}} <i class="fas fa-times"></i>
+                                            </a>
+                                        @endif
+                                    </td>
+
+                                    <td style="width: 20%;">
+                                        <a href="{{route('purchases.pdf', $purchase)}}" class="btn btn-outline-danger"
+                                        title="Generar PDF"><i class="far fa-file-pdf"></i></a>
+                                        <a href="#" class="btn btn-outline-warning"
+                                        title="Imprimir boleta"><i class="fas fa-print"></i></a>
+                                        <a href="{{route('purchases.show', $purchase)}}" class="btn btn-outline-info"
+                                        title="Ver detalles"><i class="far fa-eye"></i></a>
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>

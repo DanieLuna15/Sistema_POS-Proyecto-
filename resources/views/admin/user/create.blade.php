@@ -66,22 +66,24 @@
                                 id=email" aria-describedby="helpId" placeholder="alguien@example.com"  value="{{old('email')}}">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <label for="password">Contraseña:</label>
                             <div class="input-group">
                                 <input autofocus type="password" placeholder="Contraseña" name="password" id="password"
                                 class="form-control">
-                                <div class="input-group-append">
-                                    <button class="btn btn-sm btn-primary" type="button"><i class="far fa-eye"></i></button>
+                                <div class="input-group-append" onclick="Vista();">
+                                            <button class="btn btn-sm btn-primary" title="Ver Contraseña"id="ver" type="button">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary" title="Ocultar Contraseña" style="display:none;" id="ocultar" type="button">
+                                                <i class="far fa-eye-slash"></i>
+                                            </button>
                                     <!--<a href="#" class="btn btn-sm btn-primary"
                                         title="Ver detalles"><i class="far fa-eye "></i>
                                     </a>-->
                                 </div>
                             </div>
                         </div>
-
-
                         <h3>Listado de Roles</h3>
                         <div class="form-group">
                             <ul class="list-unstyled">
@@ -96,14 +98,11 @@
                                 @endforeach
                             </ul>
                         </div>
-
                         <!--<div class="form-group">
                             <label for="password">Repetir Contraseña:</label>
                             <input autofocus type="text" placeholder="Nombre" name="password" id="password" value="{{old('password')}}" class="form-control" placeholder="Nombre">
                         </div>-->
-
                         <button type="submit" class="btn btn-primary mr-2">Registrar</button>
-
                         <a href="{{route('users.index')}}" class="btn btn-light">
                             Cancelar
                         </a>
@@ -116,4 +115,20 @@
 @endsection
 @section('scripts')
 {!! Html::script('melody/js/data-table.js') !!}
+<script>
+    function Vista(){
+        let password=document.getElementById('password');
+        let ver=document.getElementById('ver');
+        let ocultar=document.getElementById('ocultar');
+        if(password.type=='password'){
+            password.type='text';
+            ver.style.display='none';
+            ocultar.style.display='block';
+        } else {
+            password.type='password';
+            ver.style.display='block';
+            ocultar.style.display='none';
+        }
+    }
+</script>
 @endsection

@@ -64,7 +64,7 @@
                                 <?php foreach ($products as $product): ?>
                                 <tr>
                                     <th scope="row">{{$product->id}}</th>
-                                        <td><img src="{{asset('image/'.$product->image)}}" alt="profile" class="img-lg" /></td>
+                                        <td><img src="{{asset('image/'.$product->image)}}" class="img-lg rounded" alt="profile image" /></td>
                                         <td>
                                             <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
                                         </td>

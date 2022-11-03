@@ -54,13 +54,13 @@
 
                     <div class="form-group">
                       <label for="name">Nombre Producto: </label>
-                      <input type="text" class="form-control" name="name" value="{{$product->name}}"
+                      <input type="text" class="form-control" name="name" value="{{  old('name', $product->name)}}"
                       id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del producto">
                     </div>
 
                     <div class="form-group">
                       <label for="sell_price">Precio de Venta: </label>
-                      <input type="number" class="form-control" name="sell_price" value="{{$product->sell_price}}"
+                      <input type="number" class="form-control" name="sell_price" value="{{  old('sell_price', $product->sell_price)}}"
                       id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta">
                     </div>
 
@@ -69,10 +69,9 @@
                       <select class="js-example-basic-single w-responsive form-control" name="category_id" id="category_id">
                         @foreach($categories as $category)
                         <option value="{{$category->id}}"
-                          @if ($category->id==$product->category_id)
-                            selected
-                          @endif
-                          >{{$category->name}}</option>
+                            {{old('category_id', $product->category_id) == $category->id ? 'selected' : ''}}
+                            >{{$category->name}}
+                        </option>
                         @endforeach
                       </select>
                     </div>
@@ -82,10 +81,9 @@
                       <select class="js-example-basic-single w-responsive form-control" name="brand_id" id="brand_id">
                         @foreach($brands as $brand)
                         <option value="{{$brand->id}}"
-                          @if ($brand->id==$product->brand_id)
-                            selected
-                          @endif
-                          >{{$brand->name}}</option>
+                            {{old('brand_id', $brand->brand_id) == $brand->id ? 'selected' : ''}}
+                            >{{$brand->name}}
+                        </option>
                         @endforeach
                       </select>
                     </div>
@@ -105,15 +103,12 @@
                       <select class="js-example-basic-single w-responsive form-control" name="provider_id" id="provider_id">
                         @foreach($providers as $provider)
                         <option value="{{$provider->id}}"
-                          @if ($provider->id==$product->provider_id)
-                            selected
-                          @endif
-                          >{{$provider->name}}
+                            {{old('provider_id', $provider->provider_id) == $provider->id ? 'selected' : ''}}
+                            >{{$provider->name}}
                         </option>
                         @endforeach
                       </select>
                     </div>
-
 
                      <button type="submit" class="btn btn-primary mr-2">Editar</button>
                      <a href="{{route('products.index')}}" class="btn btn-light">

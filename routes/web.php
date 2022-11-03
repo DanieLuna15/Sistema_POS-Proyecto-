@@ -57,8 +57,8 @@ Route::get('change_status/users/{user}',            'UserController@change_statu
 //fin rutas de cambio de estados
 
 //rutas de impresión de tickets de compra y venta
-Route::get('purchases/pdf/{purchase}',  'PurchaseController@pdf'::class) ->     name('purchases.pdf');
-Route::get('sales/pdf/{sale}',          'SaleController@pdf'::class)     ->     name('sales.pdf');
+Route::get('purchases/pdf/{purchase}',  'PurchaseController@pdf'::class)     ->     name('purchases.pdf');
+Route::get('sales/pdf/{sale}',          'SaleController@pdf'    ::class)     ->     name('sales.pdf');
 //fin rutas de impresión de tickets de compra y venta
 
 //rutas para el modulo de analítica
@@ -72,5 +72,6 @@ Route::resource('users',       'UserController')->    names('users');
 //rutas para el modulo de roles
 Route::resource('roles',       'RoleController')->    names('roles');
 //fin rutas para el modulo de roles
+//Auth::routes(['verify' => true]);
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

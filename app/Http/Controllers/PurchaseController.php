@@ -69,11 +69,12 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         $subtotal=0;
+        $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',true);
         $PurchaseDetails=$purchase->PurchaseDetails;
         foreach($PurchaseDetails as $PurchaseDetail){
             $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
         }
-        return view('admin.purchase.show', compact('purchase','PurchaseDetails','subtotal'));
+        return view('admin.purchase.show', compact('purchase','PurchaseDetails','subtotal','totalLiteral'));
     }
 
     public function edit(Purchase $purchase)

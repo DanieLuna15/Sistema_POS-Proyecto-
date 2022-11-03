@@ -52,7 +52,7 @@
                                 <h4 class="card-title">Todas las Ventas del día:</h4>
 
                                 <div class="dropdown">
-                                  <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-cog"></i>
                                   </button>
                                   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
@@ -162,7 +162,7 @@
                         <h4 class="card-title">Todas las Compras del día:</h4>
 
                         <div class="dropdown">
-                          <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog"></i>
                           </button>
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">

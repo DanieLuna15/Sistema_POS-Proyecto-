@@ -198,7 +198,6 @@
                             <p align="right">Bs./ {{number_format($subtotal,2)}}</p>
                         </td>
                     </tr>
-
                     <tr>
                         <th colspan="4">
                             <p align="right">Total Descuento:</p>
@@ -207,7 +206,6 @@
                             <p align="right"><span id="total_descuento">Bs./ {{number_format($descuentototal,2)}}</span></p>
                         </td>
                     </tr>
-
                     <tr>
                         <th colspan="4">
                             <p align="right">Total a Pagar:</p>

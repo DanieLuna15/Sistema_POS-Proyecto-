@@ -18543,7 +18543,7 @@ input:focus {
   left: 0;
   top: 0;
   height: 100%;
-  width: 3px;
+  width: 10px;
   background: #392C70;
 }
 
@@ -18592,7 +18592,7 @@ input:focus {
 }
 
 .sidebar .nav .nav-item.nav-profile .profile-name .designation {
-  color: #686868;
+  color: #9ca2b0;
   font-size: .75rem;
 }
 
@@ -18928,16 +18928,18 @@ input:focus {
 }
 
 .navbar.default-layout-navbar .navbar-menu-wrapper {
-  background: #ffffff;
-  transition: width 0.25s ease, background 0.25s ease;
-  -webkit-transition: width 0.25s ease, background 0.25s ease;
-  -moz-transition: width 0.25s ease, background 0.25s ease;
-  -ms-transition: width 0.25s ease, background 0.25s ease;
-  padding-left: 15px;
-  padding-right: 15px;
-  width: calc(100% - 255px);
-  height: 70px;
-}
+    color: #fff;
+    background-color: #04B76B;
+    border-color: #04B76B;
+    transition: width 0.25s ease, background 0.25s ease;
+    -webkit-transition: width 0.25s ease, background 0.25s ease;
+    -moz-transition: width 0.25s ease, background 0.25s ease;
+    -ms-transition: width 0.25s ease, background 0.25s ease;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: calc(100% - 255px);
+    height: 70px;
+  }
 
 @media (max-width: 991px) {
   .navbar.default-layout-navbar .navbar-menu-wrapper {

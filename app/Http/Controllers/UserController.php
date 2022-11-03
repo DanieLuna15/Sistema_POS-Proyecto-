@@ -32,6 +32,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::get();
+        //$users = User::with('roles')->get();
         /*$users=DB::select('SELECT u.id as id , u.name as nameu , r.name as namer , u.email as email, u.status as status
         FROM (users as u inner join role_user as ru on u.id=ru.user_id)
 		inner join roles as r on r.id = ru.role_id');*/

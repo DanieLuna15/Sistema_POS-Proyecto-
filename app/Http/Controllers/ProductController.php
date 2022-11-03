@@ -52,6 +52,7 @@ class ProductController extends Controller
             $image_name = time().'_'.$file->getClientOriginalName();
             $file->move(public_path("/image"),$image_name);
         }
+
         $product = Product::create($request->all()+[
             'image'=>$image_name,
         ]);
@@ -84,6 +85,7 @@ class ProductController extends Controller
         $product -> update($request->all()+[
             'image'=>$image_name,
         ]);
+        Alert::toast('Producto Actualizado con éxito.', 'success');
         return redirect()->route('products.index');
     }
 

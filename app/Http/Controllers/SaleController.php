@@ -70,12 +70,13 @@ class SaleController extends Controller
     {
         $descuentototal=0;
         $subtotal=0;
+        $totalLiteral=NumerosEnLetras::convertir($sale->total,'Bolivianos',true);
         $SaleDetails=$sale->SaleDetails;
         foreach ($SaleDetails as $SaleDetail) {
             $subtotal += $SaleDetail->quantity*$SaleDetail->price-$SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
             $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
         }
-        return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal'));
+        return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal','totalLiteral'));
     }
 
     public function edit(Sale $sale)

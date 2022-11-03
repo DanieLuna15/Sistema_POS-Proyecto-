@@ -48,7 +48,6 @@
                             </div>
                         </div>
                     </div>
-                    <br /> <br />
                     <div class="form-group row ">
                         <h4 class="card-title ml-3">Detalles de la Venta N°: {{$sale->id}}</h4>
                         <div class="table-responsive col-md-12">
@@ -71,15 +70,6 @@
                                             <p align="right">Bs./ {{number_format($subtotal,2)}}</p>
                                         </th>
                                     </tr>
-                                    <!--
-                                    <tr>
-                                        <th colspan="3">
-                                            <p align="right">TOTAL GANANCIAS ({{$sale->tax}}%):</p>
-                                        </th>
-                                        <th>
-                                            <p align="right">Bs./ {{number_format($subtotal*$sale->tax/100,2)}}</p>
-                                        </th>
-                                    </tr>-->
                                     <tr>
                                         <th colspan="4">
                                             <p align="right">TOTAL DESCUENTO (%):</p>
@@ -96,7 +86,11 @@
                                             <p align="right">Bs./{{number_format($sale->total,2)}}</p>
                                         </th>
                                     </tr>
-
+                                    <tr>
+                                        <th colspan="5">
+                                            <p align="right"> SON: {{$totalLiteral}}</p>
+                                        </th>
+                                    </tr>
                                 </tfoot>
                                 <tbody>
                                     @foreach($SaleDetails as $SaleDetail)

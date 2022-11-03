@@ -48,7 +48,6 @@
                             </div>
                         </div>
                     </div>
-                    <br /> <br />
                     <div class="form-group row ">
                         <h4 class="card-title ml-3">Detalles de la compra N°: {{$purchase->id}}</h4>
                         <div class="table-responsive col-md-12">
@@ -84,6 +83,11 @@
                                         </th>
                                         <th>
                                             <p align="right">Bs./{{number_format($purchase->total,2)}}</p>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="4">
+                                            <p align="right"> SON: {{$totalLiteral}}</p>
                                         </th>
                                     </tr>
 

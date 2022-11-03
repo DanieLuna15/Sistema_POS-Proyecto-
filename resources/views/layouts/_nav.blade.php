@@ -3,18 +3,23 @@
         <li class="nav-item nav-profile">
             <div class="nav-link">
                 <div class="profile-image">
-                    <img src="{{asset('melody/images/faces/face16.jpg')}}" alt="image" />
+                    <!--<img src="{{asset('melody/images/faces/face16.jpg')}}" alt="image" />-->
+                    <button type="button" class="btn btn-social-icon btn-linkedin btn-rounded"><i class="fas fa-user"></i></button>
+                </div>
+                <div class="profile-image">
+
                 </div>
                 <div class="profile-name">
                     <p class="name">
                         {{ Auth::user()->name }}
                     </p>
                     <p class="designation">
-                        Super Admin
+                        {{ Auth::user()->email }}
                     </p>
                 </div>
             </div>
         </li>
+
         <li class="nav-item">
             <a class="nav-link" href="{{route('home')}}">
                 <i class="fa fa-home menu-icon"></i>

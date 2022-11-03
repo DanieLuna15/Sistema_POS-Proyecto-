@@ -20,7 +20,7 @@
     <link rel="shortcut icon" href="http://www.urbanui.com/" />
 </head>
 
-<body>
+<body class="sidebar-fixed sidebar-dark">
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row default-layout-navbar">
@@ -34,11 +34,7 @@
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                     <span class="fas fa-bars"></span>
                 </button>
-                <ul class="navbar-nav">
-
-                </ul>
                 <ul class="navbar-nav navbar-nav-right">
-                    @yield('create')
                     <!--<li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                           <i class="fas fa-bell mx-0"></i>
@@ -149,9 +145,20 @@
                           </a>
                         </div>
                     </li>-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('sales.create')}}" title="Nueva Venta">
+                            <button type="button" class="btn btn-info btn-rounded btn-icon"><i class="fas fa-shopping-cart"></i></button>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="{{route('purchases.create')}}" title="Nueva Compra">
+                            <button type="button" class="btn btn-dark btn-rounded btn-icon"><i class="fas fa-cart-plus"></i></button>
+                        </a>
+                    </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            <img src="{{asset('melody/images/faces/face16.jpg')}}" alt="profile" />
+                            <!--<img src="{{asset('melody/images/faces/face16.jpg')}}" alt="profile" />-->
+                            <button type="button" class="btn btn-social-icon btn-linkedin btn-rounded"><i class="fas fa-user" align="center"></i></button>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
@@ -182,7 +189,7 @@
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_settings-panel.html -->
-            <div class="theme-setting-wrapper">
+            <!--<div class="theme-setting-wrapper">
                 <div id="settings-trigger"><i class="fas fa-fill-drip"></i></div>
                 <div id="theme-settings" class="settings-panel">
                     <i class="settings-close fa fa-times"></i>
@@ -204,7 +211,7 @@
                         <div class="tiles default"></div>
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             @yield('preference')
             <!-- partial -->

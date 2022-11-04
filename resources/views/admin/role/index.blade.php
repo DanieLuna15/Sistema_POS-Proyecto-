@@ -52,6 +52,7 @@
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Descripción</th>
+                                    <th>Privilegios</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -64,6 +65,25 @@
                                         </td>
 
                                         <td>{{$role->description}}</td>
+
+                                        @if ($role->special == 'all-access')
+                                            <td style="width: 10%;">
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block">Todos los Accesos</a>
+                                            </td>
+                                        @else
+                                            @if ($role->special == 'no-access')
+                                                <td style="width: 10%;">
+                                                    <a class="jsgrid-button btn btn-danger btn-sm btn-block">Ningun Acceso</a>
+                                                </td>
+                                            @else
+                                                <td style="width: 10%;">
+                                                    <a class="jsgrid-button btn btn-info btn-sm btn-block">Personalizado</a>
+                                                </td>
+                                            @endif
+                                        @endif
+
+
+
 
                                         <td style="width: 20%;">
                                             {!! Form::open(['route'=>['roles.destroy',$role], 'method'=>'DELETE']) !!}

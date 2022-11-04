@@ -88,15 +88,24 @@
                       </select>
                     </div>
 
-                    <div class="card-body">
-                      <h4 class="card-title d-flex">Imagen de Producto
-                        <small class="ml-auto align-self-end">
-                          <img src="{{asset('image/'.$product->image)}}" alt="profile" class="img-lg  mb-12" />
-                        </small>
-                      </h4>
-                      <input required type="file" name="picture" id="picture" class="dropify"/></input>
+                    <div class="row">
+                        <div class="col-md-9 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body col-lg-12">
+                                    <h4 class="card-title d-flex">Imagen de Producto</h4>
+                                    <input accept="image/*" type="file" name="picture" id="picture" class="dropify" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 grid-margin">
+                            <div class="col-lg-12">
+                                <h4 class="card-title d-flex">Imagen Actual</h4>
+                                <div class="card">
+                                    <img src="{{asset('image/'.$product->image)}}">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
 
                     <div class="form-group">
                       <label for="provider_id">Proveedor:</label>
@@ -125,4 +134,5 @@
 @section('scripts')
 {!! Html::script('melody/js/dropify.js') !!}
 {!! Html::script('melody/js/select2.js') !!}
+{!! Html::script('melody/js/light-gallery.js') !!}
 @endsection

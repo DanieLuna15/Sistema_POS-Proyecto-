@@ -52,6 +52,7 @@ class UserController extends Controller
         //Para encriptar la contraseña antes de guardar
         $user -> update(['password'=> Hash::make($request->password)]);
         $user->roles()->sync($request->get('roles'));
+        Alert::toast('Usuario registrado con éxito.', 'success');
         return redirect()->route('users.index');
     }
 
@@ -66,7 +67,6 @@ class UserController extends Controller
         foreach ($user->purchases as $key =>  $purchase) {
             $total_amount_sold+=$purchase->total;
         }*/
-
         return view('admin.user.show', compact('user'));
         //return view('admin.user.show', compact('user', 'total_purchases', 'total_amount_sold'));
     }
@@ -82,6 +82,7 @@ class UserController extends Controller
         $user->update($request->all());
         //$user -> update(['password'=> Hash::make($request->password)]);
         $user->roles()->sync($request->get('roles'));
+        Alert::toast('Usuario modificado con éxito.', 'success');
         return redirect()->route('users.index');
     }
 

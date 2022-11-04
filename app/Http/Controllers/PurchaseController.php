@@ -98,9 +98,11 @@ class PurchaseController extends Controller
     {
         if($purchase->status == 'CONFIRMADO'){
             $purchase->update([ 'status' =>'CANCELADO']);
+            Alert::toast('Se canceló la compra.', 'success');
             return redirect()->back();
         }else{
             $purchase->update([ 'status' =>'CONFIRMADO']);
+            Alert::toast('Se confirmó la compra.', 'success');
             return redirect()->back();
         }
     }
@@ -119,6 +121,6 @@ class PurchaseController extends Controller
         //return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
         $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails','totalLiteral'));
         //return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'.pdf');
-        return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'_Fec_'.$purchase->purchase_date.'.pdf');
+        return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'_(Fec_'.$purchase->purchase_date.')'.'.pdf');
     }
 }

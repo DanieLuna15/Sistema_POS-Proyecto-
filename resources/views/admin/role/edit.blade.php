@@ -72,8 +72,9 @@
 
                         <h3>Permisos Especiales</h3>
                         <div class="form-group">
-                            <label> {!! Form::radio('special','all-access') !!} Acceso Total</label>
-                            <label> {!! Form::radio('special','no-access') !!} Ningún Acceso</label>
+                            <label> {!! Form::radio('special','all-access',['class' => 'form-group']) !!} Acceso Total </label>
+                            <label> {!! Form::radio('special','no-access',['class' => 'form-group']) !!} Ningún Acceso </label>
+                            <label> {!! Form::radio('special', '', ['class' => 'form-group'])!!} Ninguno </label>
                         </div>
 
                         <h3>Listado de Permisos</h3>

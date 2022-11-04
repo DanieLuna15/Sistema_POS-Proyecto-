@@ -50,6 +50,7 @@ class ProviderController extends Controller
     public function update(UpdateRequest $request, Provider $provider)
     {
         $provider->update($request->all());
+        Alert::toast('Proveedor actualizado con éxito.', 'success');
         return redirect()->route('providers.index');
     }
 

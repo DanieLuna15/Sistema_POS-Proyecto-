@@ -63,41 +63,47 @@
                 </ul>
             </div>
         </li>
+
+        @can('providers.index')
         <li class="nav-item ">
             <a class="nav-link" href="{{route('providers.index')}}">
                 <i class="fas fa-shipping-fast menu-icon"></i>
                 <span class="menu-title">Proveedores</span>
             </a>
         </li>
-
+        @endcan
+        @can('clients.index')
         <li class="nav-item">
             <a class="nav-link" href="{{route('clients.index')}}">
                 <i class="fas fa-users menu-icon"></i>
                 <span class="menu-title">Clientes</span>
             </a>
         </li>
-
+        @endcan
+        @can('purchases.index')
         <li class="nav-item">
             <a class="nav-link" href="{{route('purchases.index')}}">
                 <i class="fas fa-cart-plus menu-icon"></i>
                 <span class="menu-title">Compras</span>
             </a>
         </li>
-
+        @endcan
+        @can('sales.index')
         <li class="nav-item">
             <a class="nav-link" href="{{route('sales.index')}}">
                 <i class="fas fa-shopping-cart menu-icon"></i>
                 <span class="menu-title">Ventas</span>
             </a>
         </li>
-
+        @endcan
+        @can('analytics.index')
         <li class="nav-item">
             <a class="nav-link" href="{{route('analytics.index')}}">
                 <i class="fas fa-chart-line menu-icon"></i>
                 <span class="menu-title">Analítica</span>
             </a>
         </li>
-
+        @endcan
         {{--<li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#page-layouts1" aria-expanded="false"
                 aria-controls="page-layouts1">
@@ -209,12 +215,6 @@
                     </li>
                 </ul>
             </div>
-        </li>
-        {{--<li class="nav-item">
-            <a class="nav-link" href="https://www.youtube.com/channel/UCMWSlUcDJS00-5pmicciZ_w">
-                <i class="fab fa-youtube menu-icon"></i>
-                <span class="menu-title">YouTube</span>
-            </a>
         </li>--}}
     </ul>
 </nav>

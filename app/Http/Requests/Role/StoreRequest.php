@@ -44,7 +44,7 @@ class StoreRequest extends FormRequest
             //'slug.max'=>'Solo se Permiten 40 caracteres',
             'slug.max'=>'Solo se Permiten 40 caracteres en el campo nombre',
             //'slug.unique'=>'Ya existe una Rol con el mismo nombre',
-            'slug.unique'=>'Ya existe un Rol con el mismo nombre',
+            'slug.unique'=>'Ya existe un Slug con el mismo nombre',
 
             'slug.regex'=>'El Formato del nombre no es Válido (Elimine números y caracteres especiales)',
 

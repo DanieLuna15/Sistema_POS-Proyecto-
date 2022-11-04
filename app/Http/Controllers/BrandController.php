@@ -56,6 +56,7 @@ class BrandController extends Controller
     public function update(UpdateRequest $request, Brand $brand)
     {
         $brand->update($request->all());
+        Alert::toast('Marca actualizada con éxito.', 'success');
         return redirect()->route('brands.index');
     }
 

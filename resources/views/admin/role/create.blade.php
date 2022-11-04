@@ -67,11 +67,11 @@
                             <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="{{old('description')}}" rows="3" >(Sin Descripción)</textarea>
                         </div>
 
-
                         <h3>Permisos Especiales</h3>
                         <div class="form-group">
-                            <label> {!! Form::radio('special','all-access') !!} Acceso Total</label>
-                            <label> {!! Form::radio('special','no-access') !!} Ningún Acceso</label>
+                            <label> {!! Form::radio('special','all-access',['class' => 'form-group']) !!} Acceso Total </label>
+                            <label> {!! Form::radio('special','no-access',['class' => 'form-group']) !!} Ningún Acceso </label>
+                            <label> {!! Form::radio('special', '', true, ['class' => 'form-group'])!!} Ninguno </label>
                         </div>
 
                         <h3>Listado de Permisos</h3>

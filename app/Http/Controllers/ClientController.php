@@ -51,6 +51,7 @@ class ClientController extends Controller
     public function update(UpdateRequest $request, Client $client)
     {
         $client->update($request->all());
+        Alert::toast('Cliente actualizado con éxito.', 'success');
         return redirect()->route('clients.index');
     }
 

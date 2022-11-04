@@ -87,22 +87,20 @@ class SaleController extends Controller
 
     public function update(UpdateRequest $request, Sale $sale)
     {
-        //$sale->update($request->all());
-        //return redirect()->route('sales.index');
     }
 
     public function destroy(Sale $sale)
     {
-        //$sale->delete();
-        //return redirect()->route('sales.index');
     }
     public function change_status(Sale $sale)
     {
         if($sale->status == 'CONFIRMADO'){
             $sale->update([ 'status' =>'CANCELADO']);
+            Alert::toast('Se canceló la venta.', 'success');
             return redirect()->back();
         }else{
             $sale->update([ 'status' =>'CONFIRMADO']);
+            Alert::toast('Se confirmó la venta.', 'success');
             return redirect()->back();
         }
     }
@@ -124,6 +122,6 @@ class SaleController extends Controller
         //return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
         $pdf = PDF::loadView('admin.sale.pdf', compact('sale','subtotal','descuentototal','SaleDetails','totalLiteral'));
         //return $pdf->download('Reporte-Nota_de_Compra_'.$sale->id.'.pdf');
-        return $pdf->download('Nota_de_Venta_N°_'.$sale->id.'_Fec_'.$sale->sale_date.'.pdf');
+        return $pdf->download('Nota_de_Venta_N°_'.$sale->id.'_(Fec_'.$sale->sale_date.')'.'.pdf');
     }
 }

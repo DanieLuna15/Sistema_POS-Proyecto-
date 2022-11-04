@@ -267,7 +267,7 @@
 
                         </small>
                       </h4>
-                      <input  type="file" name="picture" id="picture" class="dropify"  />
+                      <input accept="image/*" type="file" name="picture" id="picture" class="dropify" required/>
                     </div>
 
 

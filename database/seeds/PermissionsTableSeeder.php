@@ -29,7 +29,7 @@ class PermissionsTableSeeder extends Seeder
                             'description'=>'Eliminación de una categoría del sistema',
         ]);
         // FIN CATEGORIAS
-        //CATEGORIAS
+        //MARCAS
         Permission::create(['name'=>'Navegación por Marcas',
                             'slug'=>'brands.index',
                             'description'=>'Listado y navegación por todas las marca de productos en el sistema',
@@ -50,8 +50,7 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'brands.destroy',
                             'description'=>'Eliminación de una marca del sistema',
         ]);
-        // FIN CATEGORIAS
-
+        // FIN MARCAS
         //PRODUCTOS
         Permission::create(['name'=>'Navegación por Productos',
                             'slug'=>'products.index',
@@ -78,6 +77,60 @@ class PermissionsTableSeeder extends Seeder
                             'description'=>'Permite el cambio de estado de un producto',
         ]);
         // FIN PRODUCTOS
+
+        //PROVEEDORES
+        Permission::create(['name'=>'Navegación por Proveedores',
+                            'slug'=>'providers.index',
+                            'description'=>'Listado y navegación por todos los Proveedores en el sistema',
+        ]);
+        Permission::create(['name'=>'Creación de Proveedores',
+                            'slug'=>'providers.create',
+                            'description'=>'Creación de Proveedores en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de Proveedor',
+                            'slug'=>'providers.show',
+                            'description'=>'Visualización en detalle de los Proveedores en el sistema',
+        ]);
+        Permission::create(['name'=>'Edición de Proveedores',
+                            'slug'=>'providers.edit',
+                            'description'=>'Edición de cualquier dato de un Proveedor del sistema',
+        ]);
+        Permission::create(['name'=>'Eliminación de Proveedores',
+                            'slug'=>'providers.destroy',
+                            'description'=>'Eliminación de un producto del sistema',
+        ]);
+        /*Permission::create(['name'=>'Cambiar Estado de Proveedores',
+                            'slug'=>'change.status.providers',
+                            'description'=>'Permite el cambio de estado de un Proveedor',
+        ]);*/
+        // FIN PROVEEDORES
+
+        //CLIENTES
+        Permission::create(['name'=>'Navegación por Clientes',
+                            'slug'=>'clients.index',
+                            'description'=>'Listado y navegación por todos los Clientes en el sistema',
+        ]);
+        Permission::create(['name'=>'Creación de Clientes',
+                            'slug'=>'clients.create',
+                            'description'=>'Creación de Clientes en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de Cliente',
+                            'slug'=>'clients.show',
+                            'description'=>'Visualización en detalle de los Clientes en el sistema',
+        ]);
+        Permission::create(['name'=>'Edición de Clientes',
+                            'slug'=>'clients.edit',
+                            'description'=>'Edición de cualquier dato de un Cliente del sistema',
+        ]);
+        Permission::create(['name'=>'Eliminación de Clientes',
+                            'slug'=>'clients.destroy',
+                            'description'=>'Eliminación de un Cliente del sistema',
+        ]);
+        /*Permission::create(['name'=>'Cambiar Estado de Proveedores',
+                            'slug'=>'change.status.providers',
+                            'description'=>'Permite el cambio de estado de un Proveedor',
+        ]);*/
+        // FIN PROVEEDORES
 
         //USUARIOS
         Permission::create(['name'=>'Navegación por Usuarios',

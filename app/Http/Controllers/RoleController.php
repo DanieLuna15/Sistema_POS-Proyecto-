@@ -9,6 +9,8 @@ use App\Http\Requests\Role\StoreRequest;
 use App\Http\Requests\Role\UpdateRequest;
 use Illuminate\Http\Request;
 
+//Para sweet alert en Roles
+use RealRashid\SweetAlert\Facades\Alert;
 class RoleController extends Controller
 {
     public function __construct()
@@ -38,6 +40,7 @@ class RoleController extends Controller
     {
         $role = Role::create($request->all());
         $role->permissions()->sync($request->get('permissions'));
+        Alert::toast('Rol registrado con éxito.', 'success');
         return redirect()->route('roles.index');
     }
 
@@ -56,6 +59,7 @@ class RoleController extends Controller
     {
         $role->update($request->all());
         $role->permissions()->sync($request->get('permissions'));
+        Alert::toast('Rol modificado con éxito.', 'success');
         return redirect()->route('roles.index');
     }
 

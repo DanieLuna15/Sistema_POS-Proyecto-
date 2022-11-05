@@ -149,7 +149,6 @@
                     </div>
                   </div>
                   <div class="tab-pane fade" id="profile-1" role="tabpanel" aria-labelledby="profile-tab">
-
                   </div>
                   <div class="tab-pane fade" id="contact-1" role="tabpanel" aria-labelledby="contact-tab">
                     <h1>Acá van los gráficos</h1>

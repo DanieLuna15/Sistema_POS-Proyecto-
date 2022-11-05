@@ -19,7 +19,7 @@ CREATE TRIGGER `tr_updStockCompraAnular` AFTER UPDATE ON `purchases`
                 THEN BEGIN
                     set p.stock = p.stock - di.quantity;
             ELSE
-                    set p.stock = p.stock - di.quantity;
+                    set p.stock = p.stock + di.quantity;
                 END;
             END IF;
 end;
@@ -97,6 +97,9 @@ END;
 //
 DELIMITER ;
 
+
+
+--ESTE SI
 DELIMITER //
 CREATE TRIGGER `tr_updStockCompraAnular` AFTER UPDATE ON `purchases`
  FOR EACH ROW BEGIN
@@ -119,6 +122,7 @@ END;
 //
 DELIMITER ;
 
+--ESTE SI
 DELIMITER //
 CREATE TRIGGER `tr_updStockVentaAnular` AFTER UPDATE ON `sales`
  FOR EACH ROW BEGIN

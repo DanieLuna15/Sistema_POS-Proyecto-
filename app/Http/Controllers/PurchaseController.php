@@ -12,7 +12,6 @@ use App\Http\Requests\Purchase\StoreRequest;
 use App\Http\Requests\Purchase\UpdateRequest;
 use App\PurchaseDetails;
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -45,23 +44,9 @@ class PurchaseController extends Controller
         return view('admin.purchase.create', compact('providers','products'));
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, Purchase $purchase)
     {
-        //dd($request);
-        $purchase=Purchase::create($request->all()+[
-            'user_id'=>Auth::user()->id,
-            'purchase_date'=>Carbon::now('America/La_Paz'),
-        ]);
-
-        foreach ($request->product_id as $key => $product){
-            $results[]=array(
-                "product_id"=>$request->product_id[$key],
-                "quantity"=>$request->quantity[$key],
-                "price"=>$request->price[$key]
-            );
-        }
-        //dd($results);
-        $purchase->purchaseDetails()->createMany($results);
+        $purchase->my_store($request);
         Alert::toast('Compra registrada con éxito.', 'success');
         return redirect()->route('purchases.index');
     }

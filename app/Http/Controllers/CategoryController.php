@@ -63,6 +63,7 @@ class CategoryController extends Controller
         $category->update($request->all());
         Alert::toast('Categoría actualizada con éxito.', 'success');
         return redirect()->route('categories.index');
+        //return redirect()->route('categories.index')->with('toast_success','Categoría actualizada con éxito.');
     }
 
     public function destroy(Category $category)

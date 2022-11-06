@@ -30,7 +30,7 @@
                         <div class="form-group row mb-12">
                             <div class="col-md-12 offset-md-12" align="center">
                                 <button type="submit" class="btn btn-block btn-primary">
-                                    Enviar enlace de restablecimiento de contraseña
+                                    Enviar enlace de restablecimiento
                                 </button>
                             </div>
                         </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+//Para sweet alert en Categorias
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ResetPasswordController extends Controller
 {
@@ -26,5 +28,10 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function redirectTo() {
+        alert()->success('Se restableció su contraseña exitosamente.','Bienvenido(a) al sistema');
+        //Alert::toast('Cambio de Contraseña exitoso.', 'success');
+        return route('home');
+    }
 }

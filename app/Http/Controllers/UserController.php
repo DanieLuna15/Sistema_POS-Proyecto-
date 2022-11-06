@@ -66,7 +66,6 @@ class UserController extends Controller
         foreach ($user->purchases as $key =>  $purchase) {
             $total_amount_sold+=$purchase->total;
         }
-        //return view('admin.user.show', compact('user'));
         return view('admin.user.show', compact('user', 'total_sales', 'total_amount_sold'));
     }
 

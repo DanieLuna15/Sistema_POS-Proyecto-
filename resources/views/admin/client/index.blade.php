@@ -60,25 +60,18 @@
                                 <?php foreach ($clients as $client): ?>
                                 <tr>
                                     <th scope="row">{{$client->id}}</th>
-                                        <td>
-                                            <a href="{{route('clients.show',$client)}}">{{$client->name}}</a>
-                                        </td>
-
-                                        <td>{{$client->ci}}</td>
-                                        <td>{{$client->phone}}</td>
-                                        <td>{{$client->email}}</td>
-
-                                        <td style="width: 50px;">
+                                    <td>
+                                        <a href="{{route('clients.show',$client)}}">{{$client->name}}</a>
+                                    </td>
+                                    <td>{{$client->ci}}</td>
+                                    <td>{{$client->phone}}</td>
+                                    <td>{{$client->email}}</td>
+                                    <td style="width: 20%;" align="center">
                                         {!! Form::open(['route'=>['clients.destroy',$client], 'method'=>'DELETE']) !!}
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('clients.edit', $client)}}" title="Editar">
+                                            <a class="btn btn-outline-warning" href="{{route('clients.edit', $client)}}" title="Editar">
                                                 <i class="far fa-edit"></i>
                                             </a>
-                                            <!--
-                                            <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>-->
-
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('clients.show',$client)}}" title="Ver mas Información">
+                                            <a class="btn btn-outline-info" href="{{route('clients.show',$client)}}" title="Ver Detalle">
                                                 <i class="far fa-eye"></i>
                                             </a>
                                         {!! Form::close() !!}

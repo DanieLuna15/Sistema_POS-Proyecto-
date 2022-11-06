@@ -83,14 +83,6 @@
                                                 <a class="btn btn-outline-warning" href="{{route('users.edit', $user)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
-                                                <!--
-                                                <a class="jsgrid-button jsgrid-delete-button unstyled-button" href="{{route('users.edit', $user)}}" title="Editar">
-                                                    <i class="far fa-edit"></i>
-                                                </a>
-                                                <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-                                                -->
                                                 <a class="btn btn-outline-info" href="{{route('users.show',$user)}}" title="Ver Detalle">
                                                     <i class="far fa-eye"></i>
                                                 </a>

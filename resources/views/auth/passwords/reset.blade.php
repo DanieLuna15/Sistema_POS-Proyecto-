@@ -1,16 +1,6 @@
 @extends('layouts.reset')
 
 @section('content')
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-        <ul>
-            @foreach ($errors->all() as $error )
-                <li>{{$error}}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
     <form method="POST" action="{{ route('password.update') }}">
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">

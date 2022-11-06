@@ -32,7 +32,6 @@
     </div>
 
     <div class="row">
-
         <!--<div class="col-12 grid-margin">
             <div class="card">
               <div class="card-body">
@@ -200,8 +199,6 @@
               </div>
             </div>
         </div>-->
-
-
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
@@ -209,32 +206,25 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos del Producto:</h4>
                     </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-                            <ul>
-                                @foreach ($errors->all() as $error )
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
 
                     {!! Form::open(['route'=>'products.store', 'method'=>'POST','files' => true]) !!}
 
-                    <!--'name', 'sell_price','category', 'brand','image',provider',-->
-
-
                     <div class="form-group">
-                      <label for="name">Nombre Producto: </label>
-                      <input autofocus type="text" class="form-control" name="name"
-                      id="name" aria-describedby="helpId"  value="{{old('name')}}" placeholder="Nombre del producto">
+                        <label for="name">Nombre Producto: </label>
+                        <input autofocus type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                        id="name" aria-describedby="helpId"  value="{{old('name')}}" placeholder="Nombre del producto">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('name')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
-                      <label for="sell_price">Precio de Venta: </label>
-                      <input type="number" class="form-control" name="sell_price"
-                      id="sell_price" aria-describedby="emailHelpId" value="{{old('sell_price')}}" placeholder="Precio de venta" >
+                        <label for="sell_price">Precio de Venta: </label>
+                        <input type="number" class="form-control @error('sell_price') is-invalid @enderror"  name="sell_price"
+                        id="sell_price" aria-describedby="emailHelpId" value="{{old('sell_price')}}" placeholder="Precio de venta" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('sell_price')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
@@ -255,12 +245,6 @@
                       </select>
                     </div>
 
-
-                    <!--<div class="custom-file mb-4">
-                        <input type="file" class="custom-file-input" name="picture" id="picture" lang="es">
-                        <label class="custom-file-label" for="imagen">Seleccionar Archivo</label>
-                    </div> -->
-
                     <div class="card-body">
                       <h4 class="card-title d-flex">Imagen de Producto
                         <small class="ml-auto align-self-end">
@@ -280,14 +264,11 @@
                       </select>
                     </div>
 
-
-
                      <button type="submit" class="btn btn-primary mr-2">Registrar</button>
                      <a href="{{route('products.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-
                 </div>
             </div>
         </div>

@@ -41,28 +41,23 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos de la Categoría:</h4>
                     </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-                            <ul>
-                                @foreach ($errors->all() as $error )
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     {!! Form::model($category,['route'=>['categories.update',$category], 'method'=>'PUT']) !!}
-
 
                     <div class="form-group">
                         <label for="name">Nombre:</label>
-                        <input type="text" name="name" id="name" value="{{$category->name}}" class="form-control" placeholder="Nombre" >
+                        <input type="text" name="name" id="name" value="{{$category->name}}" class="form-control @error('name') is-invalid @enderror" placeholder="Nombre" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('name')}}</strong>
+                        </span>
                     </div>
+                    
                     <div class="form-group">
                         <label for="description">Descripción:</label>
-                        <textarea class="form-control" name="description" id="description" placeholder="Descripcion" rows="3">{{$category->description}}</textarea>
+                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" placeholder="Descripcion" rows="3">{{$category->description}}</textarea>
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('description')}}</strong>
+                        </span>
                     </div>
-
 
                      <button type="submit" class="btn btn-primary mr-2">Guardar Cambios</button>
                      <a href="{{route('categories.index')}}" class="btn btn-light">

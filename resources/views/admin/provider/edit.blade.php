@@ -39,48 +39,52 @@
                         <h4 class="card-title">Datos del Proveedor:</h4>
                     </div>
 
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-                            <ul>
-                                @foreach ($errors->all() as $error )
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     {!! Form::model($provider,['route'=>['providers.update',$provider], 'method'=>'PUT']) !!}
 
-                    <!--'name', 'email','nit', 'address','phone',-->
-
                     <div class="form-group">
-                      <label for="name">Nombre:</label>
-                      <input type="text" class="form-control" name="name"
-                      id="name" value="{{$provider->name}}" aria-describedby="helpId" placeholder="Ingrese el nombre del proveedor" >
+                        <label for="name">Nombre:</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
+                        id="name" value="{{$provider->name}}" aria-describedby="helpId" placeholder="Ingrese el nombre del proveedor" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('name')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
-                      <label for="email">Correo Electrónico:</label>
-                      <input type="email" class="form-control" name="email"
-                      id="email" value="{{$provider->email}}" aria-describedby="emailHelpId" placeholder="ejemplo@gmail.com" >
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                        id="email" value="{{$provider->email}}" aria-describedby="emailHelpId" placeholder="ejemplo@gmail.com" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('email')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
-                      <label for="nit">Numero NIT:</label>
-                      <input type="number" class="form-control" name="nit"
-                      id="nit" value="{{$provider->nit}}" aria-describedby="helpId" placeholder="Ingrese el numero NIT" >
+                        <label for="nit">Numero NIT:</label>
+                        <input type="number" class="form-control @error('nit') is-invalid @enderror" name="nit"
+                        id="nit" value="{{$provider->nit}}" aria-describedby="helpId" placeholder="Ingrese el numero NIT" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('nit')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
-                      <label for="address">Dirección/Pais:</label>
-                      <input type="text" class="form-control" name="address"
-                      id="address" value="{{$provider->address}}" aria-describedby="helpId" placeholder="Ingrese la dirección del Proveedor" >
+                        <label for="address">Dirección/Pais:</label>
+                        <input type="text" class="form-control @error('address') is-invalid @enderror" name="address"
+                        id="address" value="{{$provider->address}}" aria-describedby="helpId" placeholder="Ingrese la dirección del Proveedor" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('address')}}</strong>
+                        </span>
+                        <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                     </div>
 
                     <div class="form-group">
-                      <label for="phone">Numero de contacto:</label>
-                      <input type="number" class="form-control" name="phone"
-                      id="phone" value="{{$provider->phone}}" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" >
+                        <label for="phone">Numero de contacto:</label>
+                        <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                        id="phone" value="{{$provider->phone}}" aria-describedby="helpId" placeholder="Ingrese el numero de Telefono/Celular" >
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('phone')}}</strong>
+                        </span>
                     </div>
 
                      <button type="submit" class="btn btn-primary mr-2">Guardar Cambios</button>

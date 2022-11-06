@@ -102,25 +102,16 @@
                                         @endif
                                         </td>
 
-                                        <td style="width: 50px;" align="center">
-
-                                        {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
-
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.edit', $product)}}" title="Editar">
-                                                <i class="far fa-edit"></i>
-                                            </a>
-
-                                            <!--
-                                            <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
-                                            -->
-
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('products.show',$product)}}" title="Ver mas Información">
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                        {!! Form::close() !!}
-                                    </td>
+                                        <td style="width: 20%;" align="center">
+                                            {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
+                                                <a class="btn btn-outline-warning" href="{{route('products.edit', $product)}}" title="Editar">
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info" href="{{route('products.show',$product)}}" title="Ver Detalle">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                            {!! Form::close() !!}
+                                        </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>

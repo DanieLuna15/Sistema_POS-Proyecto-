@@ -38,30 +38,25 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos del Producto:</h4>
                     </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-                            <ul>
-                                @foreach ($errors->all() as $error )
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
 
                     {!! Form::model($product,['route'=>['products.update',$product], 'method'=>'PUT','files' => true]) !!}
-                    <!--'name', 'sell_price','category', 'brand','image',provider',-->
 
                     <div class="form-group">
-                      <label for="name">Nombre Producto: </label>
-                      <input type="text" class="form-control" name="name" value="{{  old('name', $product->name)}}"
-                      id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del producto">
+                        <label for="name">Nombre Producto: </label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{  old('name', $product->name)}}"
+                        id="name" aria-describedby="helpId" placeholder="Ingrese el nombre del producto">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('name')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
-                      <label for="sell_price">Precio de Venta: </label>
-                      <input type="number" class="form-control" name="sell_price" value="{{  old('sell_price', $product->sell_price)}}"
-                      id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta">
+                        <label for="sell_price">Precio de Venta: </label>
+                        <input type="number" class="form-control @error('sell_price') is-invalid @enderror" name="sell_price" value="{{  old('sell_price', $product->sell_price)}}"
+                        id="sell_price" aria-describedby="emailHelpId" placeholder="Precio de venta">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('sell_price')}}</strong>
+                        </span>
                     </div>
 
                     <div class="form-group">
@@ -118,13 +113,11 @@
                         @endforeach
                       </select>
                     </div>
-
                      <button type="submit" class="btn btn-primary mr-2">Editar</button>
                      <a href="{{route('products.index')}}" class="btn btn-light">
                         Cancelar
                      </a>
                      {!! Form::close() !!}
-
                 </div>
             </div>
         </div>

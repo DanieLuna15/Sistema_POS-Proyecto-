@@ -38,33 +38,33 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos del Rol</h4>
                     </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-                            <ul>
-                                @foreach ($errors->all() as $error )
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+
                     {!! Form::open(['route'=>'roles.store', 'method'=>'POST']) !!}
 
                         <div class="form-group">
                             <label for="name">Nombre:</label>
                             <input autofocus type="text" placeholder="Nombre" name="name" id="name" value="{{old('name')}}"
-                            class="form-control">
+                            class="form-control @error('name') is-invalid @enderror">
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$errors-> first('name')}}</strong>
+                            </span>
                         </div>
 
                         <div class="form-group">
                             <label for="slug">Slug (Url Amigable):</label>
                             <input autofocus type="text" placeholder="Slug" name="slug" id="slug" value="{{old('slug')}}"
-                            class="form-control">
+                            class="form-control @error('slug') is-invalid @enderror">
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$errors-> first('slug')}}</strong>
+                            </span>
                         </div>
 
                         <div class="form-group">
                             <label for="description">Descripción:</label>
-                            <textarea class="form-control"  placeholder="Descripción"name="description" id="description" value="{{old('description')}}" rows="3" >(Sin Descripción)</textarea>
+                            <textarea class="form-control @error('description') is-invalid @enderror"  placeholder="Descripción"name="description" id="description" value="{{old('description')}}" rows="3" >(Sin Descripción)</textarea>
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$errors-> first('description')}}</strong>
+                            </span>
                         </div>
 
                         <h3>Permisos Especiales</h3>

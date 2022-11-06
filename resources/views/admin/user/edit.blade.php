@@ -41,21 +41,15 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos de Usuario:</h4>
                     </div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <h5>Por favor corrige los siguientes errores para poder continuar:</h5>
-                            <ul>
-                                @foreach ($errors->all() as $error )
-                                    <li>{{$error}}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+
                     {!! Form::model($user,['route'=>['users.update',$user], 'method'=>'PUT']) !!}
                         <div class="form-group">
                             <label for="name">Nombre:</label>
                             <input autofocus type="text" placeholder="Nombre" name="name" id="name" value="{{$user->name}}"
-                            class="form-control">
+                            class="form-control @error('name') is-invalid @enderror">
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$errors-> first('name')}}</strong>
+                            </span>
                         </div>
 
                         <div class="form-group">
@@ -64,15 +58,18 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">@</span>
                                 </div>
-                                <input type="email"class="form-control" name="email"
+                                <input type="email"class="form-control @error('email') is-invalid @enderror" name="email"
                                 id=email" aria-describedby="helpId" placeholder="alguien@example.com"  value="{{$user->email}}">
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{$errors-> first('email')}}</strong>
+                                </span>
                             </div>
                         </div>
 
                         <!--<div class="form-group">
                             <label for="password">Contraseña:</label>
                             <input autofocus type="password" placeholder="Contraseña" name="password" id="password" value="{{$user->password}}"
-                            class="form-control" placeholder="Nombre">
+                            class="form-control @error('name') is-invalid @enderror" placeholder="Nombre">
                         </div>-->
 
                         <h3>Listado de Roles</h3>

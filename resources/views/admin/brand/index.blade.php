@@ -63,17 +63,12 @@
 
                                         <td>{{$brand->description}}</td>
 
-                                        <td style="width: 50px;" align="center">
+                                        <td style="width: 20%;" align="center">
                                             {!! Form::open(['route'=>['brands.destroy',$brand], 'method'=>'DELETE']) !!}
-                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.edit', $brand)}}" title="Editar">
+                                                <a class="btn btn-outline-warning" href="{{route('brands.edit', $brand)}}" title="Editar">
                                                     <i class="far fa-edit"></i>
                                                 </a>
-                                                <!--
-                                                <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
-                                                -->
-                                                <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.show',$brand)}}" title="Ver Productos Relacionados">
+                                                <a class="btn btn-outline-info" href="{{route('brands.show',$brand)}}" title="Ver Detalle">
                                                     <i class="far fa-eye"></i>
                                                 </a>
                                             {!! Form::close() !!}

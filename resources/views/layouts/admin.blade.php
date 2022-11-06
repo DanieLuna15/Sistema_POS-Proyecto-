@@ -155,8 +155,8 @@
                             <button type="button" class="btn btn-dark btn-rounded btn-icon"><i class="fas fa-cart-plus"></i></button>
                         </a>
                     </li>
-                    <li class="nav-item nav-profile dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <li class="nav-item nav-profile dropdown" align="center">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown" >
                             <!--<img src="{{asset('melody/images/faces/face16.jpg')}}" alt="profile" />-->
                             <button type="button" class="btn btn-social-icon btn-linkedin btn-rounded"><i class="fas fa-user" align="center"></i></button>
                         </a>

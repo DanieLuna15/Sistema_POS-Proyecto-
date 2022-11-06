@@ -102,7 +102,7 @@
                                         @endif
                                         </td>
 
-                                        <td style="width: 50px;">
+                                        <td style="width: 50px;" align="center">
 
                                         {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
 

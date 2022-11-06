@@ -144,7 +144,7 @@
                                                             </a>
                                                         @endif
                                                     </td>
-                                                    <td style="width: 20%;">
+                                                    <td style="width: 20%;" align="center">
                                                         <a href="{{route('sales.pdf', $sale)}}" class="btn btn-outline-danger"
                                                         title="Generar PDF"><i class="far fa-file-pdf"></i></a>
                                                         <a href="" class="btn btn-outline-warning"

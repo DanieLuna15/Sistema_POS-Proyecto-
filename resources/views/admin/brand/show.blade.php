@@ -65,7 +65,7 @@
 
                                     <td>{{$product->brand->name}}</td>
 
-                                    <td style="width: 50px;">
+                                    <td style="width: 50px;" align="center">
                                         {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
 
                                             <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.edit', $brand)}}" title="Editar">

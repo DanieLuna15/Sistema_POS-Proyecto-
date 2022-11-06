@@ -103,7 +103,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-chart-line"></i>
-                        Cantidad de Ventas Diarías,  Total : {{$cantventasdia}} en los ult 30 dias
+                        Cantidad de Ventas Diarías  <!--Total : {{$cantventasdia}} en los ult 30 dias-->
                     </h4>
                     <!--<h2 class="mb-5">7 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>
                     <canvas id="sales-chart"></canvas>-->

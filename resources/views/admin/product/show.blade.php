@@ -110,38 +110,17 @@
                             <div class="profile-feed">
                                 <div class="d-flex align-items-start profile-feed-item">
 
-
-                                <!--'codigo',
-                                'nombre',
-                                'stock',
-                                'imagen',
-                                'precio_venta',
-                                'estado',
-                                'category_id',
-                                'v',-->
-
-
                                     <div class="form-group col-md-6">
                                         <strong><i class="fab fa-product-hunt mr-1"></i> Código de Barras:</strong>
                                         <p class="text-muted">
                                             {{$product->code}}
                                         </p>
                                         <hr>
-                                        <!--<strong><i class="fas fa-address-card mr-1"></i> Nombre:</strong>
-                                        <p class="text-muted">
-                                            {{$product->nombre}}
-                                        </p>
-                                        <hr>-->
                                         <strong><i class="fab fa-product-hunt mr-1"></i> Stock:</strong>
                                         <p class="text-muted">
                                             {{$product->stock}}
                                         </p>
                                         <hr>
-                                        <!--<strong><i class="fas fa-address-card mr-1"></i> Imagen:</strong>
-                                        <p class="text-muted">
-                                            {{$product->imagen}}
-                                        </p>
-                                        <hr>-->
                                     </div>
                                     <div class="form-group col-md-6">
                                         <strong>
@@ -150,21 +129,6 @@
                                             {{$product->sell_price}}
                                         </p>
                                         <hr>
-                                        <!--<strong><i class="fas fa-envelope mr-1"></i> Estado:</strong>
-                                        <p class="text-muted">
-                                            {{$product->estado}}
-                                        </p>
-                                        <hr>
-                                        <strong><i class="fas fa-map-marked-alt mr-1"></i> Categoría:</strong>
-                                        <p class="text-muted">
-                                            {{$product->category->nombre}}
-                                        </p>
-                                        <hr>
-                                        <strong><i class="fas fa-map-marked-alt mr-1"></i> Proveedor:</strong>
-                                        <p class="text-muted">
-                                            {{$product->provider->nombre}}
-                                        </p>
-                                        <hr>-->
                                     </div>
                                 </div>
                             </div>

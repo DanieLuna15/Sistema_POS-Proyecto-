@@ -78,7 +78,7 @@
                                                 </a>
                                             @endif
                                         </td>
-                                        <td style="width: 20%;">
+                                        <td style="width: 20%;" align="center">
                                             {!! Form::open(['route'=>['users.destroy',$user], 'method'=>'DELETE']) !!}
                                                 <a class="btn btn-outline-warning" href="{{route('users.edit', $user)}}" title="Editar">
                                                     <i class="far fa-edit"></i>

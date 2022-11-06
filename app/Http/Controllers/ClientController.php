@@ -40,7 +40,11 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
-        return view('admin.client.show', compact('client'));
+        $total_purchases = 0;
+        foreach ($client->sales as $key => $sale) {
+            $total_purchases+=$sale->total;
+        }
+        return view('admin.client.show', compact('client', 'total_purchases'));
     }
 
     public function edit(Client $client)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 //Para sweet alert en Categorias
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -31,9 +32,19 @@ class LoginController extends Controller
     //protected $redirectTo = RouteServiceProvider::HOME;
 
     public function redirectTo() {
-        Alert::toast('Bienvenido al sistema.', 'info');
+        Alert::toast('Bienvenido(a) al sistema.', 'info');
         return route('home');
     }
+
+    /*public function redirectTo() {
+        if (auth()->user()->where('status','HABILITADO')) {
+            Alert::toast('Bienvenido(a) al sistema.', 'info');
+            return route('home');
+        } else {
+            Alert::toast('Su usuario esta deshabilitado.', 'warning');
+            return route('welcome');
+        }
+    }*/
 
     /**
      * Create a new controller instance.

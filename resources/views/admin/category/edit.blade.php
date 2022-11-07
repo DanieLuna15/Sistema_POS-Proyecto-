@@ -27,7 +27,7 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Categorías</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Edición de Categoría</li>
             </ol>
@@ -50,7 +50,7 @@
                             <strong>{{$errors-> first('name')}}</strong>
                         </span>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="description">Descripción:</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" placeholder="Descripcion" rows="3">{{$category->description}}</textarea>

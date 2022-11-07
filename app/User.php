@@ -29,7 +29,7 @@ class User extends Authenticatable
     public function purchases(){
         return $this->hasMany(Purchase::class);
     }
-    public function sendPasswordResetNotification($token){
+    /*public function sendPasswordResetNotification($token){
         $this->notify(new ResetPasswordNotification($token));
-    }
+    }*/
 }

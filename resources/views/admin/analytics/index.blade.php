@@ -17,7 +17,7 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Analítica</li>
             </ol>
         </nav>

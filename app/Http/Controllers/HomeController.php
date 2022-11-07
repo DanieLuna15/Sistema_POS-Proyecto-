@@ -79,6 +79,7 @@ class HomeController extends Controller
         )->groupBy('mes')->take(12)->orderBy('purchase_date','ASC')->get();
         //dd($comprasmes);
 
+        DB::statement("SET lc_time_names = 'es_ES'");
         $ventasmes = Sale::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),

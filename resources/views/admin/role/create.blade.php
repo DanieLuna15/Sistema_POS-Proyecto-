@@ -24,7 +24,7 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item"><a href="{{route('categories.index')}}">Roles</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Registro de Rol</li>
             </ol>

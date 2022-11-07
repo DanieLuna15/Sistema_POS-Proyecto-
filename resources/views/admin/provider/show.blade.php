@@ -18,20 +18,16 @@
 @endsection
 @section('preference')
 
-
-
-
-
 @endsection
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            {{$provider->nombre}}
+            Detalle del Proveedor
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item"><a href="{{route('providers.index')}}">Proveedores</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$provider->name}}</li>
             </ol>
@@ -51,12 +47,10 @@
                             <div class="border-bottom py-4">
                                 <div class="list-group">
                                     <button type="button" class="list-group-item list-group-item-action active">
-                                        Sobre el proveedor:
+                                        Datos del Proveedor:
                                     </button>
-                                    <button type="button"
-                                        class="list-group-item list-group-item-action">Productos</button>
-                                    <button type="button" class="list-group-item list-group-item-action">Registrar
-                                        producto</button>
+                                    <button type="button"class="list-group-item list-group-item-action">Productos
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -93,7 +87,7 @@
                                             {{$provider->email}}
                                         </p>
                                         <hr>
-                                        <strong><i class="fas fa-map-marked-alt mr-1"></i> País:</strong>
+                                        <strong><i class="fas fa-map-marked-alt mr-1"></i>Dirección/País:</strong>
                                         <p class="text-muted">
                                             {{$provider->address}}
                                         </p>

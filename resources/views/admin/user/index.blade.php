@@ -26,7 +26,7 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Usuarios del Sistema</li>
             </ol>
         </nav>
@@ -69,7 +69,7 @@
 
                                         <td>
                                             @if ($user->status=='HABILITADO')
-                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.users', $user)}}">
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" onclick="showSwal('warning-message-and-cancel')" href="{{route('change.status.users', $user)}}">
                                                     {{$user->status}} <i class="fas fa-check"></i>
                                                 </a>
                                             @else
@@ -101,4 +101,7 @@
 @endsection
 @section('scripts')
 {!! Html::script('melody/js/data-table.js') !!}
+{!! Html::script('js/my_functions.js') !!}
+{!! Html::script('melody/js/alerts.js') !!}
+{!! Html::script('melody/js/avgrund.js') !!}
 @endsection

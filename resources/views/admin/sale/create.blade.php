@@ -24,7 +24,7 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="#">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item"><a href="{{route('sales.index')}}">Ventas</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Registro de Venta</li>
             </ol>
@@ -55,9 +55,6 @@
 </div>
 @endsection
 @section('scripts')
-{!! Html::script('melodyjs/alerts.js') !!}
-{!! Html::script('melodyjs/avgrund.js') !!}
-
 {!! Html::script('melody/js/select2.js') !!}
 {!! Html::script('js/sweetalert2.all.min.js') !!}
 

@@ -19,7 +19,7 @@
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel administrador</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
                 <li class="breadcrumb-item"><a href="{{route('users.index')}}">Usuarios</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$user->name}}</li>
             </ol>
@@ -95,7 +95,6 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Id</th>
-                                                            <th>Proveedor</th>
                                                             <th>Total /Bs.</th>
                                                             <th>Fecha y Hora</th>
                                                             <th>Estado</th>
@@ -108,7 +107,6 @@
                                                             <th scope="row" style="width: 5%;">
                                                                 <a href="{{route('purchases.show', $purchase)}}">{{$purchase->id}}</a>
                                                             </th>
-                                                            <td style="width: 15%;">{{$purchase->provider->name}}</td>
                                                             <td style="width: 15%;">{{$purchase->total}}</td>
                                                             <td style="width: 15%;">{{ Carbon\Carbon::parse($purchase->purchase_date)->format('d/m/Y H:i:s') }}</td>
                                                             <td style="width: 10%;">
@@ -157,7 +155,6 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Id</th>
-                                                            <th>Cliente</th>
                                                             <th>Total /Bs.</th>
                                                             <th>Fecha y Hora</th>
                                                             <th>Estado</th>
@@ -170,7 +167,6 @@
                                                             <th scope="row" style="width: 5%;">
                                                                 <a href="{{route('sales.show', $sale)}}">{{$sale->id}}</a>
                                                             </th>
-                                                            <td style="width: 15%;">{{$sale->client->name}}</td>
                                                             <td style="width: 15%;">{{$sale->total}}</td>
                                                             <td style="width: 15%;">{{ Carbon\Carbon::parse($sale->sale_date)->format('d/m/Y H:i:s') }}</td>
                                                             <td style="width: 10%;">

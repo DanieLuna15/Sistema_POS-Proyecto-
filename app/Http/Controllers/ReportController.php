@@ -7,7 +7,8 @@ use App\Sale;
 use App\Purchase;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-
+//Para sweet alert en Repo
+use RealRashid\SweetAlert\Facades\Alert;
 class ReportController extends Controller
 {
     public function __construct()
@@ -116,6 +117,7 @@ class ReportController extends Controller
         $total = $sales -> sum('total');
         $cantventas = $sales -> count('id');
 
+        Alert::toast('Reporte Generado.', 'info');
         return view('admin.report.reports_date',
         compact(
             'salesd',

@@ -21,12 +21,12 @@ Route::get('/prueba', function () {
 });
 //rutas de reportes
     //rutas de VENTAS
-    Route::get('reportsales/reports_date',      'ReportController@reports_date')    ->name('reports.date');
-    Route::post('reportsales/report_results',   'ReportController@report_results')  ->name('report.results');
+    Route::get('reportv/reports_date',      'ReportController@reports_date')    ->name('reports.date');
+    Route::post('reportv/report_results',   'ReportController@report_results')  ->name('report.results');
     //rutas de COMPRAS
-    Route::get('reportpurchases/reportscm_datecm',      'ReportcmController@reportscm_datecm')      ->name('reportscm.datecm');
-    Route::get('reportpurchases/reportscm_daycm',       'ReportcmController@reportscm_daycm')       ->name('reportscm.daycm');
-    Route::post('reportpurchases/reportcm_resultscm',   'ReportcmController@reportcm_resultscm')    ->name('reportcm.resultscm');
+    Route::get('reportc/reportscm_datecm',      'ReportcmController@reportscm_datecm')      ->name('reportscm.datecm');
+    Route::get('reportc/reportscm_daycm',       'ReportcmController@reportscm_daycm')       ->name('reportscm.daycm');
+    Route::post('reportc/reportcm_resultscm',   'ReportcmController@reportcm_resultscm')    ->name('reportcm.resultscm');
 //fin rutas de reportes
 
 //rutas de gestion de inventario

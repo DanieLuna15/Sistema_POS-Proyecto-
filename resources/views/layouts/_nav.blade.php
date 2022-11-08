@@ -122,23 +122,16 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li>--}}
 
         <li class="nav-item">
-            <a class="nav-link" href="">
-                <i class="fa fa-home menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
-            </a>
-        </li>--}}
-        
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#reportesv" aria-expanded="false"
-                aria-controls="reportesv">
+            <a class="nav-link" data-toggle="collapse" href="#page-layouts3" aria-expanded="false"
+                aria-controls="page-layouts3">
                 <i class="fas fa-file menu-icon"></i>
                     <span class="menu-title">Reportes</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="reportesv">
+            <div class="collapse" id="page-layouts3">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('reportscm.datecm')}}">

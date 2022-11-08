@@ -107,21 +107,21 @@ class HomeController extends Controller
         sum(dv.quantity) as quantity, p.name as name , p.id as id , p.stock as stock from products p
         inner join sale_details dv on p.id=dv.product_id
         inner join sales v on dv.sale_id=v.id where v.status="CONFIRMADO"
-        and MONTH(v.sale_date)=MONTH(curdate())
+        and YEAR(v.sale_date)=YEAR(curdate())
         group by p.code ,p.name, p.id , p.stock order by sum(dv.quantity) desc limit 10');
 
         $categoríasmasvendidas=DB::select('SELECT c.name as namecategory,
         sum(dv.quantity) as quantity from products p
         inner join sale_details dv on p.id=dv.product_id
         inner join sales v on dv.sale_id=v.id
-        inner join categories c on p.category_id=c.id where v.status="CONFIRMADO" and MONTH(v.sale_date)=MONTH(curdate())
+        inner join categories c on p.category_id=c.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
         group by c.name order by sum(dv.quantity) desc limit 5');
 
         $marcasmasvendidas=DB::select('SELECT m.name as namebrand,
         sum(dv.quantity) as quantity from products p
         inner join sale_details dv on p.id=dv.product_id
         inner join sales v on dv.sale_id=v.id
-        inner join brands m on p.brand_id=m.id where v.status="CONFIRMADO" and MONTH(v.sale_date)=MONTH(curdate())
+        inner join brands m on p.brand_id=m.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
         group by m.name order by sum(dv.quantity) desc limit 5');
 
         $productosmenorstock=DB::select('SELECT name as nameproduct,

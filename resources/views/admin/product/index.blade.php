@@ -72,7 +72,7 @@
 
                                         <td>{{$product->brand->name}}</td>
 
-                                        <td>
+                                        <td align="center">
                                             @if ($product->stock==0)
                                                 <a class="jsgrid-button btn btn-danger btn-sm btn-rounded">
                                                     <strong>{{$product->stock}}</strong>

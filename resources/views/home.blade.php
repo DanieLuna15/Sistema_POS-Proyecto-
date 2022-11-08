@@ -93,7 +93,6 @@
                         <i class="fas fa-chart-line"></i>
                         Compras Vs Ventas ultimos 12 meses
                     </h4>
-                    <!--<h2 class="mb-5">7 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
                     <canvas id="barras"></canvas>
                 </div>
             </div>
@@ -105,8 +104,6 @@
                         <i class="fas fa-chart-line"></i>
                         Cantidad de Ventas Diarías  <!--Total : {{$cantventasdia}} en los ult 30 dias-->
                     </h4>
-                    <!--<h2 class="mb-5">7 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>
-                    <canvas id="sales-chart"></canvas>-->
                     <canvas id="ventas_diarias"></canvas>
                 </div>
             </div>
@@ -292,7 +289,6 @@
                 ],
             }],
 
-            // These labels appear in the legend and in the tooltips when hovering different arcs
             labels: [
                 <?php foreach($categoríasmasvendidas as $names):?>
                     "<?php echo $names->namecategory?>",
@@ -346,7 +342,6 @@
                 borderWidth: 0
                 }],
 
-                // These labels appear in the legend and in the tooltips when hovering different arcs
                 labels: [
                 <?php foreach($marcasmasvendidas as $namesb):?>
                     "<?php echo $namesb->namebrand?>",
@@ -365,7 +360,7 @@
                 },
                 legendCallback: function(chart) {
                 var text = [];
-                text.push('<ul class="legend'+ chart.id +'">');
+                text.push('<ul align="center" class="legend'+ chart.id +'">');
                 for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
                     text.push('<li><span class="legend-label" style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '"></span>');
                     if (chart.data.labels[i]) {

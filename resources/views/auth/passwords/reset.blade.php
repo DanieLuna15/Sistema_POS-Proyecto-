@@ -5,7 +5,7 @@
         @csrf
         <input type="hidden" name="token" value="{{ $token }}">
         <div class="form-group row">
-            <label for="email" class="col-md-12 col-form-label text-md-left">'Dirección de correo electrónico'</label>
+            <label for="email" class="col-md-12 col-form-label text-md-left">Dirección de correo electrónico</label>
 
             <div class="col-md-12">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
@@ -48,10 +48,10 @@
 
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" placeholder="Confirme su nueva Contraseña" required autocomplete="new-password">
                 <div class="input-group-append" onclick="VistaC();">
-                    <button class="btn btn-sm btn-primary" title="Ver Contraseña" id="ver" type="button">
+                    <button class="btn btn-sm btn-primary" title="Ver Contraseña" id="verc" type="button">
                         <i class="far fa-eye"></i>
                     </button>
-                    <button class="btn btn-sm btn-primary" title="Ocultar Contraseña" style="display:none;" id="ocultar" type="button">
+                    <button class="btn btn-sm btn-primary" title="Ocultar Contraseña" style="display:none;" id="ocultarc" type="button">
                         <i class="far fa-eye-slash"></i>
                     </button>
                 </div>
@@ -83,8 +83,8 @@
         }
         function VistaC(){
             let password=document.getElementById('password-confirm');
-            let ver=document.getElementById('ver');
-            let ocultar=document.getElementById('ocultar');
+            let ver=document.getElementById('verc');
+            let ocultar=document.getElementById('ocultarc');
             if(password.type=='password'){
                 password.type='text';
                 ver.style.display='none';

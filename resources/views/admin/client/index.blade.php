@@ -65,7 +65,17 @@
                                     </td>
                                     <td>{{$client->ci}}</td>
                                     <td>{{$client->phone}}</td>
-                                    <td>{{$client->email}}</td>
+
+                                    <td>
+                                        @if ($client->email=='')
+                                            <a class="jsgrid-button btn btn-warning btn-sm btn-rounded" align="center">
+                                                <strong>(sin correo)</strong>
+                                            </a>
+                                        @else
+                                            {{$client->email}}
+                                        @endif
+                                    </td>
+
                                     <td style="width: 20%;" align="center">
                                         {!! Form::open(['route'=>['clients.destroy',$client], 'method'=>'DELETE']) !!}
                                             <a class="btn btn-outline-warning" href="{{route('clients.edit', $client)}}" title="Editar">

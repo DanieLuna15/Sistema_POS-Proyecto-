@@ -35,7 +35,6 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Productos: </h4>
 
@@ -45,7 +44,6 @@
                             </a>
                         </div>
                     </div>
-
                     <div class="table-responsive">
                         <table id="order-listing" class="table">
                             <thead>

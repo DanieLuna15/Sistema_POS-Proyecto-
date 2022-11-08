@@ -36,7 +36,6 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos del Cliente: </h4>
                     </div>
@@ -78,7 +77,6 @@
                             </span>
                             <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                         </div>
-
 
                         <div class="form-group">
                             <label for="phone">* Teléfono/Celular: </label>

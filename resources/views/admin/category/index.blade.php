@@ -63,7 +63,15 @@
                                             <a href="{{route('categories.show',$category)}}">{{$category->name}}</a>
                                         </td>
 
-                                        <td>{{$category->description}}</td>
+                                        <td>
+                                            @if ($category->description=='')
+                                                <a class="jsgrid-button btn btn-warning btn-sm btn-rounded" align="center">
+                                                    <strong>(sin descripción)</strong>
+                                                </a>
+                                            @else
+                                                {{$category->description}}
+                                            @endif
+                                        </td>
 
                                         <td style="width: 20%;" align="center">
                                             {!! Form::open(['route'=>['categories.destroy',$category], 'method'=>'DELETE']) !!}

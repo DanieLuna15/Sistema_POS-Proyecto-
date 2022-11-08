@@ -16,7 +16,7 @@
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
-            Detalles del producto: {{$product->name}}
+            Detalle del producto:
         </h3>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-custom">
@@ -25,7 +25,6 @@
                 <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
             </ol>
         </nav>
-
     </div>
     <div class="row">
         <div class="col-12">

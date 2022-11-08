@@ -61,7 +61,15 @@
                                             <a href="{{route('brands.show',$brand)}}">{{$brand->name}}</a>
                                         </td>
 
-                                        <td>{{$brand->description}}</td>
+                                        <td>
+                                            @if ($brand->description=='')
+                                                <a class="jsgrid-button btn btn-warning btn-sm btn-rounded" align="center">
+                                                    <strong>(sin descripción)</strong>
+                                                </a>
+                                            @else
+                                                {{$brand->description}}
+                                            @endif
+                                        </td>
 
                                         <td style="width: 20%;" align="center">
                                             {!! Form::open(['route'=>['brands.destroy',$brand], 'method'=>'DELETE']) !!}

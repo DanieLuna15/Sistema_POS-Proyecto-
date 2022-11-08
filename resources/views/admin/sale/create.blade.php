@@ -70,16 +70,13 @@
     $("#guardar").hide();
     $("#product_id").change(mostrarValores);
 
-
     function mostrarValores(){
         datosProducto=document.getElementById('product_id').value.split('_');
         $("#price").val(datosProducto[2]);
         $("#stock").val(datosProducto[1]);
     }
 
-
     function agregar() {
-
         datosProducto=document.getElementById('product_id').value.split('_');
         product_id = datosProducto[0];
         product = $("#product_id option:selected").text();

@@ -245,7 +245,11 @@
                                             @endif
                                         @endif
                                     </td>
-                                    <td><strong>{{$productosmasvendido->quantity}}</strong> Unidad(es)</td>
+                                    <td>
+                                        <a class="jsgrid-button btn btn-info btn-sm btn-rounded">
+                                            <strong>{{$productosmasvendido->quantity}}</strong> Unidad(es)
+                                        </a>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

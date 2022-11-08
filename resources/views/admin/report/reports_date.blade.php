@@ -48,7 +48,7 @@
                             <a class="nav-link" id="anual-tab" data-toggle="tab" href="#anual-1" role="tab" aria-controls="anual-1" aria-selected="false">Reporte del año</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="clientes-tab" data-toggle="tab" href="#clientes-1" role="tab" aria-controls="clientes-1" aria-selected="false">Mejores Clientes</a>
+                            <a class="nav-link" id="clientes-tab" data-toggle="tab" href="#clientes-1" role="tab" aria-controls="clientes-1" aria-selected="false">Clientes más Rentables</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -223,11 +223,11 @@
                                                     <td>{{ Carbon\Carbon::parse($saled->sale_date)->format('d/m/Y H:i:s') }}</td>
                                                     <td style="width: 10%;">
                                                         @if ($saled->status=='CONFIRMADO')
-                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $sale)}}">
+                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $saled)}}">
                                                                 {{$saled->status}} <i class="fas fa-check"></i>
                                                             </a>
                                                         @else
-                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $sale)}}">
+                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $saled)}}">
                                                                 {{$saled->status}} <i class="fas fa-times"></i>
                                                             </a>
                                                         @endif
@@ -303,15 +303,15 @@
                                                         <a href="{{route('sales.show', $salem)}}">{{$salem->id}}</a>
                                                     </th>
                                                     <td>{{$salem->client->name}}</td>
-                                                    <td>{{$saled->total}}</td>
-                                                    <td>{{ Carbon\Carbon::parse($saled->sale_date)->format('d/m/Y H:i:s') }}</td>
+                                                    <td>{{$salem->total}}</td>
+                                                    <td>{{ Carbon\Carbon::parse($salem->sale_date)->format('d/m/Y H:i:s') }}</td>
                                                     <td style="width: 10%;">
                                                         @if ($salem->status=='CONFIRMADO')
-                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $sale)}}">
+                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $salem)}}">
                                                                 {{$salem->status}} <i class="fas fa-check"></i>
                                                             </a>
                                                         @else
-                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $sale)}}">
+                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $salem)}}">
                                                                 {{$salem->status}} <i class="fas fa-times"></i>
                                                             </a>
                                                         @endif
@@ -390,12 +390,12 @@
                                                     <td>{{$saley->total}}</td>
                                                     <td>{{ Carbon\Carbon::parse($saley->sale_date)->format('d/m/Y H:i:s') }}</td>
                                                     <td style="width: 10%;">
-                                                        @if ($saled->status=='CONFIRMADO')
-                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $sale)}}">
+                                                        @if ($saley->status=='CONFIRMADO')
+                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $saley)}}">
                                                                 {{$saley->status}} <i class="fas fa-check"></i>
                                                             </a>
                                                         @else
-                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $sale)}}">
+                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $saley)}}">
                                                                 {{$saley->status}} <i class="fas fa-times"></i>
                                                             </a>
                                                         @endif
@@ -424,7 +424,7 @@
                                             <div class="d-flex justify-content-between">
                                                 <h4 class="card-title">
                                                     <i class="fas fa-table"></i>
-                                                    Top 5 Mejores clientes: <strong>{{\Carbon\Carbon::now('America/La_Paz')->formatLocalized('%Y')}}</strong>
+                                                    Top 6 clientes más rentables: <strong>{{\Carbon\Carbon::now('America/La_Paz')->formatLocalized('%Y')}}</strong>
                                                 </h4>
                                             </div>
                                             <div class="table-responsive">
@@ -523,7 +523,7 @@
         if ($("#daily-sales-chart").length) {
             var dailySalesChartData = {
                 datasets: [{
-                    data: [<?php foreach ($mejoresclientesmont as $mejorclientemont)
+                    data: [<?php foreach ($mejoresclientescant as $mejorclientemont)
                     {echo ''. $mejorclientemont->mount.',';}  ?>],
                 backgroundColor: [
                     '#3498DB',
@@ -536,7 +536,7 @@
                 borderWidth: 0
                 }],
                 labels: [
-                <?php foreach($mejoresclientesmont as $nameclientmont):?>
+                <?php foreach($mejoresclientescant as $nameclientmont):?>
                     "<?php echo $nameclientmont->nameclient?>",
                 <?php endforeach; ?>
             ],
@@ -639,4 +639,5 @@
         }
     });
 </script>
+
 @endsection

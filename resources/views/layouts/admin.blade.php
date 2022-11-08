@@ -35,6 +35,7 @@
                     <span class="fas fa-bars"></span>
                 </button>
                 <ul class="navbar-nav navbar-nav-right">
+                    @yield('create')
                     <!--<li class="nav-item dropdown">
                         <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-toggle="dropdown">
                           <i class="fas fa-bell mx-0"></i>

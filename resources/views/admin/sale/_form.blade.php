@@ -9,7 +9,7 @@
 
 
 <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-5">
         <div class="form-group">
             <label for="product_id">Producto:</label>
                 {{--  <select class="form-control selectpicker" data-live-search="true" name="product_id" id="product_id">  --}}
@@ -21,7 +21,7 @@
             </select>
         </div>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
         <div class="form-group">
             <label for="stock">Stock actual:</label>
             <div class="input-group">

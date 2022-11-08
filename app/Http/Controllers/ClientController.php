@@ -34,6 +34,10 @@ class ClientController extends Controller
     public function store(StoreRequest $request)
     {
         Client::create($request->all());
+        if ($request->sale == 1) {
+            Alert::toast('Cliente registrado con éxito.', 'success');
+            return redirect()->back();
+        }
         Alert::toast('Cliente registrado con éxito.', 'success');
         return redirect()->route('clients.index');
     }

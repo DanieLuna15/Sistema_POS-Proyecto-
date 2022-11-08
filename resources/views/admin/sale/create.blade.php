@@ -10,6 +10,15 @@
 </style>
 @endsection
 
+@section('create')
+<li class="nav-item d-none d-lg-flex">
+    <a class="nav-link" type="button" data-toggle="modal" data-target="#exampleModal-2">
+      <span class="btn btn-primary">+ Registrar cliente</span>
+    </a>
+</li>
+@endsection
+
+
 @section('options')
 @endsection
 
@@ -53,8 +62,64 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="exampleModal-2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel-2"
+    aria-hidden="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel-2">Registro rápido de cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {!! Form::open(['route'=>'clients.store', 'method'=>'POST','files' => true]) !!}
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="name">* Nombre: </label>
+                        <input autofocus type="text"class="form-control @error('name') is-invalid @enderror" name="name"
+                        id=name" aria-describedby="helpId" placeholder="Ingrese el nombre del Cliente"  value="{{old('name')}}">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('name')}}</strong>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ci">* Cédula de Identidad: </label>
+                        <input type="number" class="form-control @error('ci') is-invalid @enderror" name="ci"
+                        id=ci" aria-describedby="helpId" placeholder="Ingrese el número de Carnet"  value="{{old('ci')}}">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('ci')}}</strong>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">* Teléfono/Celular: </label>
+                        <input type="number" class="form-control @error('phone') is-invalid @enderror" name="phone"
+                        id=phone" aria-describedby="helpId" placeholder="Ingrese el número de telefono/celular"  value="{{old('phone')}}">
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{$errors-> first('phone')}}</strong>
+                        </span>
+                    </div>
+
+                    <input type="hidden" name="sale" value="1">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Registrar</button>
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                </div>
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
 @endsection
 @section('scripts')
+{!! Html::script('melody/js/alerts.js') !!}
+{!! Html::script('melody/js/avgrund.js') !!}
+
 {!! Html::script('melody/js/select2.js') !!}
 {!! Html::script('js/sweetalert2.all.min.js') !!}
 

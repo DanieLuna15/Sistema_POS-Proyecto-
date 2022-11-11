@@ -12,10 +12,10 @@
     <div class="form-group col-md-5">
         <div class="form-group">
             <label for="product_id">Producto:</label>
-            <select class="js-example-basic-single w-responsive form-control" name="product_id" id="product_id" required>
+            <select class="js-example-basic-single w-responsive form-control" name="product_id" id="product_id">
                 <option value="0" selected disabled>Seleccione un producto</option>
                 @foreach ($products as $product)
-                <option value="{{$product->id}}_{{$product->stock}}_{{$product->sell_price}}">{{$product->name}}</option>
+                <option value="{{$product->id}}_{{$product->sell_price}}">{{$product->name}}</option>
                 @endforeach
             </select>
         </div>
@@ -63,7 +63,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text bg-primary text-white">Bs.</span>
                 </div>
-                <input type="number" name="sell_price" id="sell_price"  class="form-control" aria-describedby="helpId" disabled>
+                <input type="text" name="sell_price" id="sell_price" value="" class="form-control" aria-describedby="helpId" disabled>
                 <div class="input-group-append">
                   <span class="input-group-text bg-primary text-white">.00</span>
                 </div>

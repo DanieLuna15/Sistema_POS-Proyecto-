@@ -46,6 +46,7 @@ class PurchaseController extends Controller
 
     public function store(StoreRequest $request, Purchase $purchase)
     {
+        //dd($request);
         $purchase->my_store($request);
         Alert::toast('Compra registrada con éxito.', 'success');
         return redirect()->route('purchases.index');
@@ -94,7 +95,6 @@ class PurchaseController extends Controller
 
     public function pdf(Purchase $purchase)
     {
-        //dd($purchase);
         $subtotal=0;
         //Para mostrar el total en letras
         $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',true);
@@ -103,9 +103,9 @@ class PurchaseController extends Controller
         foreach($PurchaseDetails as $PurchaseDetail){
             $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
         }
-        //return Pdf::loadFile(public_path().'/myfile.html')->save('/path-to/my_stored_file.pdf')->stream('download.pdf');
+
         $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails','totalLiteral'));
-        //return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'.pdf');
+
         return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'_(Fec_'.$purchase->purchase_date.')'.'.pdf');
     }
 }

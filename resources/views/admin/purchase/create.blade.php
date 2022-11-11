@@ -1,21 +1,18 @@
 @extends('layouts.admin')
 @section('title','Registro de Compra')
 @section('styles')
-<style type="text/css">
-    .unstyled-button {
-        border: none;
-        padding: 0;
-        background: none;
-      }
-</style>
+    <style type="text/css">
+        .unstyled-button {
+            border: none;
+            padding: 0;
+            background: none;
+        }
+    </style>
 @endsection
-
 @section('options')
 @endsection
-
 @section('preference')
 @endsection
-
 @section('content')
 <div class="content-wrapper">
     <div class="page-header">
@@ -33,10 +30,8 @@
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
-            {!! Form::open(['route'=>'purchases.store', 'method'=>'POST']) !!}
-
+                {!! Form::open(['route'=>'purchases.store', 'method'=>'POST']) !!}
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Datos de la Compra:</h4>
                     </div>
@@ -63,7 +58,6 @@
             agregar();
         });
     });
-
     var cont = 0;
     total = 0;
     subtotal = [];
@@ -73,12 +67,12 @@
 
     function mostrarValores(){
         datosProducto=document.getElementById('product_id').value.split('_');
-        $("#sell_price").val(datosProducto[2]);
+        $("#sell_price").val(datosProducto[1]);
     }
 
     function agregar() {
-
-        product_id = $("#product_id").val();
+        datosProducto=document.getElementById('product_id').value.split('_');
+        product_id = datosProducto[0];
         product = $("#product_id option:selected").text();
         quantity = $("#quantity").val();
         price = $("#price").val();
@@ -140,6 +134,7 @@
     function limpiar() {
         $("#quantity").val("");
         $("#price").val("");
+        $("#sell_price").val("");
     }
 
     function totales() {
@@ -170,7 +165,5 @@
         $("#fila" + index).remove();
         evaluar();
     }
-
 </script>
-
 @endsection

@@ -52,6 +52,7 @@
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Correo Electrónico</th>
+                                    <th>Rol</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -64,12 +65,22 @@
                                         <td>
                                             <a href="{{route('users.show',$user)}}">{{$user->name}}</a>
                                         </td>
-
+                                        
                                         <td>{{$user->email}}</td>
+
+                                        <td align="center">
+                                            @foreach ($user->roles as $role)
+                                                @if ($role->name=='')
+                                                    <a class="jsgrid-button btn btn-warning btn-sm btn-rounded">Sin Asignar</a>
+                                                @else
+                                                    <a class="jsgrid-button btn btn-info btn-sm btn-rounded" href="{{route('roles.show',$role)}}">{{$role->name}}</a>
+                                                @endif
+                                            @endforeach
+                                        </td>
 
                                         <td>
                                             @if ($user->status=='HABILITADO')
-                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" onclick="showSwal('warning-message-and-cancel')" href="{{route('change.status.users', $user)}}">
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.users', $user)}}">
                                                     {{$user->status}} <i class="fas fa-check"></i>
                                                 </a>
                                             @else

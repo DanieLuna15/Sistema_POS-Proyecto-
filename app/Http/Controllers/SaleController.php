@@ -48,6 +48,7 @@ class SaleController extends Controller
 
     public function store(StoreRequest $request, Sale $sale)
     {
+        //dd($request);
         $sale->my_store($request);
         Alert::toast('Venta registrada con éxito.', 'success');
         return redirect()->route('sales.index');

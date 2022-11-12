@@ -44,10 +44,12 @@
                             <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Imagen</th>
                                     <th>Nombre</th>
-                                    <th>Stock</th>
-                                    <th>Estado</th>
+                                    <th>Categoría</th>
                                     <th>Marca</th>
+                                    <th>Stock/Unidades</th>
+                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -55,35 +57,54 @@
                                 @foreach ($brand->products as $product)
                                 <tr>
                                     <th scope="row">{{$product->id}}</th>
-                                    <td>
-                                        <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
-                                    </td>
+                                        <td><img src="{{asset('image/'.$product->image)}}" class="img-lg rounded" alt="profile image" /></td>
+                                        <td>
+                                            <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
+                                        </td>
+                                        <td>{{$product->category->name}}</td>
 
-                                    <td>{{$product->stock}}</td>
+                                        <td>{{$product->brand->name}}</td>
 
-                                    <td>{{$product->status}}</td>
+                                        <td align="center">
+                                            @if ($product->stock==0)
+                                                <a class="jsgrid-button btn btn-danger btn-sm btn-rounded">
+                                                    <strong>{{$product->stock}}</strong>
+                                                </a>
+                                            @else
+                                                @if ($product->stock>15)
+                                                    <a class="jsgrid-button btn btn-success btn-sm btn-rounded">
+                                                        <strong>{{$product->stock}}</strong>
+                                                    </a>
+                                                @else
+                                                    <a class="jsgrid-button btn btn-warning btn-sm btn-rounded">
+                                                        <strong>{{$product->stock}}</strong>
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        </td>
 
-                                    <td>{{$product->brand->name}}</td>
-
-                                    <td style="width: 50px;" align="center">
-                                        {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
-
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.edit', $brand)}}" title="Editar">
-                                                <i class="far fa-edit"></i>
+                                        <td>
+                                        @if ($product->status=='ACTIVO')
+                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.products', $product)}}">
+                                                {{$product->status}} <i class="fas fa-check"></i>
                                             </a>
-
-                                            <!--
-                                            <button class="jsgrid-button jsgrid-delete-button unstyled-button" type="submit" title="Eliminar">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
-                                            -->
-
-                                            <a class="jsgrid-button jsgrid-edit-button" href="{{route('brands.show',$brand)}}" title="Ver Productos Relacionados">
-                                                <i class="far fa-eye"></i>
+                                        @else
+                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block" href="{{route('change.status.products', $product)}}">
+                                                {{$product->status}} <i class="fas fa-times"></i>
                                             </a>
+                                        @endif
+                                        </td>
 
-                                        {!! Form::close() !!}
-                                    </td>
+                                        <td style="width: 20%;" align="center">
+                                            {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
+                                                <a class="btn btn-outline-warning" href="{{route('products.edit', $product)}}" title="Editar">
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+                                                <a class="btn btn-outline-info" href="{{route('products.show',$product)}}" title="Ver Detalle">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                            {!! Form::close() !!}
+                                        </td>
                                 </tr>
                                 @endforeach
                             </tbody>

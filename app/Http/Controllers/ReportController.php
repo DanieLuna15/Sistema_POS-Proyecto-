@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sale;
-use App\Purchase;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 //Para sweet alert en Repo
@@ -14,8 +13,8 @@ class ReportController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        /*$this->middleware('can:reports.day')->only(['reports_day']);
-        $this->middleware('can:reports.date')->only(['reports_date']);*/
+        $this->middleware('can:reports.day')->only(['reports_day']);
+        $this->middleware('can:reports.date')->only(['reports_date']);
     }
 
     public function reports_date(){
@@ -56,6 +55,12 @@ class ReportController extends Controller
         $total = $sales -> sum('total');
         $cantventas = $sales -> count('id');
 
+        $salescanc = Sale::whereRaw('year(sale_date) = year(now())')
+                ->where('status','CANCELADO')
+                ->get();
+        $totalcanc = $salescanc -> sum('total');
+        $cantventascanc = $salescanc -> count('id');
+
         return view('admin.report.reports_date',
         compact(
             'salesd',
@@ -70,6 +75,9 @@ class ReportController extends Controller
             'sales',
             'total',
             'cantventas',
+            'salescanc',
+            'totalcanc',
+            'cantventascanc',
             'fi',
             'ff',
             'mejoresclientescant',
@@ -117,6 +125,13 @@ class ReportController extends Controller
         $total = $sales -> sum('total');
         $cantventas = $sales -> count('id');
 
+        $salescanc = Sale::whereRaw('year(sale_date) = year(now())')
+                ->where('status','CANCELADO')
+                ->get();
+        $totalcanc = $salescanc -> sum('total');
+        $cantventascanc = $salescanc -> count('id');
+
+
         Alert::toast('Reporte Generado.', 'info');
         return view('admin.report.reports_date',
         compact(
@@ -132,6 +147,9 @@ class ReportController extends Controller
             'sales',
             'total',
             'cantventas',
+            'salescanc',
+            'totalcanc',
+            'cantventascanc',
             'fi',
             'ff',
             'mejoresclientescant',

@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 @section('title','Reportes de Ventas')
-<!--Reporte de Ventas-->
 @section('styles')
 <style type="text/css">
     .unstyled-button {
@@ -50,6 +49,9 @@
                         <li class="nav-item">
                             <a class="nav-link" id="clientes-tab" data-toggle="tab" href="#clientes-1" role="tab" aria-controls="clientes-1" aria-selected="false">Clientes más Rentables</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="canceladas-tab" data-toggle="tab" href="#canceladas-1" role="tab" aria-controls="canceladas-1" aria-selected="false">Ventas Canceladas</a>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="rango-1" role="tabpanel" aria-labelledby="rango-tab">
@@ -85,7 +87,7 @@
                                         </div>
                                         <div class="col-12 col-lg-4 text-center mt-4">
                                             <div class="form-group">
-                                               <button type="submit" class="btn btn-primary btn-md">Consultar</button>
+                                               <button type="submit" class="btn btn-primary btn-md">Generar Reporte</button>
                                             </div>
                                         </div>
                                     </div>
@@ -125,7 +127,7 @@
                                                     <th>Total /Bs.</th>
                                                     <th>Fecha y Hora</th>
                                                     <th>Estado</th>
-                                                    <th style="width:100px;">Acciones</th>
+                                                    <th>Acciones</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -430,7 +432,7 @@
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <thead>
-                                                        <tr>
+                                                        <tr align="center">
                                                             <th>Nombre</th>
                                                             <th>Cantidad de Ventas</th>
                                                             <th>Total/Bs.</th>
@@ -488,6 +490,90 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="canceladas-1" role="tabpanel" aria-labelledby="canceladas-tab">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h4 class="card-title">Todas las Ventas Canceladas del Año:</h4>
+                                        <div class="dropdown">
+                                          <button type="button" class="btn btn-light dropdown-toggle" id="dropdownMenuIconButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-cog"></i>
+                                          </button>
+                                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
+                                            <a class="dropdown-item" href="#">Exportar a PDF</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Exportar a Excel</a>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-12 col-md-4 text-center">
+                                            <span>Año de consulta: <b> </b></span>
+                                            <div class="form-group">
+                                                <strong>{{\Carbon\Carbon::now('America/La_Paz')->formatLocalized('%Y')}}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 text-center">
+                                            <span>Cantidad de Ventas Canceladas: <b></b></span>
+                                            <div class="form-group">
+                                                <strong>{{$cantventascanc}}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4 text-center">
+                                            <span>Monto Total: <b> </b></span>
+                                            <div class="form-group">
+                                                <strong>Bs./ {{$totalcanc}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table id="order-listing4" class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Cliente</th>
+                                                    <th>Total /Bs.</th>
+                                                    <th>Fecha y Hora</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php foreach ($salescanc as $salecanc): ?>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <a href="{{route('sales.show', $salecanc)}}">{{$salecanc->id}}</a>
+                                                    </th>
+                                                    <td>{{$salecanc->client->name}}</td>
+                                                    <td>{{$salecanc->total}}</td>
+                                                    <td>{{ Carbon\Carbon::parse($salecanc->sale_date)->format('d/m/Y H:i:s') }}</td>
+                                                    <td style="width: 10%;">
+                                                        @if ($salecanc->status=='CONFIRMADO')
+                                                            <a class="jsgrid-button btn btn-success btn-sm btn-block" title="Deshabilitar" href="{{route('change.status.sales', $salecanc)}}">
+                                                                {{$salecanc->status}} <i class="fas fa-check"></i>
+                                                            </a>
+                                                        @else
+                                                            <a class="jsgrid-button btn btn-danger btn-sm btn-block disabled" href="{{route('change.status.sales', $salecanc)}}">
+                                                                {{$salecanc->status}} <i class="fas fa-times"></i>
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                    <td style="width: 20%;"  align="center">
+                                                        <a href="{{route('sales.pdf', $salecanc)}}" class="btn btn-outline-danger"
+                                                        title="Generar PDF"><i class="far fa-file-pdf"></i></a>
+                                                        <a href="" class="btn btn-outline-warning"
+                                                        title="Imprimir boleta"><i class="fas fa-print"></i></a>
+                                                        <a href="{{route('sales.show', $salecanc)}}" class="btn btn-outline-info"
+                                                        title="Ver detalles"><i class="far fa-eye"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <?php endforeach; ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

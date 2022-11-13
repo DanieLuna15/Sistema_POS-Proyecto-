@@ -142,4 +142,18 @@
             }
         })
     }
+    function clic() {
+    swal({
+        title: "¿Estas seguro?",
+        text: "Una vez eliminado, no podrás recuperarlo!",
+        icon: "warning",
+        buttons: true,
+        buttons: ["Cancelar", "¡Sí!"],
+        dangerMode: true,
+    }).then((result) => {
+        if(result.isConfirmed){
+            location.href='';
+        }
+    });
+}
 </script>

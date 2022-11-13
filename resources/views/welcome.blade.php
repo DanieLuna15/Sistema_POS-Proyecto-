@@ -84,7 +84,7 @@
                     IMDICORP S.R.L.
                     <br>
                     @auth
-                    <a href="{{ url('/home') }}">Ir al Sistema</a>
+                        <a href="{{ url('/home') }}">Ir al Sistema</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 

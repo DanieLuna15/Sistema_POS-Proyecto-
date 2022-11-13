@@ -25,7 +25,6 @@ Route::get('/prueba', function () {
     Route::post('reportv/report_results',   'ReportController@report_results')  ->name('report.results');
     //rutas de COMPRAS
     Route::get('reportc/reportscm_datecm',      'ReportcmController@reportscm_datecm')      ->name('reportscm.datecm');
-    Route::get('reportc/reportscm_daycm',       'ReportcmController@reportscm_daycm')       ->name('reportscm.daycm');
     Route::post('reportc/reportcm_resultscm',   'ReportcmController@reportcm_resultscm')    ->name('reportcm.resultscm');
 //fin rutas de reportes
 

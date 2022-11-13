@@ -65,7 +65,7 @@
                                         <td>
                                             <a href="{{route('users.show',$user)}}">{{$user->name}}</a>
                                         </td>
-                                        
+
                                         <td>{{$user->email}}</td>
 
                                         <td align="center">
@@ -80,7 +80,7 @@
 
                                         <td>
                                             @if ($user->status=='HABILITADO')
-                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.users', $user)}}">
+                                                <a class="jsgrid-button btn btn-success btn-sm btn-block" onclick="clic()">
                                                     {{$user->status}} <i class="fas fa-check"></i>
                                                 </a>
                                             @else
@@ -116,3 +116,33 @@
 {!! Html::script('melody/js/alerts.js') !!}
 {!! Html::script('melody/js/avgrund.js') !!}
 @endsection
+<script>
+function clic() {
+    swal({
+        title: "¿Estas seguro?",
+        text: "Si está deshabilitado ya no podrá acceder al sistema.",
+        icon: "warning",
+        buttons: true,
+        buttons: ["Cancelar", "¡Si, estoy de acuerdo!"],
+        dangerMode: true,
+    }).then((result) => {
+        if(result.isConfirmed){
+            location.href='';
+        }
+    });
+}
+function clic1() {
+    swal({
+        title: "¿Estas seguro?",
+        text: "Este usuario ya podrá acceder al sistema.",
+        icon: "warning",
+        buttons: true,
+        buttons: ["Cancelar", "¡Si, estoy de acuerdo!"],
+        dangerMode: true,
+    }).then((result) => {
+        if(result.isConfirmed){
+            location.href='';
+        }
+    });
+}
+</script>

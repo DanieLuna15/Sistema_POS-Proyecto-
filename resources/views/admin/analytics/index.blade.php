@@ -22,118 +22,110 @@
             </ol>
         </nav>
     </div>
-    <div class="row">
-        <div class="col-lg-12 grid-margin stretch-card">
+    
+    <!--<div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
-
-                    <!--<div class="row">
-                        <div class="col-md-6 grid-margin stretch-card">
-                            <div class="card">
-                            <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-gift"></i>
-                                        Compras del Mes
-                                    </h4>
-                                    <canvas id="orders-chart"></canvas>
-                                <div id="orders-chart-legend" class="orders-chart-legend"></div>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-md-6 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-chart-line"></i>
-                                        Ventas del Mes
-                                    </h4>
-                                    <h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>
-                                    <canvas id="sales-chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
-
-                <div class="row">
-                    <div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <i class="fas fa-chart-line"></i>
-                                    Comportamiento de la Demanda vs Pronóstico BARRAS
-                                </h4>
-                                <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
-                                <canvas id="pronostico"></canvas>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-gift"></i>
+                        Compras del Mes
+                    </h4>
+                    <canvas id="orders-chart"></canvas>
+                <div id="orders-chart-legend" class="orders-chart-legend"></div>
+            </div>
+        </div>
+        </div>
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Ventas del Mes
+                    </h4>
+                    <h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>
+                    <canvas id="sales-chart"></canvas>
                 </div>
+            </div>
+        </div>
+    </div>-->
 
-
-                <div class="row">
-                    <div class="col-md-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    <i class="fas fa-chart-line"></i>
-                                    Comportamiento de la Demanda vs Pronóstico LINEAS
-                                </h4>
-                                <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
-                                <canvas id="pronosticolineas"></canvas>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Comportamiento de la Demanda vs Pronóstico BARRAS
+                    </h4>
+                    <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
+                    <canvas id="pronostico"></canvas>
                 </div>
-                <div class="row">
-                    <div class="col-lg-8 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h4 class="card-title">
-                                        <i class="fas fa-table"></i>
-                                        Data historica Mensual por Categorías
-                                    </h4>
-                                </div>
-                            <div class="table-responsive">
-                                <table id="order-listing" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Fecha-Mes</th>
-                                            <th>Total-BS</th>
-                                            <th>Categoría-Top 1</th>
-                                            <th>Cantidad-Vendida</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($historydatas as $historydata)
-                                            <tr>
-                                                <th scope="row">{{$historydata->id}}</th>
-                                                <td>{{$historydata->month_date}}</td>
-                                                <td>{{$historydata->total_bs}}</td>
-                                                <td>{{$historydata->category->name}}</td>
-                                                <td>{{$historydata->quantity}}</td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <i class="fas fa-chart-line"></i>
+                        Comportamiento de la Demanda vs Pronóstico LINEAS
+                    </h4>
+                    <!--<h2 class="mb-5">56000 <span class="text-muted h4 font-weight-normal">Ventas</span></h2>-->
+                    <canvas id="pronosticolineas"></canvas>
                 </div>
-                <div class="col-md-4 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body d-flex flex-column">
-                            <h4 class="card-title">
-                                <i class="fas fa-chart-pie"></i>
-                                Cantidad Vendida por Categoría
-                            </h4>
-                            <div class="flex-grow-2d-flex flex-column justify-content-between">
-                                <canvas id="sales-status-chart" class="mt-5"></canvas>
-                                <div class="pt-4">
-                                    <div id="sales-status-chart-legend" class="sales-status-chart-legend"></div>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h4 class="card-title">
+                            <i class="fas fa-table"></i>
+                            Data historica Mensual por Categorías
+                        </h4>
+                    </div>
+                <div class="table-responsive">
+                    <table id="order-listing" class="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Fecha-Mes</th>
+                                <th>Total-BS</th>
+                                <th>Categoría-Top 1</th>
+                                <th>Cantidad-Vendida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($historydatas as $historydata)
+                                <tr>
+                                    <th scope="row">{{$historydata->id}}</th>
+                                    <td>{{$historydata->month_date}}</td>
+                                    <td>{{$historydata->total_bs}}</td>
+                                    <td>{{$historydata->category->name}}</td>
+                                    <td>{{$historydata->quantity}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body d-flex flex-column">
+                <h4 class="card-title">
+                    <i class="fas fa-chart-pie"></i>
+                    Cantidad Vendida por Categoría
+                </h4>
+                <div class="flex-grow-2d-flex flex-column justify-content-between">
+                    <canvas id="sales-status-chart" class="mt-5"></canvas>
+                    <div class="pt-4">
+                        <div id="sales-status-chart-legend" class="sales-status-chart-legend"></div>
                     </div>
                 </div>
             </div>

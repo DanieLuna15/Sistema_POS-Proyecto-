@@ -15,7 +15,7 @@
             <select class="js-example-basic-single w-responsive form-control" name="product_id" id="product_id">
                 <option value="0" selected disabled>Seleccione un producto</option>
                 @foreach ($products as $product)
-                <option value="{{$product->id}}_{{$product->sell_price}}">{{$product->name}}</option>
+                <option value="{{$product->id}}_{{$product->sell_price}}">{{$product->name}} - ({{$product->stock}} Unidades Actualmente.) </option>
                 @endforeach
             </select>
         </div>
@@ -95,7 +95,7 @@
                         <p align="right">TOTAL:</p>
                     </th>
                     <th>
-                        <p align="right"><span id="total">Bs 0.00</span> </p>
+                        <p align="right"><span id="total">Bs./ 0.00</span> </p>
                     </th>
                 </tr>
                 <tr>
@@ -103,15 +103,15 @@
                         <p align="right">TOTAL IMPUESTO (%):</p>
                     </th>
                     <th>
-                        <p align="right"><span id="total_impuesto">Bs 0.00</span></p>
+                        <p align="right"><span id="total_impuesto">Bs./ 0.00</span></p>
                     </th>
                 </tr>
                 <tr>
                     <th colspan="4">
-                        <p align="right">TOTAL PAGAR:</p>
+                        <p align="right">TOTAL A PAGAR:</p>
                     </th>
                     <th>
-                        <p align="right"><span align="right" id="total_pagar_html">Bs 0.00</span> <input type="hidden"
+                        <p align="right"><span align="right" id="total_pagar_html">Bs./ 0.00</span> <input type="hidden"
                         name="total" id="total_pagar"></p>
                     </th>
                 </tr>

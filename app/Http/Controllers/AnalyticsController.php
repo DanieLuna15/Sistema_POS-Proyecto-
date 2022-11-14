@@ -30,8 +30,11 @@ class AnalyticsController extends Controller
         $historydatas = Historydata::get();
 
         //API MODELO
-        $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
+        $respuesta = Http::get('http://127.0.0.1:5000/pronosticofuturo');
         $pronosticos=$respuesta->json();
+
+        $respuestafuturo = Http::get('http://127.0.0.1:5000/pronostico');
+        $pronosticosfuturo=$respuesta->json();
         //API MODELO
 
         /*$total_datahis = Historydata::select(

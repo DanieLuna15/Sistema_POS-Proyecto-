@@ -131,7 +131,6 @@
     });
     var cont = 1;
     total = 0;
-    total_descuento = 0;
     subtotal = [];
     $("#guardar").hide();
     $("#product_id").change(mostrarValores);
@@ -155,8 +154,9 @@
                 if (parseInt(quantity) > 0 && quantity % 1 == 0) {
                     if (parseInt(stock) >= parseInt(quantity)) {
                         if (parseInt(discount) >= 0 && parseInt(discount) <= 50) {
-                            subtotal[cont] = (quantity * price);
+                            subtotal[cont] = (quantity * price) - (quantity * price * discount / 100);
                             total = total + subtotal[cont];
+                            total_descuento =0;
                             var fila = '<tr class="selected" id="fila' + cont + '"><td><button type="button" class="btn btn-danger btn-sm" onclick="eliminar(' + cont + ');"><i class="fa fa-times fa-2x"></i></button></td> <td><input type="hidden" name="product_id[]" value="' + product_id + '">' + product + '</td> <td> <input type="hidden" name="price[]" value="' + parseFloat(price).toFixed(2) + '"> <input class="form-control" type="number" value="' + parseFloat(price).toFixed(2) + '" disabled> </td> <td> <input type="hidden" name="discount[]" value="' + parseFloat(discount) + '"> <input class="form-control" type="number" value="' + parseFloat(discount) + '" disabled> </td> <td> <input type="hidden" name="quantity[]" value="' + quantity + '"> <input type="number" value="' + quantity + '" class="form-control" disabled> </td> <td align="right">Bs/' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
                             cont++;
                             limpiar();
@@ -200,22 +200,14 @@
         $("#discount").val("0");
     }
     function totales() {
-        $("#total").html("BS./ " + total.toFixed(2));
-        total_descuento = total_descuento + (quantity * price * discount / 100);
+        $("#total").html("BS/ " + total.toFixed(2));
 
-        if (parseInt(total_descuento) < 0){
-            total_descuento=0;
-        }
+        total_descuento = (quantity * price * discount / 100);
+        total_pagar = total;
 
-        total_pagar = total - total_descuento;
+        $("#total_descuento").html("BS/ " + total_descuento.toFixed(2));
 
-        if (parseInt(total_pagar) < 0){
-            total_pagar=0;
-        }
-
-        $("#total_descuento").html("BS./ " + total_descuento.toFixed(2));
-
-        $("#total_pagar_html").html("BS./ " + total_pagar.toFixed(2));
+        $("#total_pagar_html").html("BS/ " + total_pagar.toFixed(2));
         $("#total_pagar").val(total_pagar.toFixed(2));
     }
     function evaluar() {
@@ -228,21 +220,13 @@
     function eliminar(index) {
         total = total - subtotal[index];
 
-        total_descuento = total_descuento - (quantity * price * discount / 100);
-        if (parseInt(total_descuento) < 0){
-            total_descuento=0;
-        }
+        total_descuento = (quantity * price * discount / 100);
 
-        total_pagar = total - total_descuento;
-
-        total_pagar_html = total_pagar;
-        if (parseInt(total_pagar_html) < 0){
-            total_pagar_html=0;
-        }
-
-        $("#total").html("Bs./ " + total);
-        $("#total_descuento").html("Bs./ " + total_descuento);
-        $("#total_pagar_html").html("Bs./ " + total_pagar_html);
+        total_pagar_html = total;
+        
+        $("#total").html("BS" + total);
+        $("#total_descuento").html("BS/ " + total_descuento);
+        $("#total_pagar_html").html("BS/ " + total_pagar_html);
         $("#total_pagar").val(total_pagar_html.toFixed(2));
         $("#fila" + index).remove();
         evaluar();

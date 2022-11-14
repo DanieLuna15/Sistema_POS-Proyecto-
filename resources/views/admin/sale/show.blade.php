@@ -64,7 +64,7 @@
                                 <tfoot>
                                     <tr>
                                         <th colspan="4">
-                                            <p align="right">SUBTOTAL:</p>
+                                            <p align="right">TOTAL:</p>
                                         </th>
                                         <th>
                                             <p align="right">Bs./ {{number_format($subtotal,2)}}</p>
@@ -80,7 +80,7 @@
                                     </tr>
                                     <tr>
                                         <th colspan="4">
-                                            <p align="right">TOTAL:</p>
+                                            <p align="right">TOTAL A PAGAR:</p>
                                         </th>
                                         <th>
                                             <p align="right">Bs./{{number_format($sale->total,2)}}</p>

@@ -95,7 +95,7 @@
                         <p align="right">TOTAL:</p>
                     </th>
                     <th>
-                        <p align="right"><span id="total">Bs/ 0.00</span> </p>
+                        <p align="right"><span id="total">Bs./ 0.00</span> </p>
                     </th>
                 </tr>
                 <!--
@@ -104,7 +104,7 @@
                         <p align="right">TOTAL GANANCIAS (%):</p>
                     </th>
                     <th>
-                        <p align="right"><span id="total_impuesto">Bs/ 0.00</span></p>
+                        <p align="right"><span id="total_impuesto">Bs./ 0.00</span></p>
                     </th>
                 </tr>
                 -->
@@ -113,7 +113,7 @@
                         <p align="right">TOTAL DESCUENTO (%):</p>
                     </th>
                     <th>
-                        <p align="right"><span id="total_descuento">Bs/ 0.00</span></p>
+                        <p align="right"><span id="total_descuento">Bs./ 0.00</span></p>
                     </th>
                 </tr>
 
@@ -122,7 +122,7 @@
                         <p align="right">TOTAL PAGAR:</p>
                     </th>
                     <th>
-                        <p align="right"><span align="right" id="total_pagar_html">Bs/ 0.00</span> <input type="hidden"
+                        <p align="right"><span align="right" id="total_pagar_html">Bs./ 0.00</span> <input type="hidden"
                                 name="total" id="total_pagar"></p>
                     </th>
                 </tr>

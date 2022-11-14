@@ -20,6 +20,8 @@ class AnalyticsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware('can:analytics.index')->only(['index']);
     }
 
     public function index()

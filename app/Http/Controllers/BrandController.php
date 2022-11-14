@@ -22,7 +22,6 @@ class BrandController extends Controller
         $this->middleware('can:brands.index')->only(['index']);
         $this->middleware('can:brands.edit')->only(['edit','update']);
         $this->middleware('can:brands.show')->only(['show']);
-        $this->middleware('can:brands.destroy')->only(['destroy']);
     }
 
     public function index()
@@ -62,7 +61,7 @@ class BrandController extends Controller
 
     public function destroy(Brand $brand)
     {
-        $brand->delete();
-        return redirect()->route('brands.index');
+        /*$brand->delete();
+        return redirect()->route('brands.index');*/
     }
 }

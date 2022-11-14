@@ -26,7 +26,6 @@ class ProductController extends Controller
         $this->middleware('can:products.index')->only(['index']);
         $this->middleware('can:products.edit')->only(['edit','update']);
         $this->middleware('can:products.show')->only(['show']);
-        $this->middleware('can:products.destroy')->only(['destroy']);
 
         $this->middleware('can:change.status.products')->only(['change_status']);
     }
@@ -91,8 +90,8 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $product->delete();
-        return redirect()->route('products.index');
+        /*$product->delete();
+        return redirect()->route('products.index');*/
     }
     public function change_status(Product $product)
     {

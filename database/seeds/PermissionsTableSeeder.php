@@ -24,10 +24,6 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'categories.edit',
                             'description'=>'Edición de cualquier dato de una categoría del sistema',
         ]);
-        Permission::create(['name'=>'Eliminación de Categorías',
-                            'slug'=>'categories.destroy',
-                            'description'=>'Eliminación de una categoría del sistema',
-        ]);
         // FIN CATEGORIAS
         //MARCAS
         Permission::create(['name'=>'Navegación por Marcas',
@@ -46,10 +42,6 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'brands.edit',
                             'description'=>'Edición de cualquier dato de una marca del sistema',
         ]);
-        Permission::create(['name'=>'Eliminación de Marcas',
-                            'slug'=>'brands.destroy',
-                            'description'=>'Eliminación de una marca del sistema',
-        ]);
         // FIN MARCAS
         //PRODUCTOS
         Permission::create(['name'=>'Navegación por Productos',
@@ -67,10 +59,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name'=>'Edición de Productos',
                             'slug'=>'products.edit',
                             'description'=>'Edición de cualquier dato de un producto del sistema',
-        ]);
-        Permission::create(['name'=>'Eliminación de Productos',
-                            'slug'=>'products.destroy',
-                            'description'=>'Eliminación de un producto del sistema',
         ]);
         Permission::create(['name'=>'Cambiar Estado de Producto',
                             'slug'=>'change.status.products',
@@ -95,10 +83,6 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'providers.edit',
                             'description'=>'Edición de cualquier dato de un Proveedor del sistema',
         ]);
-        Permission::create(['name'=>'Eliminación de Proveedores',
-                            'slug'=>'providers.destroy',
-                            'description'=>'Eliminación de un producto del sistema',
-        ]);
         /*Permission::create(['name'=>'Cambiar Estado de Proveedores',
                             'slug'=>'change.status.providers',
                             'description'=>'Permite el cambio de estado de un Proveedor',
@@ -121,10 +105,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name'=>'Edición de Clientes',
                             'slug'=>'clients.edit',
                             'description'=>'Edición de cualquier dato de un Cliente del sistema',
-        ]);
-        Permission::create(['name'=>'Eliminación de Clientes',
-                            'slug'=>'clients.destroy',
-                            'description'=>'Eliminación de un Cliente del sistema',
         ]);
         /*Permission::create(['name'=>'Cambiar Estado de Proveedores',
                             'slug'=>'change.status.providers',
@@ -149,10 +129,6 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'users.edit',
                             'description'=>'Edición de cualquier dato de usuarios del sistema',
         ]);
-        Permission::create(['name'=>'Eliminación de Usuarios',
-                            'slug'=>'users.destroy',
-                            'description'=>'Eliminación de un usuario del sistema',
-        ]);
         Permission::create(['name'=>'Cambiar Estado de Usuario',
                             'slug'=>'change.status.users',
                             'description'=>'Permite el cambio de estado de un usuario',
@@ -176,10 +152,73 @@ class PermissionsTableSeeder extends Seeder
                             'slug'=>'roles.edit',
                             'description'=>'Edición de cualquier dato de un rol del sistema',
         ]);
-        Permission::create(['name'=>'Eliminación de Roles',
-                            'slug'=>'roles.destroy',
-                            'description'=>'Eliminación de un rol del sistema',
-        ]);
         // FIN CATEGORIAS
+
+        //VENTAS
+        Permission::create(['name'=>'Navegación por Ventas',
+                            'slug'=>'sales.index',
+                            'description'=>'Listado y navegación por todas las ventas registradas',
+        ]);
+        Permission::create(['name'=>'Creación de Ventas',
+                            'slug'=>'sales.create',
+                            'description'=>'Creación de ventas en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de Venta',
+                            'slug'=>'sales.show',
+                            'description'=>'Visualización en detalle cada venta registrada',
+        ]);
+        Permission::create(['name'=>'Cambiar Estado de Venta',
+                            'slug'=>'change.status.sales',
+                            'description'=>'Permite el cambio de estado de una Venta',
+        ]);
+        // FIN VENTAS
+
+        //ANALÍTICA
+        Permission::create(['name'=>'Acceso a Analítica',
+                            'slug'=>'analytics.index',
+                            'description'=>'Acceder al modulo de analitica para visualizar datos historicos y pronostico de demanda',
+        ]);
+        // FIN ANALÍTICA
+        
+        //COMPRAS
+        Permission::create(['name'=>'Navegación por Compras',
+                            'slug'=>'purchases.index',
+                            'description'=>'Listado y navegación por todas las Compras registradas',
+        ]);
+        Permission::create(['name'=>'Creación de Compras',
+                            'slug'=>'purchases.create',
+                            'description'=>'Creación de Compras en el sistema',
+        ]);
+        Permission::create(['name'=>'Visualización de detalle de Compra',
+                            'slug'=>'purchases.show',
+                            'description'=>'Visualización en detalle cada compra registrada',
+        ]);
+        Permission::create(['name'=>'Cambiar Estado de Compra',
+                            'slug'=>'change.status.purchases',
+                            'description'=>'Permite el cambio de estado de una Compra',
+        ]);
+        // FIN COMPRAS
+
+        // GENERACIÓN DE BOLETAS EN PDF
+        Permission::create(['name'=>'Generar PDF de nota de Venta',
+                            'slug'=>'sales.pdf',
+                            'description'=>'Generar y/o descargar las notas de Venta en PDF.',
+        ]);
+        Permission::create(['name'=>'Generar PDF de nota de Compra',
+                            'slug'=>'purchases.pdf',
+                            'description'=>'Generar y/o descargar las notas de Compra en PDF.',
+        ]);
+        // FIN GENERACIÓN DE BOLETAS EN PDF
+
+        // GENERACIÓN DE REPORTE DE COMPRAS Y VENTAS
+        Permission::create(['name'=>'Reporte de Ventas',
+                            'slug'=>'reports.date',
+                            'description'=>'Acceder al modulo de reportes de Ventas',
+        ]);
+        Permission::create(['name'=>'Reporte de Compras',
+                            'slug'=>'reportscm.datecm',
+                            'description'=>'Acceder al modulo de reportes de Compras',
+        ]);
+        // FIN GENERACIÓN DE BOLETAS EN PDF
     }
 }

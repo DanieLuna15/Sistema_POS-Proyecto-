@@ -13,8 +13,7 @@ class ReportcmController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        /*$this->middleware('can:reports.day')->only(['reports_day']);
-        $this->middleware('can:reports.date')->only(['reports_date']);*/
+        $this->middleware('can:reportscm.datecm')->only(['reportscm_datecm']);
     }
 
     public function reportscm_datecm(){

@@ -17,6 +17,13 @@ class ProviderController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware('can:providers.create')->only(['create','store']);
+        $this->middleware('can:providers.index')->only(['index']);
+        $this->middleware('can:providers.edit')->only(['edit','update']);
+        $this->middleware('can:providers.show')->only(['show']);
+
+        /*$this->middleware('can:change.status.providers')->only(['change_status']);*/
     }
 
     public function index()
@@ -56,7 +63,20 @@ class ProviderController extends Controller
 
     public function destroy(Provider $provider)
     {
-        $provider->delete();
-        return redirect()->route('providers.index');
+        /*$provider->delete();
+        return redirect()->route('providers.index');*/
+    }
+
+    public function change_status(Provider $provider)
+    {
+        if($provider->status == 'ACTIVO'){
+            $provider->update([ 'status' =>'DESACTIVADO']);
+            Alert::toast('Proveedor Deshabilitado con éxito.', 'success');
+            return redirect()->back();
+        }else{
+            $provider->update([ 'status' =>'ACTIVO']);
+            Alert::toast('Proveedor Habilitado con éxito.', 'success');
+            return redirect()->back();
+        }
     }
 }

@@ -146,16 +146,20 @@
                           </a>
                         </div>
                     </li>-->
+                    @can('sales.create')
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('sales.create')}}" title="Nueva Venta">
                             <button type="button" class="btn btn-info btn-rounded btn-icon"><i class="fas fa-shopping-cart"></i></button>
                         </a>
                     </li>
+                    @endcan
+                    @can('purchases.create')
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('purchases.create')}}" title="Nueva Compra">
                             <button type="button" class="btn btn-dark btn-rounded btn-icon"><i class="fas fa-cart-plus"></i></button>
                         </a>
                     </li>
+                    @endcan
                     <li class="nav-item nav-profile dropdown" align="center">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown" >
                             <!--<img src="{{asset('melody/images/faces/face16.jpg')}}" alt="profile" />-->

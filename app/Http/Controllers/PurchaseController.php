@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Provider;
 use App\Product;
 use App\Purchase;
@@ -20,15 +19,20 @@ para libreria
 */
 use App\NumerosEnLetras;
 
-
 //Para sweet alert en Compras
 use RealRashid\SweetAlert\Facades\Alert;
+
 class PurchaseController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware('can:purchases.create')->only(['create','store']);
+        $this->middleware('can:purchases.index')->only(['index']);
+        $this->middleware('can:purchases.show')->only(['show']);
+        $this->middleware('can:purchases.show')->only(['pdf']);
+        $this->middleware('can:change.status.purchases')->only(['change_status']);
     }
 
     public function index()

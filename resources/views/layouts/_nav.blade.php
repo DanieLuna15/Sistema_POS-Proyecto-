@@ -27,14 +27,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#page-layouts" aria-expanded="false"
-                aria-controls="page-layouts">
+            <a class="nav-link" data-toggle="collapse" href="#inventario" aria-expanded="false"
+                aria-controls="inventario">
                 <i class="fas fa-archive menu-icon"></i>
                     <span class="menu-title">Inventario</span>
                 <i class="menu-arrow"></i>
             </a>
-
-            <div class="collapse" id="page-layouts">
+            <div class="collapse" id="inventario">
                 <ul class="nav flex-column sub-menu">
                     @can('products.index')
                     <li class="nav-item ">
@@ -125,26 +124,30 @@
         </li>--}}
 
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#page-layouts3" aria-expanded="false"
-                aria-controls="page-layouts3">
+            <a class="nav-link" data-toggle="collapse" href="#reportes" aria-expanded="false"
+                aria-controls="reportes">
                 <i class="fas fa-file menu-icon"></i>
                     <span class="menu-title">Reportes</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="page-layouts3">
+            <div class="collapse" id="reportes">
                 <ul class="nav flex-column sub-menu">
+                    @can('reportscm.datecm')
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('reportscm.datecm')}}">
                             <i class="fas fa-th-list menu-icon"></i>
                             <span class="menu-title">Reporte de Compras</span>
                         </a>
                     </li>
+                    @endcan
+                    @can('reports.date')
                     <li class="nav-item ">
                         <a class="nav-link" href="{{route('reports.date')}}">
                             <i class="fas fa-calendar menu-icon"></i>
                             <span class="menu-title">Reporte de Ventas</span>
                         </a>
                     </li>
+                    @endcan
                 </ul>
             </div>
         </li>

@@ -20669,7 +20669,7 @@ code {
 }
 
 .accordion .card .card-header {
-  background-color: transparent;
+  background-color: #E2DBE5;
   border: none;
   padding: 2rem;
 }
@@ -20727,13 +20727,13 @@ code {
 }
 
 .accordion.accordion-bordered {
-  background: #ffffff;
+  background: #C2C6C5;
   box-shadow: 0px 1px 15px 1px rgba(230, 234, 236, 0.35);
 }
 
 .accordion.accordion-bordered .card {
   margin: 0 2rem;
-  border-top: 1px solid #e0e0ef;
+  border-top: 1px solid #C2C6C5;
   box-shadow: none;
   border-radius: 0;
 }

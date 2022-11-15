@@ -20,32 +20,55 @@ class AnalyticsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
         $this->middleware('can:analytics.index')->only(['index']);
     }
 
     public function index()
     {
-
         $categories = Category::get();
-
         $historydatas = Historydata::get();
 
         //API MODELO
-        $respuesta = Http::get('http://127.0.0.1:5000/pronosticofuturo');
+        $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
         $pronosticos=$respuesta->json();
 
-        $respuestafuturo = Http::get('http://127.0.0.1:5000/pronostico');
-        $pronosticosfuturo=$respuesta->json();
+        $respuestafuturo = Http::get('http://127.0.0.1:5000/pronosticofuturo');
+        $pronosticosfuturo=$respuestafuturo->json();
+
+        $solorespuestafuturo = Http::get('http://127.0.0.1:5000/solopronosticofuturo');
+        $solopronosticosfuturo=$solorespuestafuturo->json();
+
+        //PARA CADA CATEGORIA
+        $respuestacat1 = Http::get('http://127.0.0.1:5000/pronosticocat1');
+        $pronosticocat1=$respuestacat1->json();
+
+        $respuestacat2 = Http::get('http://127.0.0.1:5000/pronosticocat2');
+        $pronosticocat2=$respuestacat2->json();
+
+        $respuestacat3 = Http::get('http://127.0.0.1:5000/pronosticocat3');
+        $pronosticocat3=$respuestacat3->json();
+
+        $respuestacat4 = Http::get('http://127.0.0.1:5000/pronosticocat4');
+        $pronosticocat4=$respuestacat4->json();
+
+        $respuestacat5 = Http::get('http://127.0.0.1:5000/pronosticocat5');
+        $pronosticocat5=$respuestacat5->json();
+
+        $respuestacat6 = Http::get('http://127.0.0.1:5000/pronosticocat6');
+        $pronosticocat6=$respuestacat6->json();
+
+        $respuestacat7 = Http::get('http://127.0.0.1:5000/pronosticocat7');
+        $pronosticocat7=$respuestacat7->json();
+
+        $respuestacat8 = Http::get('http://127.0.0.1:5000/pronosticocat8');
+        $pronosticocat8=$respuestacat8->json();
+
+        $respuestacat9 = Http::get('http://127.0.0.1:5000/pronosticocat9');
+        $pronosticocat9=$respuestacat9->json();
+
+        $respuestacat10 = Http::get('http://127.0.0.1:5000/pronosticocat10');
+        $pronosticocat10=$respuestacat10->json();
         //API MODELO
-
-        /*$total_datahis = Historydata::select(
-            //DB::raw("count(*) as count"),
-            DB::raw("category_id as category_id"),
-            DB::raw("SUM(quantity) as quantity")
-        )->groupBy('category_id')->orderBy('quantity','desc')->get();
-        */
-
 
         $total_datahis=DB::select('SELECT c.name as namecategory,
         SUM(dh.quantity) as quantity
@@ -53,78 +76,23 @@ class AnalyticsController extends Controller
         inner join categories as c on dh.category_id=c.id
         group by c.name order by SUM(dh.quantity) desc');
 
-        //dd($total_datahis);
-
-
-        return view('admin.analytics.index', compact('pronosticos','historydatas','categories','total_datahis'));
-    }
-
-    public function index1()
-    {
-/*
-        $comprasmes = Purchase::where('status', 'VALID')->select(
-            DB::raw("count(*) as count"),
-            DB::raw("SUM(total) as totalmes"),
-            DB::raw("DATE_FORMAT(purchase_date,'%M %Y') as mes")
-        )->groupBy('mes')->take(12)->get();
-        $orders_of_the_day = Order::where('order_date', Carbon::now()->format('Y-m-d'))->take(5)->get();
-        $orders_of_the_day_status = Order::where('order_date', Carbon::now()->format('Y-m-d'))
-        ->select(
-            DB::raw("count(*) as count"),
-            DB::raw("shipping_status as status")
-        )->groupBy('status')->get();
-        $ventasmes = Sale::where('status', 'VALID')->select(
-            DB::raw("count(*) as count"),
-            DB::raw("SUM(total) as totalmes"),
-            DB::raw("DATE_FORMAT(sale_date,'%M %Y') as mes")
-        )->groupBy('mes')->take(12)->get();
-        $ventasdia = Sale::where('status', 'VALID')->select(
-            DB::raw("count(*) as count"),
-            DB::raw("SUM(total) as total"),
-            DB::raw("DATE_FORMAT(sale_date,'%D %M %Y') as date")
-        )->groupBy('date')->take(30)->get();
-        $most_ordered_products = OrderDetail::select(
-            DB::raw("SUM(quantity) as total"),
-            DB::raw("product_id as product_id")
-        )->groupBy('product_id')->take(12)->get();
-        $order_mes = Order::where('order_date', Carbon::now()->subdays(30)->format('Y-m-d'))->select(
-            DB::raw("count(*) as count"),
-            DB::raw("shipping_status as status")
-        )->groupBy('status')->get();
-        $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="VALID") as totalcompra, (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="VALID") as totalventa');
-        $productosvendidos=DB::select('SELECT p.code as code,
-        sum(dv.quantity) as quantity, p.name as name , p.id as id , p.stock as stock from products p
-        inner join sale_details dv on p.id=dv.product_id
-        inner join sales v on dv.sale_id=v.id where v.status="VALID"
-        and MONTH(v.sale_date)=MONTH(curdate())
-        group by p.code ,p.name, p.id , p.stock order by sum(dv.quantity) desc limit 10');
-        return view('home', compact(
-            'comprasmes',
-            'ventasmes',
-            'ventasdia',
-            'totales',
-            'productosvendidos',
-            'order_mes',
-            'most_ordered_products',
-            'orders_of_the_day',
-            'orders_of_the_day_status')
-        );
-
-        $total_datahis = Order::where('order_date', Carbon::now()->subdays(30)->format('Y-m-d'))->select(
-            DB::raw("count(*) as count"),
-            DB::raw("shipping_status as status")
-        )->groupBy('status')->get();
-
-        $order_mes = Order::where('order_date', Carbon::now()->subdays(30)->format('Y-m-d'))->select(
-            DB::raw("count(*) as count"),
-            DB::raw("shipping_status as status")
-        )->groupBy('status')->get();
-
-
-        $total_datahis = Historydata::select(
-            DB::raw("SUM(quantity) as quantity"),
-        )->groupBy('category_id')->get();
-
-        dd($total_datahis);*/
+        return view('admin.analytics.index',
+        compact(
+            'pronosticos',
+            'pronosticosfuturo',
+            'solopronosticosfuturo',
+            'pronosticocat1',
+            'pronosticocat2',
+            'pronosticocat3',
+            'pronosticocat4',
+            'pronosticocat5',
+            'pronosticocat6',
+            'pronosticocat7',
+            'pronosticocat8',
+            'pronosticocat9',
+            'pronosticocat10',
+            'historydatas',
+            'categories',
+            'total_datahis'));
     }
 }

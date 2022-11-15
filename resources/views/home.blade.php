@@ -162,7 +162,7 @@
               </div>
             </div>
           </div>
-        <div class="col-lg-4 grid-margin stretch-card">
+        <div class="col-md-4 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
@@ -472,7 +472,7 @@
                       xAxes: [{
                         display: true,
                         gridLines: {
-                        drawBorder: false
+                            drawBorder: false
                         }
                     }]
                     },

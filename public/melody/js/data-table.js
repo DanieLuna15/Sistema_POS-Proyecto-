@@ -18,7 +18,7 @@
           "lengthMenu": 'Mostrando <select class="form-control">' +
                 '<option value="5">5</option>' +
                 '<option value="10">10</option>' +
-                '<option value="5">20</option>' +
+                '<option value="20">20</option>' +
                 '<option value="30">30</option>' +
                 '<option value="100">100</option>' +
                 '<option value="-1">Todo</option>' +
@@ -49,7 +49,7 @@
           "lengthMenu": 'Mostrando <select class="form-control">' +
                 '<option value="5">5</option>' +
                 '<option value="10">10</option>' +
-                '<option value="5">20</option>' +
+                '<option value="20">20</option>' +
                 '<option value="30">30</option>' +
                 '<option value="100">100</option>' +
                 '<option value="-1">Todo</option>' +
@@ -80,7 +80,7 @@
           "lengthMenu": 'Mostrando <select class="form-control">' +
                 '<option value="5">5</option>' +
                 '<option value="10">10</option>' +
-                '<option value="5">20</option>' +
+                '<option value="20">20</option>' +
                 '<option value="30">30</option>' +
                 '<option value="100">100</option>' +
                 '<option value="-1">Todo</option>' +
@@ -110,7 +110,7 @@
           "lengthMenu": 'Mostrando <select class="form-control">' +
                 '<option value="5">5</option>' +
                 '<option value="10">10</option>' +
-                '<option value="5">20</option>' +
+                '<option value="20">20</option>' +
                 '<option value="30">30</option>' +
                 '<option value="100">100</option>' +
                 '<option value="-1">Todo</option>' +
@@ -140,7 +140,7 @@
           "lengthMenu": 'Mostrando <select class="form-control">' +
                 '<option value="5">5</option>' +
                 '<option value="10">10</option>' +
-                '<option value="5">20</option>' +
+                '<option value="20">20</option>' +
                 '<option value="30">30</option>' +
                 '<option value="100">100</option>' +
                 '<option value="-1">Todo</option>' +
@@ -209,5 +209,6 @@
         var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
         length_sel.removeClass('form-control-sm');
       });
+
     });
   })(jQuery);

@@ -149,7 +149,7 @@
                                                     <tfoot>
                                                         <tr>
                                                           <td colspan="3"><strong>Total de monto comprado: </strong></td>
-                                                          <td colspan="2" align="left"><strong>Bs./{{$total_purchases}}</strong></td>
+                                                          <td colspan="2" align="left"><strong>{{$total_purchases}} Bolivianos</strong></td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

@@ -119,7 +119,7 @@
 
                 <tr>
                     <th colspan="5">
-                        <p align="right">TOTAL PAGAR:</p>
+                        <p align="right">TOTAL A PAGAR:</p>
                     </th>
                     <th>
                         <p align="right"><span align="right" id="total_pagar_html">Bs./ 0.00</span> <input type="hidden"

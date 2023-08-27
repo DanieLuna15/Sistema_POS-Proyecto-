@@ -110,7 +110,7 @@
                                 <div class="d-flex align-items-start profile-feed-item">
 
                                     <div class="form-group col-md-6">
-                                        <strong><i class="fab fa-product-hunt mr-1"></i> Código de Barras:</strong>
+                                        <strong><i class="fab fa-product-hunt mr-1"></i> Código de Producto:</strong>
                                         <p class="text-muted">
                                             {{$product->code}}
                                         </p>
@@ -125,9 +125,14 @@
                                         <strong>
                                             <i class="fas fa-mobile mr-1"></i>Precio De Venta:</strong>
                                         <p class="text-muted">
-                                            {{$product->sell_price}}
+                                            {{$product->sell_price}} Bs.
                                         </p>
                                         <hr>
+                                        <strong>
+                                            <i class="fas fa-info mr-1"></i>Características:</strong>
+                                        <p class="text-muted">
+                                            --------------------------
+                                        </p>
                                     </div>
                                 </div>
                             </div>

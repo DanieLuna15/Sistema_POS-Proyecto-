@@ -93,11 +93,16 @@
 
                     <div class="form-group">
                         <label for="email">Correo Electrónico: </label>
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$client->email}}"
-                        id=email" aria-describedby="helpId" placeholder="Ingrese el número de telefono/celular" >
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{$errors-> first('email')}}</strong>
-                        </span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                            id=email" aria-describedby="helpId" placeholder="Ingrese el correo electrónico del cliente"  value="{{$client->email}}">
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{$errors-> first('email')}}</strong>
+                            </span>
+                        </div>
                         <small id="helpId" class="form-text text-muted">Éste campo es opcional</small>
                     </div>
 

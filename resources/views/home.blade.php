@@ -109,33 +109,13 @@
             </div>
         </div>
     </div>
-    <!--
-    <div class="row">
-        <div class="col-lg-6 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Bar chart</h4>
-                    <div id="c3-bar-chart"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Donut chart</h4>
-                    <div id="c3-donut-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
     <div class="row">
         <div class="col-md-4 grid-margin stretch-card">
             <div class="card">
               <div class="card-body d-flex flex-column">
                 <h4 class="card-title">
                   <i class="fas fa-chart-pie"></i>
-                  Categorías mas Demandadas
+                  Categorías mas Demandadas del 2023
                 </h4>
                 <p class="card-description">Este es un top de las Categorías mas demandadas</p>
                 <div class="flex-grow-1 d-flex flex-column justify-content-between">
@@ -152,7 +132,7 @@
               <div class="card-body d-flex flex-column">
                 <h4 class="card-title">
                   <i class="fas fa-tachometer-alt"></i>
-                  Marcas Mas Demandadas
+                  Marcas Mas Demandadas del 2023
                 </h4>
                 <p class="card-description">Este es un top de las marcas mas demandadas</p>
                 <div class="flex-grow-1 d-flex flex-column justify-content-between">
@@ -217,7 +197,7 @@
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th>Nombre</th>
-                                    <th>Código</th>
+                                    <th>Marca</th>
                                     <th>Stock Actual</th>
                                     <th>Cantidad vendida</th>
                                 </tr>
@@ -225,9 +205,13 @@
                             <tbody>
                                 @foreach ($productosmasvendidos as $productosmasvendido)
                                 <tr>
-                                    <td>{{$productosmasvendido->id}}</td>
+                                    <td>
+                                        <a class="jsgrid-button btn btn-dark btn-rounded">
+                                            <strong>{{$productosmasvendido->id}}</strong>
+                                        </a>
+                                    </td>
                                     <td>{{$productosmasvendido->name}}</td>
-                                    <td>{{$productosmasvendido->code}}</td>
+                                    <td>{{$productosmasvendido->brand}}</td>
                                     <td>
                                         @if ($productosmasvendido->stock==0)
                                             <a class="jsgrid-button btn btn-danger btn-sm btn-rounded">

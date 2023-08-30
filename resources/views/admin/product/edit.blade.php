@@ -76,7 +76,7 @@
                       <select class="js-example-basic-single w-responsive form-control" name="brand_id" id="brand_id">
                         @foreach($brands as $brand)
                         <option value="{{$brand->id}}"
-                            {{old('brand_id', $brand->brand_id) == $brand->id ? 'selected' : ''}}
+                            {{old('brand_id', $product->brand_id) == $brand->id ? 'selected' : ''}}
                             >{{$brand->name}}
                         </option>
                         @endforeach
@@ -107,7 +107,7 @@
                       <select class="js-example-basic-single w-responsive form-control" name="provider_id" id="provider_id">
                         @foreach($providers as $provider)
                         <option value="{{$provider->id}}"
-                            {{old('provider_id', $provider->provider_id) == $provider->id ? 'selected' : ''}}
+                            {{old('provider_id', $product->provider_id) == $provider->id ? 'selected' : ''}}
                             >{{$provider->name}}
                         </option>
                         @endforeach

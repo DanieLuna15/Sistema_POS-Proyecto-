@@ -128,11 +128,11 @@
                                             {{$product->sell_price}} Bs.
                                         </p>
                                         <hr>
-                                        <strong>
-                                            <i class="fas fa-info mr-1"></i>Características:</strong>
+                                        <strong><i class="fas fa-info mr-1"></i>Características:</strong>
                                         <p class="text-muted">
-                                            --------------------------
+                                            <strong>-----------(Sin registro)-----------</strong>
                                         </p>
+                                        <hr>
                                     </div>
                                 </div>
                             </div>

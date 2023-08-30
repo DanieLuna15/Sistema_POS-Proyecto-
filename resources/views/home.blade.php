@@ -48,7 +48,7 @@
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-bullhorn mr-1"></i>
-                        Total Monto en Ventas
+                        Total Monto en Ventas del 2023
                         </p>
                         <h2>{{$totalvn}} Bs.</h2>
                         @if ($totalvn>$totalcm)
@@ -60,7 +60,7 @@
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-shopping-cart mr-1"></i>
-                        Total Ventas
+                        Total Ventas del 2023
                         </p>
                         <h2>{{$cantventasTotal}}</h2>
                         @if ($cantventasHoy==0)
@@ -72,7 +72,7 @@
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-cart-plus mr-1"></i>
-                        Total Compras
+                        Total Compras del 2023
                         <h2>{{$cantcomprasTotal}}</h2>
                         @if ($cantcomprasHoy==0)
                             <label class="badge badge-outline-danger badge-pill">{{$cantcomprasHoy}} Realizadas hoy.</label>
@@ -91,7 +91,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-chart-line"></i>
-                        Compras Vs Ventas ultimos 12 meses
+                        Compras Vs Ventas del 2023
                     </h4>
                     <canvas id="barras"></canvas>
                 </div>
@@ -102,7 +102,10 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-chart-line"></i>
-                        Cantidad de Ventas Diarías  <!--Total : {{$cantventasdia}} en los ult 30 dias-->
+                        Cantidad de Ventas: <a class="jsgrid-button btn btn-success btn-sm btn-rounded">
+                                    <strong>{{$cantventasdia}}</strong>
+                                </a>
+                        realizadas en este mes.
                     </h4>
                     <canvas id="ventas_diarias"></canvas>
                 </div>
@@ -117,7 +120,7 @@
                   <i class="fas fa-chart-pie"></i>
                   Categorías mas Demandadas del 2023
                 </h4>
-                <p class="card-description">Este es un top de las Categorías mas demandadas</p>
+                <p class="card-description">Este es un top 5 de las Categorías mas demandadas</p>
                 <div class="flex-grow-1 d-flex flex-column justify-content-between">
                   <canvas id="sales-status-chart" class="mt-3"></canvas>
                   <div class="pt-4">
@@ -134,7 +137,7 @@
                   <i class="fas fa-tachometer-alt"></i>
                   Marcas Mas Demandadas del 2023
                 </h4>
-                <p class="card-description">Este es un top de las marcas mas demandadas</p>
+                <p class="card-description">Este es un top 5 de las marcas mas demandadas</p>
                 <div class="flex-grow-1 d-flex flex-column justify-content-between">
                   <canvas id="daily-sales-chart" class="mt-3 mb-3 mb-md-0"></canvas>
                   <div id="daily-sales-chart-legend" class="daily-sales-chart-legend pt-4 border-top"></div>
@@ -189,7 +192,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-table"></i>
-                        Top 10 de Productos más vendidos
+                        Top 10 de Productos más vendidos del 2023
                     </h4>
                     <div class="table-responsive">
                         <table class="table">
@@ -543,97 +546,6 @@
     });
 </script>
 
-<script>
-    $(function(){
-        var c3BarChart = c3.generate({
-            bindto: '#c3-bar-chart',
-            data: {
-            columns: [
-                ['data1', 30, 200, 100, 400, 150, 250],
-                ['data2', 130, 100, 140, 200, 150, 50]
-            ],
-            type: 'bar'
-            },
-            color: {
-            pattern: ['rgba(88,216,163,1)', 'rgba(4,189,254,0.6)', 'rgba(237,28,36,0.6)']
-            },
-            padding: {
-            top: 0,
-            right: 0,
-            bottom: 30,
-            left: 0,
-            },
-            bar: {
-            width: {
-                ratio: 0.7 // this makes bar width 50% of length between ticks
-            }
-            }
-        });
-
-        setTimeout(function() {
-            c3BarChart.load({
-            columns: [
-                ['data3', 130, -150, 200, 300, -200, 100]
-            ]
-            });
-        }, 1000);
-    });
-</script>
-
-<script>
-    $(function(){
-        var c3DonutChart = c3.generate({
-            bindto: '#c3-donut-chart',
-            data: {
-            columns: [
-                ['data1', 30],
-                ['data2', 120],
-            ],
-            type: 'donut',
-            onclick: function(d, i) {
-                console.log("onclick", d, i);
-            },
-            onmouseover: function(d, i) {
-                console.log("onmouseover", d, i);
-            },
-            onmouseout: function(d, i) {
-                console.log("onmouseout", d, i);
-            }
-            },
-            color: {
-            pattern: ['rgba(88,216,163,1)', 'rgba(4,189,254,0.6)', 'rgba(237,28,36,0.6)']
-            },
-            padding: {
-            top: 0,
-            right: 0,
-            bottom: 30,
-            left: 0,
-            },
-            donut: {
-            title: "Iris Petal Width"
-            }
-        });
-
-        setTimeout(function() {
-            c3DonutChart.load({
-            columns: [
-                ["setosa", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2],
-                ["versicolor", 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1.0, 1.3, 1.4, 1.0, 1.5, 1.0, 1.4, 1.3, 1.4, 1.5, 1.0, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1.0, 1.1, 1.0, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1.0, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3],
-                ["virginica", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2.0, 2.0, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2.0, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2.0, 2.3, 1.8],
-            ]
-            });
-        }, 1500);
-
-        setTimeout(function() {
-            c3DonutChart.unload({
-            ids: 'data1'
-            });
-            c3DonutChart.unload({
-            ids: 'data2'
-            });
-        }, 2500);
-    });
-</script>
 @endsection
 
 

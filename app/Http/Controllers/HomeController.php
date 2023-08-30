@@ -25,7 +25,7 @@ class HomeController extends Controller
     {
         //PARA DASHBOARD
         //---------------------------------------------
-        $salesTotal = Sale::where('status','CONFIRMADO')
+        $salesTotal = Sale::whereRaw('year(sale_date) = year(now())')->where('status','CONFIRMADO')
         ->get();
         $totalvn = $salesTotal -> sum('total');
         $cantventasTotal = $salesTotal -> count('id');
@@ -42,7 +42,7 @@ class HomeController extends Controller
         $totalsalesHoy = $salesHoy -> sum('total');
         $cantventasHoy = $salesHoy -> count('id');
         //---------------------------------------------
-        $comprasTotal = Purchase::where('status','CONFIRMADO')
+        $comprasTotal = Purchase::whereRaw('year(purchase_date) = year(now())')->where('status','CONFIRMADO')
                 ->get();
         $totalcm = $comprasTotal -> sum('total');
         $cantcomprasTotal = $comprasTotal -> count('id');
@@ -72,19 +72,19 @@ class HomeController extends Controller
 
         //CONSULTAS PARA GRÁFICOS
         DB::statement("SET lc_time_names = 'es_ES'");
-        $comprasmes = Purchase::where('status', 'CONFIRMADO')->select(
+        $comprasmes = Purchase::whereRaw('year(purchase_date) = year(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
             DB::raw("DATE_FORMAT(purchase_date,'%b %Y') as mes")
         )->groupBy('mes')->take(12)->orderBy('purchase_date','ASC')->get();
-
-        $ventasmes = Sale::where('status', 'CONFIRMADO')->select(
+        //dd($comprasmes);
+        $ventasmes = Sale::whereRaw('year(sale_date) = year(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
             DB::raw("DATE_FORMAT(sale_date,'%b %Y') as mes")
         )->groupBy('mes')->take(12)->orderBy('sale_date','ASC')->get();
-
-        $ventasdia = Sale::whereRaw('year(sale_date) = year(now())')->where('status', 'CONFIRMADO')->select(
+        //dd($ventasmes);
+        $ventasdia = Sale::whereRaw('month(sale_date) = month(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as total"),
             DB::raw("DATE_FORMAT(sale_date,'%e %b') as date")

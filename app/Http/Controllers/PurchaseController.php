@@ -102,7 +102,6 @@ class PurchaseController extends Controller
         $subtotal=0;
         //Para mostrar el total en letras
         $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',true);
-        //dd($totalLiteral);
         $PurchaseDetails=$purchase->PurchaseDetails;
         foreach($PurchaseDetails as $PurchaseDetail){
             $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
@@ -110,6 +109,6 @@ class PurchaseController extends Controller
 
         $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails','totalLiteral'));
 
-        return $pdf->download('Reporte-Nota_de_Compra_'.$purchase->id.'_(Fec_'.$purchase->purchase_date.')'.'.pdf');
+        return $pdf->download('Nota_de_Compra_N°_'.$purchase->id.'_(Fec_'.$purchase->purchase_date.')'.'.pdf');
     }
 }

@@ -76,6 +76,244 @@ class AnalyticsController extends Controller
         inner join categories as c on dh.category_id=c.id
         group by c.name order by SUM(dh.quantity) desc');
 
+        $productosvendidos=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        WHERE YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosact=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        WHERE YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat1=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 1
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat1=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 1
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat2=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 2
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat2=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 2
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat3=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 3
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat3=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 3
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat4=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 4
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat4=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 4
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat5=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 5
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat5=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 5
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat6=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 6
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat6=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 6
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat7=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 7
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat7=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 7
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat8=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 8
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat8=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 8
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat9=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 9
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat9=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 9
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidoscat10=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 10
+        AND YEAR(s.sale_date) = 2022
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
+        $productosvendidosactcat10=DB::select('SELECT MONTHNAME(s.sale_date) as month,
+        sum(sd.quantity) as cantidad
+        FROM sales as s
+        inner join sale_details as sd on sd.sale_id=s.id
+        inner join products as p on p.id = sd.product_id
+        WHERE p.category_id= 10
+        AND YEAR(s.sale_date) = YEAR(CURDATE())
+        AND s.status="CONFIRMADO"
+        GROUP BY month
+        ORDER BY MONTH(s.sale_date) ASC');
+
         return view('admin.analytics.index',
         compact(
             'pronosticos',
@@ -93,6 +331,28 @@ class AnalyticsController extends Controller
             'pronosticocat10',
             'historydatas',
             'categories',
-            'total_datahis'));
+            'total_datahis',
+            'productosvendidos',
+            'productosvendidosact',
+            'productosvendidoscat1',
+            'productosvendidosactcat1',
+            'productosvendidoscat2',
+            'productosvendidosactcat2',
+            'productosvendidoscat3',
+            'productosvendidosactcat3',
+            'productosvendidoscat4',
+            'productosvendidosactcat4',
+            'productosvendidoscat5',
+            'productosvendidosactcat5',
+            'productosvendidoscat6',
+            'productosvendidosactcat6',
+            'productosvendidoscat7',
+            'productosvendidosactcat7',
+            'productosvendidoscat8',
+            'productosvendidosactcat8',
+            'productosvendidoscat9',
+            'productosvendidosactcat9',
+            'productosvendidoscat10',
+            'productosvendidosactcat10'));
     }
 }

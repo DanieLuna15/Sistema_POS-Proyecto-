@@ -71,7 +71,11 @@
                                                 <hr>
                                                 <strong><i class="fas fa-address-card mr-1"></i> NIT:</strong>
                                                 <p class="text-muted">
-                                                    {{$client->nit}}
+                                                    @if ($client->nit=='')
+                                                        <strong>-----------(Sin registro)-----------</strong>
+                                                    @else
+                                                        {{$client->nit}}
+                                                    @endif
                                                 </p>
                                                 <hr>
                                             </div>
@@ -79,7 +83,11 @@
                                                 <strong>
                                                     <i class="fas fa-map-marked-alt mr-1"></i>Dirección:</strong>
                                                 <p class="text-muted">
-                                                    {{$client->address}}
+                                                    @if ($client->address=='')
+                                                        <strong>-----------(Sin registro)-----------</strong>
+                                                    @else
+                                                        {{$client->address}}
+                                                    @endif
                                                 </p>
                                                 <hr>
                                                 <strong><i class=" fas fa-mobile mr-1"></i> Teléfono/Celular:</strong>
@@ -89,7 +97,11 @@
                                                 <hr>
                                                 <strong><i class=" fas fa-envelope mr-1"></i> Correo Electrónico:</strong>
                                                 <p class="text-muted">
-                                                    {{$client->email}}
+                                                    @if ($client->email=='')
+                                                        <strong>-----------(Sin registro)-----------</strong>
+                                                    @else
+                                                        {{$client->email}}
+                                                    @endif
                                                 </p>
                                                 <hr>
                                             </div>

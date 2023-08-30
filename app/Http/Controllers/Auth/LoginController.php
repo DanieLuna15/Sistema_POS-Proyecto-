@@ -40,7 +40,7 @@ class LoginController extends Controller
         if (auth()->user()->where('status','HABILITADO')) {
             Alert::toast('Bienvenido(a) al sistema.', 'info');
             return route('home');
-        } else {
+        } else if (auth()->user()->where('status','DESHABILITADO')){
             Alert::toast('Su usuario esta deshabilitado.', 'warning');
             return route('welcome');
         }

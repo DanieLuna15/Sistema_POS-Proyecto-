@@ -656,7 +656,7 @@
                     labels: [<?php foreach ($solopronosticosfuturo as $pronostico)
                     { $fecha = $pronostico['mes']; echo '"'. $fecha.'",';} ?>],
                     datasets: [{
-                        label: 'Pronóstico',
+                        label: 'Estimación',
                         data: [<?php foreach ($solopronosticosfuturo as $pron2)
                         {echo ''. $pron2['pronostico'].',';} ?>],
                         backgroundColor: 'rgba(195,110,37,0.55)',
@@ -665,7 +665,7 @@
                     },{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidos as $prod)
-                        {echo ''. $prod->cantidad.',';}?>6],
+                        {echo ''. $prod->cantidad.',';}?>6,5],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
@@ -741,14 +741,14 @@
                         backgroundColor: 'RGBA(108,52,131,0.50)',
                         borderColor: '#6C3483',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat1 as $prodcat1)
                         {echo ''. $prodcat1->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -812,14 +812,14 @@
                         backgroundColor: 'RGBA(192,57,43,0.50)',
                         borderColor: '#C0392B',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat2 as $prodcat2)
                         {echo ''. $prodcat2->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -883,14 +883,14 @@
                         backgroundColor: 'RGBA(86,197,216,0.50)',
                         borderColor: '#56C5D8',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat3 as $prodcat3)
                         {echo ''. $prodcat3->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -954,14 +954,14 @@
                         backgroundColor: 'RGBA(60,122,147,0.50)',
                         borderColor: '#3C7A93',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat4 as $prodcat4)
                         {echo ''. $prodcat4->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -1025,14 +1025,14 @@
                         backgroundColor: 'RGBA(57,39,101,0.50)',
                         borderColor: '#392765',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat5 as $prodcat5)
                         {echo ''. $prodcat5->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -1096,14 +1096,14 @@
                         backgroundColor: 'RGBA(4,179,33,0.50)',
                         borderColor: '#04b321',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat6 as $prodcat6)
                         {echo ''. $prodcat6->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -1167,14 +1167,14 @@
                         backgroundColor: 'RGBA(255,84,49,0.50)',
                         borderColor: '#ff5431',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat7 as $prodcat7)
                         {echo ''. $prodcat7->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -1238,14 +1238,14 @@
                         backgroundColor: 'RGBA(255,153,0,0.50)',
                         borderColor: '#ff9900',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat8 as $prodcat8)
                         {echo ''. $prodcat8->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -1309,14 +1309,14 @@
                         backgroundColor: 'RGBA(57,36,20,0.50)',
                         borderColor: '#392414',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat9 as $prodcat9)
                         {echo ''. $prodcat9->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,
@@ -1380,14 +1380,14 @@
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    },{
+                    }/*,{
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidoscat10 as $prodcat10)
                         {echo ''. $prodcat10->cantidad.',';}?>],
                         backgroundColor: 'RGBA(163,207,67,0.50)',
                         borderColor: '#A3CF43',
                         borderWidth: 3,
-                    }]
+                    }*/]
                 },
                 options: {
                     maintainAspectRatio: true,

@@ -100,7 +100,7 @@ class HomeController extends Controller
         $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="CONFIRMADO") as totalcompra,
                                     (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="CONFIRMADO") as totalventa');
 
-        $productosmasvendidos=DB::select('SELECT p.code as code,
+        $productosmasvendidos=DB::select('SELECT p.code as code, p.image as imageproduct,
         sum(dv.quantity) as quantity, p.name as name, p.id as id, b.name as brand, p.stock as stock
         from products p
         inner join sale_details dv on p.id=dv.product_id
@@ -108,7 +108,7 @@ class HomeController extends Controller
         inner join brands b on b.id=p.id
         where v.status="CONFIRMADO"
         and YEAR(v.sale_date)=YEAR(curdate())
-        group by p.code ,p.name, p.id, b.name, p.stock order by sum(dv.quantity) desc limit 10');
+        group by p.code, p.image ,p.name, p.id, b.name, p.stock order by sum(dv.quantity) desc limit 10');
 
         $categoríasmasvendidas=DB::select('SELECT c.name as namecategory,
         sum(dv.quantity) as quantity from products p
@@ -124,10 +124,10 @@ class HomeController extends Controller
         inner join brands m on p.brand_id=m.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
         group by m.name order by sum(dv.quantity) desc limit 5');
 
-        $productosmenorstock=DB::select('SELECT name as nameproduct,
+        $productosmenorstock=DB::select('SELECT name as nameproduct, image as imageproduct,
         stock from products
         where stock BETWEEN 0 AND 15
-        order by stock desc limit 6');
+        order by stock asc limit 6');
         // FIN CONSULTAS PARA GRÁFICOS
 
         // PARA RETORNAR EN LA VISTA

@@ -102,7 +102,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-chart-line"></i>
-                        Cantidad de Ventas: <a class="jsgrid-button btn btn-success btn-sm btn-rounded">
+                        Cantidad de Ventas diarias: <a class="jsgrid-button btn btn-success btn-sm btn-rounded">
                                     <strong>{{$cantventasdia}}</strong>
                                 </a>
                         realizadas en este mes.
@@ -159,6 +159,7 @@
                             <thead>
                                 <tr>
                                     <th>Nombre</th>
+                                    <th>Imagen</th>
                                     <th>Stock Actual</th>
                                 </tr>
                             </thead>
@@ -166,6 +167,7 @@
                                 @foreach ($productosmenorstock as $productostockmin)
                                 <tr>
                                     <td>{{$productostockmin->nameproduct}}</td>
+                                    <td><img src="{{asset('image/'.$productostockmin->imageproduct)}}" class="img-lg rounded" alt="profile image" /></td>
                                     <td>
                                         @if ($productostockmin->stock==0)
                                             <a class="jsgrid-button btn btn-danger btn-sm btn-rounded">
@@ -199,6 +201,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
+                                    <th>Imagen</th>
                                     <th>Nombre</th>
                                     <th>Marca</th>
                                     <th>Stock Actual</th>
@@ -213,6 +216,7 @@
                                             <strong>{{$productosmasvendido->id}}</strong>
                                         </a>
                                     </td>
+                                    <td><img src="{{asset('image/'.$productosmasvendido->imageproduct)}}" class="img-lg rounded" alt="profile image" /></td>
                                     <td>{{$productosmasvendido->name}}</td>
                                     <td>{{$productosmasvendido->brand}}</td>
                                     <td>

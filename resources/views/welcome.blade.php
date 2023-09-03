@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Imdicorp S.R.L.</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -12,8 +12,8 @@
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #6e6573;
+                color: #ebf1f3;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
@@ -49,7 +49,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: #eff2f4;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;
@@ -70,7 +70,7 @@
                     @auth
                         <a href="{{ url('/home') }}">Ir al Sistema</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Acceder</a>
 
                         @if (Route::has('register'))
                             <!--<a href="{{ route('register') }}">Register</a>-->
@@ -86,7 +86,7 @@
                     @auth
                         <a href="{{ url('/home') }}">Ir al Sistema</a>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">Acceder</a>
 
                         @if (Route::has('register'))
                             <!--<a href="{{ route('register') }}">Register</a>-->

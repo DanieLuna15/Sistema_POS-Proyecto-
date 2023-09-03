@@ -28,7 +28,7 @@
                 <!--<img src="{{asset('melody/images/logo.svg')}}" alt="logo">-->
               </div>
               <h4>ImdiCorp S.R.L.</h4>
-              <h6 class="font-weight-light">Descripción de la empresa.</h6>
+              <h6 class="font-weight-light">Importadora y Comercializadora de Productos Electrónicos.</h6>
               @yield('content')
             </div>
           </div>

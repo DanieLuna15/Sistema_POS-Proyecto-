@@ -83,6 +83,20 @@ class ReportController extends Controller
             'mejoresclientesmont')
         );
     }
+
+    public function exportar()
+    {
+        $sales = Sale::whereRaw('year(sale_date) = year(now())')
+        ->where('status','CONFIRMADO')
+        ->get();
+
+        Excel::create('sales', function($excel) use($sales) {
+            $excel->sheet('Exportar', function($sheet)use($sales){
+                $sheet->fromArray($sales);
+            });
+        })->export('xls');
+    }
+
     public function report_results(Request $request){
 
         $mejoresclientescant=DB::select('SELECT c.name as nameclient,

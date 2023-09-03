@@ -126,7 +126,7 @@
                                                         <th>Id</th>
                                                         <th>Fecha-Mes</th>
                                                         <th>Total /Bs.</th>
-                                                        <th>Categoría-Top 1</th>
+                                                        <th>Categoría Más Vendida</th>
                                                         <th>Cantidad-Vendida/Unidades</th>
                                                     </tr>
                                                 </thead>
@@ -450,8 +450,7 @@
                     }]
                 },
                 options: {
-                    /*
-                    title:{
+                    /* title:{
                         display:true,
                         text: 'Comportamiento de la Demanda vs Pronóstico',
                         fontSize: 30,
@@ -666,15 +665,27 @@
                         label: 'Cantidad Vendida 2022',
                         data: [<?php foreach ($productosvendidos as $prod)
                         {echo ''. $prod->cantidad.',';}?>6,5],
-                        backgroundColor: 'RGBA(163,207,67,0.50)',
-                        borderColor: '#A3CF43',
+                        backgroundColor: 'RGBA(4,179,33,0.50)',
+                        borderColor: '#04b321',
+                        borderWidth: 3,
+                    },/*{
+                        label: 'Cantidad Vendida 2022',
+                        data: [110,90,75,60,49,67,60,76,86,96,120,123,100],
+                        backgroundColor: 'RGBA(4,179,33,0.50)',
+                        borderColor: '#04b321',
                         borderWidth: 3,
                     },{
                         label: 'Cantidad Vendida 2023',
+                        data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,100,97,85,70,59,77,65],
+                        backgroundColor: 'RGBA(57,39,101,0.50)',
+                        borderColor: '#392765',
+                        borderWidth: 3,
+                    },*/{
+                        label: 'Cantidad Vendida 2023',
                         data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,<?php foreach ($productosvendidosact as $prodact)
                         {echo ''. $prodact->cantidad.',';} ?>],
-                        backgroundColor: 'RGBA(255,153,0,0.50)',
-                        borderColor: '#ff9900',
+                        backgroundColor: 'RGBA(57,39,101,0.50)',
+                        borderColor: '#392765',
                         borderWidth: 3,
                     }]
                 },

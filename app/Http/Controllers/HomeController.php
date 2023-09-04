@@ -84,7 +84,7 @@ class HomeController extends Controller
             DB::raw("DATE_FORMAT(sale_date,'%b %Y') as mes")
         )->groupBy('mes')->take(12)->orderBy('sale_date','ASC')->get();
         //dd($ventasmes);
-        $ventasdia = Sale::whereRaw('month(sale_date) = month(now())')->where('status', 'CONFIRMADO')->select(
+        $ventasdia = Sale::whereRaw('month(sale_date) = month(now()) AND year(sale_date) = year(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as total"),
             DB::raw("DATE_FORMAT(sale_date,'%e %b') as date")
@@ -105,7 +105,7 @@ class HomeController extends Controller
         from products p
         inner join sale_details dv on p.id=dv.product_id
         inner join sales v on dv.sale_id=v.id
-        inner join brands b on b.id=p.id
+        inner join brands b on b.id=p.brand_id
         where v.status="CONFIRMADO"
         and YEAR(v.sale_date)=YEAR(curdate())
         group by p.code, p.image ,p.name, p.id, b.name, p.stock order by sum(dv.quantity) desc limit 10');

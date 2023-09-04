@@ -71,9 +71,9 @@
                                         <td align="center">
                                             @foreach ($user->roles as $role)
                                                 @if ($role->name=='')
-                                                    <a class="jsgrid-button btn btn-warning btn-sm btn-rounded">Sin Asignar</a>
+                                                    <a class="jsgrid-button btn btn-warning btn-sm btn-block">Sin Asignar</a>
                                                 @else
-                                                    <a class="jsgrid-button btn btn-info btn-sm btn-rounded" href="{{route('roles.show',$role)}}">{{$role->name}}</a>
+                                                    <a class="jsgrid-button btn btn-info btn-sm btn-block" href="{{route('roles.show',$role)}}">{{$role->name}}</a>
                                                 @endif
                                             @endforeach
                                         </td>

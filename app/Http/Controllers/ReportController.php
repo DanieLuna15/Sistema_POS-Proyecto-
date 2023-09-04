@@ -34,7 +34,7 @@ class ReportController extends Controller
         $totald = $salesd -> sum('total');
         $cantventasd = $salesd -> count('id');
 
-        $salesm = Sale::whereRaw('month(sale_date) = month(now())')
+        $salesm = Sale::whereRaw('month(sale_date) = month(now()) AND year(sale_date) = year(now())')
                 ->where('status','CONFIRMADO')
                 ->get();
         $totalm = $salesm -> sum('total');
@@ -117,7 +117,7 @@ class ReportController extends Controller
         $totald = $salesd -> sum('total');
         $cantventasd = $salesd -> count('id');
 
-        $salesm = Sale::whereRaw('month(sale_date) = month(now())')
+        $salesm = Sale::whereRaw('month(sale_date) = month(now()) AND year(sale_date) = year(now())')
                 ->where('status','CONFIRMADO')
                 ->get();
         $totalm = $salesm -> sum('total');

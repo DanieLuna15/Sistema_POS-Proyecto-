@@ -35,7 +35,7 @@ class ReportcmController extends Controller
         $totald= $purchasesd -> sum('total');
         $cantcomprasd = $purchasesd -> count('id');
 
-        $purchasesm = Purchase::whereRaw('month(purchase_date) = month(now())')
+        $purchasesm = Purchase::whereRaw('month(purchase_date) = month(now()) AND year(purchase_date) = year(now())')
                 ->where('status','CONFIRMADO')
                 ->get();
         $totalm= $purchasesm -> sum('total');
@@ -105,7 +105,7 @@ class ReportcmController extends Controller
         $totald= $purchasesd -> sum('total');
         $cantcomprasd = $purchasesd -> count('id');
 
-        $purchasesm = Purchase::whereRaw('month(purchase_date) = month(now())')
+        $purchasesm = Purchase::whereRaw('month(purchase_date) = month(now()) AND year(purchase_date) = year(now())')
                 ->where('status','CONFIRMADO')
                 ->get();
         $totalm= $purchasesm -> sum('total');

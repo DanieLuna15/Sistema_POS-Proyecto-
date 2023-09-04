@@ -41,8 +41,8 @@
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Todas las Compras:</h4>
                         <div class="btn-group">
-                            <a href="{{route('purchases.create')}}" type="button" class="btn btn-info ">
-                                <i class="fas fa-plus"></i> Nuevo
+                            <a href="{{route('purchases.create')}}" type="button" class="btn btn-success ">
+                                <i class="fas fa-plus"></i> Nueva Compra
                             </a>
                         </div>
                     </div>

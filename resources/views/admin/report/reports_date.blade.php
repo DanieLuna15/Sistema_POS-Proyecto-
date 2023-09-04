@@ -612,7 +612,7 @@
         if ($("#daily-sales-chart").length) {
             var dailySalesChartData = {
                 datasets: [{
-                    data: [<?php foreach ($mejoresclientescant as $mejorclientemont)
+                    data: [<?php foreach ($mejoresclientesmont as $mejorclientemont)
                     {echo ''. $mejorclientemont->mount.',';}  ?>],
                 backgroundColor: [
                     '#3498DB',
@@ -625,7 +625,7 @@
                 borderWidth: 0
                 }],
                 labels: [
-                <?php foreach($mejoresclientescant as $nameclientmont):?>
+                <?php foreach($mejoresclientesmont as $nameclientmont):?>
                     "<?php echo $nameclientmont->nameclient?>",
                 <?php endforeach; ?>
             ],

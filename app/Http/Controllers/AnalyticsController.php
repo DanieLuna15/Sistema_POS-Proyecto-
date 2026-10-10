@@ -28,47 +28,32 @@ class AnalyticsController extends Controller
         $categories = Category::get();
         $historydatas = Historydata::get();
 
-        //API MODELO
-        $respuesta = Http::get('http://127.0.0.1:5000/pronostico');
-        $pronosticos=$respuesta->json();
+        //API MODELO con resiliencia ante caídas del servicio Flask
+        $fetchApi = function($endpoint) {
+            try {
+                $res = Http::timeout(2)->get("http://127.0.0.1:5000/{$endpoint}");
+                return $res->successful() ? $res->json() : [];
+            } catch (\Exception $e) {
+                return [];
+            }
+        };
 
-        $respuestafuturo = Http::get('http://127.0.0.1:5000/pronosticofuturo');
-        $pronosticosfuturo=$respuestafuturo->json();
-
-        $solorespuestafuturo = Http::get('http://127.0.0.1:5000/solopronosticofuturo');
-        $solopronosticosfuturo=$solorespuestafuturo->json();
+        $pronosticos = $fetchApi('pronostico');
+        $pronosticosfuturo = $fetchApi('pronosticofuturo');
+        $solopronosticosfuturo = $fetchApi('solopronosticofuturo');
 
         //PARA CADA CATEGORIA
-        $respuestacat1 = Http::get('http://127.0.0.1:5000/pronosticocat1');
-        $pronosticocat1=$respuestacat1->json();
-
-        $respuestacat2 = Http::get('http://127.0.0.1:5000/pronosticocat2');
-        $pronosticocat2=$respuestacat2->json();
-
-        $respuestacat3 = Http::get('http://127.0.0.1:5000/pronosticocat3');
-        $pronosticocat3=$respuestacat3->json();
-
-        $respuestacat4 = Http::get('http://127.0.0.1:5000/pronosticocat4');
-        $pronosticocat4=$respuestacat4->json();
-
-        $respuestacat5 = Http::get('http://127.0.0.1:5000/pronosticocat5');
-        $pronosticocat5=$respuestacat5->json();
-
-        $respuestacat6 = Http::get('http://127.0.0.1:5000/pronosticocat6');
-        $pronosticocat6=$respuestacat6->json();
-
-        $respuestacat7 = Http::get('http://127.0.0.1:5000/pronosticocat7');
-        $pronosticocat7=$respuestacat7->json();
-
-        $respuestacat8 = Http::get('http://127.0.0.1:5000/pronosticocat8');
-        $pronosticocat8=$respuestacat8->json();
-
-        $respuestacat9 = Http::get('http://127.0.0.1:5000/pronosticocat9');
-        $pronosticocat9=$respuestacat9->json();
-
-        $respuestacat10 = Http::get('http://127.0.0.1:5000/pronosticocat10');
-        $pronosticocat10=$respuestacat10->json();
-        //API MODELO
+        $pronosticocat1 = $fetchApi('pronosticocat1');
+        $pronosticocat2 = $fetchApi('pronosticocat2');
+        $pronosticocat3 = $fetchApi('pronosticocat3');
+        $pronosticocat4 = $fetchApi('pronosticocat4');
+        $pronosticocat5 = $fetchApi('pronosticocat5');
+        $pronosticocat6 = $fetchApi('pronosticocat6');
+        $pronosticocat7 = $fetchApi('pronosticocat7');
+        $pronosticocat8 = $fetchApi('pronosticocat8');
+        $pronosticocat9 = $fetchApi('pronosticocat9');
+        $pronosticocat10 = $fetchApi('pronosticocat10');
+        //FIN API MODELO
 
         $total_datahis=DB::select('SELECT c.name as namecategory,
         SUM(dh.quantity) as quantity

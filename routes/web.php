@@ -38,10 +38,10 @@ Route::resource('providers',    'ProviderController')   ->  names('providers');
 //fin rutas de gestion de inventario
 
 //rutas de proceso de compra-venta con excepciones
-Route::resource('purchases',    'PurchaseController'::class)->  names('purchases')->except([
+Route::resource('purchases',    'PurchaseController')->names('purchases')->except([
     'edit','update','destroy'
 ]);
-Route::resource('sales',        'SaleController'::class)    ->  names('sales')->except([
+Route::resource('sales',        'SaleController')->names('sales')->except([
     'edit','update','destroy'
 ]);
 //fin rutas de proceso de compra-venta con excepciones
@@ -54,8 +54,8 @@ Route::get('change_status/users/{user}',            'UserController@change_statu
 //fin rutas de cambio de estados
 
 //rutas de impresión de tickets de compra y venta
-Route::get('purchases/pdf/{purchase}',  'PurchaseController@pdf'::class)     ->     name('purchases.pdf');
-Route::get('sales/pdf/{sale}',          'SaleController@pdf'    ::class)     ->     name('sales.pdf');
+Route::get('purchases/pdf/{purchase}',  'PurchaseController@pdf')->name('purchases.pdf');
+Route::get('sales/pdf/{sale}',          'SaleController@pdf')->name('sales.pdf');
 //fin rutas de impresión de tickets de compra y venta
 
 //rutas para el modulo de analítica

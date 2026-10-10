@@ -46,6 +46,7 @@ class ProductController extends Controller
 
     public function store(StoreRequest $request)
     {
+        $image_name = null;
         if($request->hasFile('picture')){
             $file = $request->file('picture');
             $image_name = time().'_'.$file->getClientOriginalName();
@@ -80,10 +81,12 @@ class ProductController extends Controller
             $file = $request->file('picture');
             $image_name = time().'_'.$file->getClientOriginalName();
             $file->move(public_path("/image"),$image_name);
+            $product->update($request->all()+[
+                'image'=>$image_name,
+            ]);
+        } else {
+            $product->update($request->all());
         }
-        $product -> update($request->all()+[
-            'image'=>$image_name,
-        ]);
         Alert::toast('Producto Actualizado con éxito.', 'success');
         return redirect()->route('products.index');
     }

@@ -179,7 +179,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
-
+        Caffeinated\Shinobi\ShinobiServiceProvider::class,
     ],
 
     /*

@@ -38,8 +38,7 @@ class SaleController extends Controller
 
     public function index()
     {
-        $sales = Sale::orderBy('sale_date','DESC')->get();
-        //dd($sales);
+        $sales = Sale::with(['client', 'user'])->orderBy('sale_date','DESC')->get();
         return view('admin.sale.index', compact('sales'));
     }
 
@@ -54,7 +53,6 @@ class SaleController extends Controller
 
     public function store(StoreRequest $request, Sale $sale)
     {
-        //dd($request);
         $sale->my_store($request);
         Alert::toast('Venta registrada con éxito.', 'success');
         return redirect()->route('sales.index');
@@ -75,7 +73,7 @@ class SaleController extends Controller
 
     public function edit(Sale $sale)
     {
-        $clients = Provider::get();
+        $clients = Client::get();
         return view('admin.sale.edit', compact('sale'));
     }
 
@@ -90,10 +88,20 @@ class SaleController extends Controller
     {
         if($sale->status == 'CONFIRMADO'){
             $sale->update([ 'status' =>'CANCELADO']);
+            foreach ($sale->saleDetails as $detail) {
+                if ($detail->product) {
+                    $detail->product->add_stock($detail->quantity);
+                }
+            }
             Alert::toast('Se canceló la venta.', 'success');
             return redirect()->back();
         }else{
             $sale->update([ 'status' =>'CONFIRMADO']);
+            foreach ($sale->saleDetails as $detail) {
+                if ($detail->product) {
+                    $detail->product->substract_stock($detail->quantity);
+                }
+            }
             Alert::toast('Se confirmó la venta.', 'success');
             return redirect()->back();
         }

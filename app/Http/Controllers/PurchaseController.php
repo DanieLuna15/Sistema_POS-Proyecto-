@@ -37,7 +37,7 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases = Purchase::get();
+        $purchases = Purchase::with(['provider', 'user'])->orderBy('purchase_date', 'DESC')->get();
         return view('admin.purchase.index', compact('purchases'));
     }
 
@@ -50,7 +50,6 @@ class PurchaseController extends Controller
 
     public function store(StoreRequest $request, Purchase $purchase)
     {
-        //dd($request);
         $purchase->my_store($request);
         Alert::toast('Compra registrada con éxito.', 'success');
         return redirect()->route('purchases.index');
@@ -69,29 +68,33 @@ class PurchaseController extends Controller
 
     public function edit(Purchase $purchase)
     {
-        //$providers = Provider::get();
-        //return view('admin.purchase.edit', compact('purchase'));
     }
 
     public function update(UpdateRequest $request, Purchase $purchase)
     {
-        //$purchase->update($request->all());
-        //return redirect()->route('purchases.index');
     }
 
     public function destroy(Purchase $purchase)
     {
-        //$purchase->delete();
-        //return redirect()->route('purchases.index');
     }
     public function change_status(Purchase $purchase)
     {
         if($purchase->status == 'CONFIRMADO'){
             $purchase->update([ 'status' =>'CANCELADO']);
+            foreach ($purchase->PurchaseDetails as $detail) {
+                if ($detail->product) {
+                    $detail->product->substract_stock($detail->quantity);
+                }
+            }
             Alert::toast('Se canceló la compra.', 'success');
             return redirect()->back();
         }else{
             $purchase->update([ 'status' =>'CONFIRMADO']);
+            foreach ($purchase->PurchaseDetails as $detail) {
+                if ($detail->product) {
+                    $detail->product->add_stock($detail->quantity);
+                }
+            }
             Alert::toast('Se confirmó la compra.', 'success');
             return redirect()->back();
         }

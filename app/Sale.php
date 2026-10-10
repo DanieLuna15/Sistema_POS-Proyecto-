@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class Sale extends Model
 {
     protected $fillable = [
@@ -29,25 +31,35 @@ class Sale extends Model
     }
     public function update_stock($id,$quantity){
         $product=Product::find($id);
-        $product->substract_stock($quantity);
+        if ($product) {
+            $product->substract_stock($quantity);
+        }
     }
     public function my_store($request){
-        $sale=Sale::create($request->all()+[
-            'user_id'=>Auth::user()->id,
-            'sale_date'=>Carbon::now('America/La_Paz'),
-        ]);
-        $sale->add_sale_details($request);
+        return DB::transaction(function() use ($request) {
+            $sale=Sale::create($request->all()+[
+                'user_id'=>Auth::user()->id,
+                'sale_date'=>Carbon::now('America/La_Paz'),
+            ]);
+            $sale->add_sale_details($request);
+            return $sale;
+        });
     }
     public function add_sale_details($request){
-        foreach($request->product_id as $key=>$product){
-            $this->update_stock($request->product_id[$key],$request->quantity[$key]);
-            $results[]= array(
-                "product_id"=>$request->product_id[$key],
-                "quantity"=>$request->quantity[$key],
-                "price"=>$request->price[$key],
-                "discount"=>$request->discount[$key],
-            );
+        $results = [];
+        if ($request->has('product_id')) {
+            foreach($request->product_id as $key=>$product){
+                $this->update_stock($request->product_id[$key],$request->quantity[$key]);
+                $results[]= array(
+                    "product_id"=>$request->product_id[$key],
+                    "quantity"=>$request->quantity[$key],
+                    "price"=>$request->price[$key],
+                    "discount"=>$request->discount[$key] ?? 0,
+                );
+            }
+            if (!empty($results)) {
+                $this->saleDetails()->createMany($results);
+            }
         }
-        $this->saleDetails()->createMany($results);
     }
 }

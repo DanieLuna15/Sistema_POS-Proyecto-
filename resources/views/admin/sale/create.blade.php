@@ -247,6 +247,43 @@
         $("#fila" + index).remove();
         evaluar();
     }
+
+    function onPaymentConditionChange(cond) {
+        if (cond === 'CREDITO') {
+            $('#creditParametersBox').slideDown();
+        } else {
+            $('#creditParametersBox').slideUp();
+        }
+        filterPaymentMethods(cond);
+    }
+
+    function onPaymentMethodChange(elem) {
+        let opt = $(elem).find(':selected');
+        let ref = opt.data('ref');
+        if (ref == '1') {
+            $('#referenceBoxRow').slideDown();
+        } else {
+            $('#referenceBoxRow').slideUp();
+            $('#payment_reference').val('');
+        }
+    }
+
+    function filterPaymentMethods(cond) {
+        $('#payment_method_id option').each(function() {
+            let mCond = $(this).data('condition');
+            if (mCond === 'AMBOS' || mCond === cond) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+        $('#payment_method_id option:visible:first').prop('selected', true);
+        onPaymentMethodChange($('#payment_method_id'));
+    }
+
+    $(document).ready(function() {
+        onPaymentMethodChange($('#payment_method_id'));
+    });
 </script>
 
 @endsection

@@ -22,7 +22,7 @@ Route::get('/prueba', function () {
 //rutas de reportes
     //rutas de VENTAS
     Route::get('reportv/reports_date',      'ReportController@reports_date')    ->name('reports.date');
-    //Route::get('reportv/exportar',          'ReportController@exportar')        ;
+    Route::get('reportv/exportar',          'ReportController@exportar')        ->name('reports.export');
     Route::post('reportv/report_results',   'ReportController@report_results')  ->name('report.results');
     //rutas de COMPRAS
     Route::get('reportc/reportscm_datecm',      'ReportcmController@reportscm_datecm')      ->name('reportscm.datecm');
@@ -36,6 +36,12 @@ Route::resource('clients',      'ClientController')     ->  names('clients');
 Route::resource('products',     'ProductController')    ->  names('products');
 Route::resource('providers',    'ProviderController')   ->  names('providers');
 //fin rutas de gestion de inventario
+
+//rutas para nuevas modalidades de venta (POS Rápido y Crédito)
+Route::get('sales/pos',                     'SaleController@pos_create')        ->name('sales.pos');
+Route::get('sales/credit/create',           'SaleController@credit_create')     ->name('sales.credit.create');
+Route::get('sales/credits',                 'SaleController@credits')           ->name('sales.credits');
+Route::post('sales/installments/{installment}/pay', 'SaleController@pay_installment')->name('sales.installments.pay');
 
 //rutas de proceso de compra-venta con excepciones
 Route::resource('purchases',    'PurchaseController')->names('purchases')->except([
@@ -56,6 +62,7 @@ Route::get('change_status/users/{user}',            'UserController@change_statu
 //rutas de impresión de tickets de compra y venta
 Route::get('purchases/pdf/{purchase}',  'PurchaseController@pdf')->name('purchases.pdf');
 Route::get('sales/pdf/{sale}',          'SaleController@pdf')->name('sales.pdf');
+Route::get('sales/ticket/{sale}',       'SaleController@ticket')->name('sales.ticket');
 //fin rutas de impresión de tickets de compra y venta
 
 //rutas para el modulo de analítica
@@ -65,6 +72,11 @@ Route::resource('analytics',       'AnalyticsController')->    names('analytics'
 //rutas para el modulo de usuarios
 Route::resource('users',       'UserController')->    names('users');
 //fin rutas para el modulo de usuarios
+
+//rutas para el modulo de formas y métodos de pago
+Route::resource('payment_methods', 'PaymentMethodController')->names('payment_methods');
+Route::get('change_status/payment_methods/{payment_method}', 'PaymentMethodController@change_status')->name('change.status.payment_methods');
+//fin rutas para el modulo de formas de pago
 
 //rutas para el modulo de roles
 Route::resource('roles',       'RoleController')->    names('roles');

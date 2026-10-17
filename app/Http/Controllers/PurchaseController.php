@@ -50,9 +50,14 @@ class PurchaseController extends Controller
 
     public function store(StoreRequest $request, Purchase $purchase)
     {
-        $purchase->my_store($request);
-        Alert::toast('Compra registrada con éxito.', 'success');
-        return redirect()->route('purchases.index');
+        try {
+            $purchase->my_store($request);
+            Alert::toast('Compra registrada con éxito.', 'success');
+            return redirect()->route('purchases.index');
+        } catch (\Exception $e) {
+            Alert::error('Error al registrar la compra', $e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     public function show(Purchase $purchase)

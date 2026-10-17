@@ -25,14 +25,8 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $cantprodCategory=DB::select('SELECT c.name , count(p.id) as cantProduct
-        FROM categories as c inner join products as p
-        on c.id = p.category_id
-        WHERE p.status="ACTIVO"
-        group by c.name');
-
-        $categories = Category::get();
-        return view('admin.category.index', compact('categories','cantprodCategory'));
+        $categories = Category::withCount('products')->orderBy('id', 'DESC')->get();
+        return view('admin.category.index', compact('categories'));
     }
 
     public function create()

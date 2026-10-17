@@ -86,15 +86,7 @@ class ReportController extends Controller
 
     public function exportar()
     {
-        $sales = Sale::whereRaw('year(sale_date) = year(now())')
-        ->where('status','CONFIRMADO')
-        ->get();
-
-        Excel::create('sales', function($excel) use($sales) {
-            $excel->sheet('Exportar', function($sheet)use($sales){
-                $sheet->fromArray($sales);
-            });
-        })->export('xls');
+        return \Maatwebsite\Excel\Facades\Excel::download(new \App\Exports\SalesExport, 'reporte_ventas_' . date('Y_m_d') . '.xlsx');
     }
 
     public function report_results(Request $request){

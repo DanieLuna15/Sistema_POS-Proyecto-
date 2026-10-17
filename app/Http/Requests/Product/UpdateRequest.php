@@ -14,9 +14,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string|unique:products,name,'.$this->route('product')->id.'|min:5|max:50',
-            //'image'=>'required|string|dimensions:min_width=100,min_height=200',
-            'sell_price'=>'required|numeric|min:0|not_in:0',
+            'name'=>'required|string|min:3|max:100|unique:products,name,'.$this->route('product')->id,
+            'picture'=>'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
+            'sell_price'=>'required|numeric|min:0.01',
 
             'category_id'=>'integer|required|exists:App\Category,id',
             'brand_id'=>'integer|required|exists:App\Brand,id',

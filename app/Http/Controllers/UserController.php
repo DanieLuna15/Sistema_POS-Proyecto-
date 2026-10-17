@@ -31,55 +31,55 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::get();
-        //$users = User::with('roles')->get();
-        /*$users=DB::select('SELECT u.id as id , u.name as nameu , r.name as namer , u.email as email, u.status as status
-        FROM (users as u inner join role_user as ru on u.id=ru.user_id)
-		inner join roles as r on r.id = ru.role_id');*/
-        //dd($users);
+        $users = User::with('roles')->orderBy('id', 'DESC')->get();
         return view('admin.user.index', compact('users'));
     }
 
     public function create()
     {
-        $roles= Role::get();
+        $roles = Role::get();
         return view('admin.user.create', compact('roles'));
     }
 
     public function store(StoreRequest $request)
     {
-        $user = User::create($request->all());
-        //Para encriptar la contraseña antes de guardar
-        $user -> update(['password'=> Hash::make($request->password)]);
-        $user->roles()->sync($request->get('roles'));
+        $data = $request->except(['roles', 'password']);
+        $data['password'] = Hash::make($request->password);
+        $user = User::create($data);
+
+        if ($request->has('roles')) {
+            $user->roles()->sync($request->get('roles'));
+        }
+
         Alert::toast('Usuario registrado con éxito.', 'success');
         return redirect()->route('users.index');
     }
 
     public function show(User $user)
     {
-        $total_sales = 0;
-        foreach ($user -> sales as $key =>  $sale) {
-            $total_sales+=$sale->total;
-        }
-        $total_amount_sold = 0;
-        foreach ($user->purchases as $key =>  $purchase) {
-            $total_amount_sold+=$purchase->total;
-        }
+        $total_sales = $user->sales()->where('status', 'CONFIRMADO')->sum('total');
+        $total_amount_sold = $user->purchases()->where('status', 'CONFIRMADO')->sum('total');
         return view('admin.user.show', compact('user', 'total_sales', 'total_amount_sold'));
     }
 
     public function edit(User $user)
     {
-        $roles= Role::get();
-        return view('admin.user.edit', compact('user','roles'));
+        $roles = Role::get();
+        return view('admin.user.edit', compact('user', 'roles'));
     }
 
     public function update(UpdateRequest $request, User $user)
     {
-        $user->update($request->all());
-        //$user -> update(['password'=> Hash::make($request->password)]);
-        $user->roles()->sync($request->get('roles'));
+        $data = $request->except(['roles', 'password']);
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+        $user->update($data);
+
+        if ($request->has('roles')) {
+            $user->roles()->sync($request->get('roles'));
+        }
+
         Alert::toast('Usuario modificado con éxito.', 'success');
         return redirect()->route('users.index');
     }

@@ -64,12 +64,9 @@
                                             <i class="fa fa-cog"></i>
                                           </button>
                                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuIconButton7">
-                                                <a class="dropdown-item" href="#">Exportar a PDF</a>
-                                            <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Exportar a Excel</a>
-                                                {{--<form action="{{url('reportv/exportar')}}" enctype="multipart/form-data">
-                                                    <button  class="btn btn-success">Exportar a Excel</button>
-                                                </form>--}}
+                                                <a class="dropdown-item" href="{{ route('reports.export') }}">
+                                                    <i class="fas fa-file-excel text-success mr-2"></i> Exportar a Excel
+                                                </a>
                                           </div>
                                         </div>
                                     </div>

@@ -28,32 +28,50 @@ class AnalyticsController extends Controller
         $categories = Category::get();
         $historydatas = Historydata::get();
 
-        //API MODELO con resiliencia ante caídas del servicio Flask
-        $fetchApi = function($endpoint) {
+        // Peticiones concurrentes en paralelo a la API de Flask con timeout reducido
+        try {
+            $responses = Http::pool(fn ($pool) => [
+                $pool->as('pronostico')->timeout(1)->get("http://127.0.0.1:5000/pronostico"),
+                $pool->as('pronosticofuturo')->timeout(1)->get("http://127.0.0.1:5000/pronosticofuturo"),
+                $pool->as('solopronosticofuturo')->timeout(1)->get("http://127.0.0.1:5000/solopronosticofuturo"),
+                $pool->as('cat1')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat1"),
+                $pool->as('cat2')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat2"),
+                $pool->as('cat3')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat3"),
+                $pool->as('cat4')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat4"),
+                $pool->as('cat5')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat5"),
+                $pool->as('cat6')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat6"),
+                $pool->as('cat7')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat7"),
+                $pool->as('cat8')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat8"),
+                $pool->as('cat9')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat9"),
+                $pool->as('cat10')->timeout(1)->get("http://127.0.0.1:5000/pronosticocat10"),
+            ]);
+        } catch (\Throwable $e) {
+            $responses = [];
+        }
+
+        $getData = function($key) use ($responses) {
             try {
-                $res = Http::timeout(2)->get("http://127.0.0.1:5000/{$endpoint}");
-                return $res->successful() ? $res->json() : [];
-            } catch (\Exception $e) {
-                return [];
-            }
+                if (isset($responses[$key]) && !($responses[$key] instanceof \Throwable) && $responses[$key]->successful()) {
+                    return $responses[$key]->json();
+                }
+            } catch (\Throwable $e) {}
+            return [];
         };
 
-        $pronosticos = $fetchApi('pronostico');
-        $pronosticosfuturo = $fetchApi('pronosticofuturo');
-        $solopronosticosfuturo = $fetchApi('solopronosticofuturo');
+        $pronosticos = $getData('pronostico');
+        $pronosticosfuturo = $getData('pronosticofuturo');
+        $solopronosticosfuturo = $getData('solopronosticofuturo');
 
-        //PARA CADA CATEGORIA
-        $pronosticocat1 = $fetchApi('pronosticocat1');
-        $pronosticocat2 = $fetchApi('pronosticocat2');
-        $pronosticocat3 = $fetchApi('pronosticocat3');
-        $pronosticocat4 = $fetchApi('pronosticocat4');
-        $pronosticocat5 = $fetchApi('pronosticocat5');
-        $pronosticocat6 = $fetchApi('pronosticocat6');
-        $pronosticocat7 = $fetchApi('pronosticocat7');
-        $pronosticocat8 = $fetchApi('pronosticocat8');
-        $pronosticocat9 = $fetchApi('pronosticocat9');
-        $pronosticocat10 = $fetchApi('pronosticocat10');
-        //FIN API MODELO
+        $pronosticocat1 = $getData('cat1');
+        $pronosticocat2 = $getData('cat2');
+        $pronosticocat3 = $getData('cat3');
+        $pronosticocat4 = $getData('cat4');
+        $pronosticocat5 = $getData('cat5');
+        $pronosticocat6 = $getData('cat6');
+        $pronosticocat7 = $getData('cat7');
+        $pronosticocat8 = $getData('cat8');
+        $pronosticocat9 = $getData('cat9');
+        $pronosticocat10 = $getData('cat10');
 
         $total_datahis=DB::select('SELECT c.name as namecategory,
         SUM(dh.quantity) as quantity

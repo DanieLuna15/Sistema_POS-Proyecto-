@@ -29,10 +29,9 @@ class SaleController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('can:sales.create')->only(['create','store']);
-        $this->middleware('can:sales.index')->only(['index']);
-        $this->middleware('can:sales.show')->only(['show']);
-        $this->middleware('can:sales.show')->only(['pdf']);
+        $this->middleware('can:sales.create')->only(['create', 'store', 'pos_create', 'credit_create']);
+        $this->middleware('can:sales.index')->only(['index', 'credits']);
+        $this->middleware('can:sales.show')->only(['show', 'pdf', 'ticket']);
         $this->middleware('can:change.status.sales')->only(['change_status']);
     }
 
@@ -44,18 +43,125 @@ class SaleController extends Controller
 
     public function create()
     {
-        $clients = Client::get();
-        $products=Product::where('status','ACTIVO')
-                ->where('stock',">",0)->get();
+        $clients = Client::orderBy('name', 'ASC')->get();
+        $products = Product::where('status','ACTIVO')
+                ->where('stock',">",0)->orderBy('name', 'ASC')->get();
+        $paymentMethods = \App\PaymentMethod::active()->get();
 
-        return view('admin.sale.create', compact('clients','products'));
+        return view('admin.sale.create', compact('clients','products', 'paymentMethods'));
+    }
+
+    /**
+     * Módulo 1: POS Táctil / Caja Rápida
+     */
+    public function pos_create()
+    {
+        $clients = Client::orderBy('name', 'ASC')->get();
+        $categories = \App\Category::orderBy('name', 'ASC')->get();
+        $products = Product::where('status', 'ACTIVO')
+            ->where('stock', '>', 0)
+            ->with(['category', 'brand'])
+            ->orderBy('name', 'ASC')
+            ->get();
+        $paymentMethods = \App\PaymentMethod::active()->get();
+
+        return view('admin.sale.pos', compact('clients', 'categories', 'products', 'paymentMethods'));
+    }
+
+    /**
+     * Módulo 2: Venta a Crédito / Con Cuotas
+     */
+    public function credit_create()
+    {
+        $clients = Client::with(['sales' => function($q) {
+            $q->where('sale_type', 'CREDITO')->where('credit_status', 'PENDIENTE');
+        }])->orderBy('name', 'ASC')->get();
+
+        $products = Product::where('status', 'ACTIVO')
+            ->where('stock', '>', 0)
+            ->with(['category', 'brand'])
+            ->orderBy('name', 'ASC')
+            ->get();
+
+        $paymentMethods = \App\PaymentMethod::active()->get();
+
+        return view('admin.sale.credit_create', compact('clients', 'products', 'paymentMethods'));
+    }
+
+    /**
+     * Listado de Cuentas por Cobrar (Ventas a Crédito)
+     */
+    public function credits()
+    {
+        $sales = Sale::where('sale_type', 'CREDITO')
+            ->with(['client', 'user', 'installments', 'paymentMethod'])
+            ->orderBy('sale_date', 'DESC')
+            ->get();
+
+        $totalCredito = $sales->sum('total');
+        $totalPendiente = $sales->where('credit_status', 'PENDIENTE')->sum('balance_pending');
+        $totalCobrado = $totalCredito - $totalPendiente;
+        $paymentMethods = \App\PaymentMethod::active()->get();
+
+        return view('admin.sale.credits', compact('sales', 'totalCredito', 'totalPendiente', 'totalCobrado', 'paymentMethods'));
+    }
+
+    /**
+     * Registrar Pago / Abono de una Cuota
+     */
+    public function pay_installment(Request $request, \App\SaleInstallment $installment)
+    {
+        $request->validate([
+            'paid_amount' => 'required|numeric|min:0.01',
+        ]);
+
+        $sale = $installment->sale;
+        $paidNow = floatval($request->paid_amount);
+
+        $installment->paid_amount = min($installment->amount, $installment->paid_amount + $paidNow);
+        if ($installment->paid_amount >= $installment->amount) {
+            $installment->status = 'PAGADO';
+        }
+        $installment->payment_date = Carbon::now('America/La_Paz');
+        $installment->payment_method_id = $request->payment_method_id ?? null;
+        $pm = $request->payment_method_id ? \App\PaymentMethod::find($request->payment_method_id) : null;
+        $installment->payment_method = $pm ? $pm->name : ($request->payment_method ?? 'EFECTIVO');
+        $installment->payment_reference = $request->payment_reference ?? null;
+        $installment->notes = $request->notes;
+        $installment->save();
+
+        // Actualizar el saldo pendiente global de la venta a crédito
+        $newBalance = max(0, $sale->balance_pending - $paidNow);
+        $sale->balance_pending = $newBalance;
+        if ($newBalance <= 0) {
+            $sale->credit_status = 'PAGADO';
+        }
+        $sale->save();
+
+        Alert::toast('Pago de cuota #' . $installment->installment_number . ' registrado con éxito.', 'success');
+        return redirect()->back();
     }
 
     public function store(StoreRequest $request, Sale $sale)
     {
-        $sale->my_store($request);
-        Alert::toast('Venta registrada con éxito.', 'success');
-        return redirect()->route('sales.index');
+        try {
+            $createdSale = $sale->my_store($request);
+            $msg = ($request->sale_type === 'CREDITO') 
+                ? 'Venta a Crédito registrada con éxito.' 
+                : 'Venta registrada con éxito.';
+            Alert::toast($msg, 'success');
+            
+            if ($request->sale_type === 'CREDITO') {
+                return redirect()->route('sales.credits');
+            }
+            if ($request->sale_type === 'POS_RAPIDO') {
+                return redirect()->route('sales.ticket', $createdSale);
+            }
+            return redirect()->route('sales.index');
+        } catch (\Exception $e) {
+            Alert::error('Error al registrar la venta', $e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
 
     public function show(Sale $sale)
@@ -68,7 +174,8 @@ class SaleController extends Controller
             $subtotal += $SaleDetail->quantity*$SaleDetail->price;
             $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
         }
-        return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal','totalLiteral'));
+        $installments = $sale->installments;
+        return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal','totalLiteral', 'installments'));
     }
 
     public function edit(Sale $sale)
@@ -109,18 +216,55 @@ class SaleController extends Controller
 
     public function pdf(Sale $sale)
     {
-        $descuentototal=0;
-        $subtotal=0;
-        //Para mostrar el total en letras
-        $totalLiteral=NumerosEnLetras::convertir($sale->total,'Bolivianos',true);
+        $descuentototal = 0;
+        $subtotal = 0;
+        $totalLiteral = NumerosEnLetras::convertir($sale->total, 'Bolivianos', true);
 
-        $SaleDetails=$sale->SaleDetails;
+        $SaleDetails = $sale->SaleDetails;
         foreach ($SaleDetails as $SaleDetail) {
-            $subtotal += $SaleDetail->quantity*$SaleDetail->price-$SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
-            $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
+            $subtotal += $SaleDetail->quantity * $SaleDetail->price;
+            $descuentototal += $SaleDetail->quantity * $SaleDetail->price * $SaleDetail->discount / 100;
         }
 
-        $pdf = PDF::loadView('admin.sale.pdf', compact('sale','subtotal','descuentototal','SaleDetails','totalLiteral'));
-        return $pdf->download('Nota_de_Venta_N°_'.$sale->id.'_(Fec_'.$sale->sale_date.')'.'.pdf');
+        $installments = $sale->installments;
+
+        $pdf = PDF::loadView('admin.sale.pdf', compact('sale', 'subtotal', 'descuentototal', 'SaleDetails', 'totalLiteral', 'installments'));
+        $pdf->setPaper('a4', 'portrait');
+
+        if (request()->has('download')) {
+            return $pdf->download('Nota_de_Venta_N_' . $sale->id . '.pdf');
+        }
+
+        return $pdf->stream('Nota_de_Venta_N_' . $sale->id . '.pdf');
+    }
+
+    public function ticket(Sale $sale)
+    {
+        $descuentototal = 0;
+        $subtotal = 0;
+        $totalLiteral = NumerosEnLetras::convertir($sale->total, 'Bolivianos', true);
+
+        $SaleDetails = $sale->SaleDetails;
+        foreach ($SaleDetails as $SaleDetail) {
+            $subtotal += $SaleDetail->quantity * $SaleDetail->price;
+            $descuentototal += $SaleDetail->quantity * $SaleDetail->price * $SaleDetail->discount / 100;
+        }
+
+        $installments = $sale->installments;
+
+        // Si se solicita descarga directa como archivo PDF de 80mm
+        if (request()->has('pdf')) {
+            $itemCount = $SaleDetails->count() + ($sale->sale_type === 'CREDITO' ? $installments->count() : 0);
+            $heightPt = max(420, 260 + ($itemCount * 32));
+            $customPaper = array(0, 0, 226.77, $heightPt);
+
+            $pdf = PDF::loadView('admin.sale.ticket_80mm', compact('sale', 'subtotal', 'descuentototal', 'SaleDetails', 'totalLiteral', 'installments'))
+                      ->setPaper($customPaper);
+
+            return $pdf->stream('Ticket_80mm_N_' . $sale->id . '.pdf');
+        }
+
+        // Vista HTML para impresión directa térmica desde el navegador con ventana de diálogo
+        return view('admin.sale.ticket_80mm', compact('sale', 'subtotal', 'descuentototal', 'SaleDetails', 'totalLiteral', 'installments'));
     }
 }

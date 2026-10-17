@@ -16,8 +16,7 @@
     <!-- inject:css -->
     {!! Html::style('melody/css/style.css') !!}
     @yield('styles')
-    <!-- endinject -->
-    <link rel="shortcut icon" href="http://www.urbanui.com/" />
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
 
 <body class="sidebar-fixed sidebar-dark">

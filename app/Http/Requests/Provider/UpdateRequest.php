@@ -14,43 +14,37 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string|unique:providers,name,'.$this->route('provider')->id.'|min:5|max:40',
-            'email'=>'required|string|unique:providers,email,'.$this->route('provider')->id.'|max:40|email:rfc,dns',
-            'nit'=>'required|string|min:11|unique:providers,nit,'.$this->route('provider')->id.'|max:11',
-            'address'=>'nullable|string|min:5|max:200',
-            'phone'=>'required|string|min:8|unique:providers,phone,'.$this->route('provider')->id.'|max:8',
+            'name' => 'required|string|min:3|max:60|unique:providers,name,' . $this->route('provider')->id,
+            'email' => 'required|string|max:60|email:rfc|unique:providers,email,' . $this->route('provider')->id,
+            'nit' => 'required|string|min:6|max:25|unique:providers,nit,' . $this->route('provider')->id,
+            'address' => 'nullable|string|min:3|max:200',
+            'phone' => 'required|string|min:6|max:20|unique:providers,phone,' . $this->route('provider')->id,
         ];
     }
     public function messages()
     {
         return [
-            'name.required'=>'Este campo es requerido',
-            'name.string'=>'El valor no es correcto',
-            'name.min'=>'Se necesitan como mínimo 5 caracteres',
-            'name.max'=>'Solo se Permiten 40 caracteres',
-            'name.unique'=>'Ya existe un proveedor con el mismo nombre',
+            'name.required' => 'El nombre del proveedor es obligatorio.',
+            'name.string' => 'El formato del nombre no es correcto.',
+            'name.min' => 'Se necesitan como mínimo 3 caracteres para el nombre.',
+            'name.max' => 'Solo se permiten 60 caracteres para el nombre.',
+            'name.unique' => 'Ya existe un proveedor registrado con el mismo nombre.',
 
-            'email.required'=>'Este campo es requerido',
-            'email.email'=>'No es un correo electrónico',
-            'email.string'=>'El valor no es correcto',
-            'email.max'=>'Solo se Permiten 40 caracteres',
-            'email.unique'=>'Ya existe un proveedor con el mismo correo',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El formato del correo electrónico no es válido.',
+            'email.unique' => 'Ya existe un proveedor con este mismo correo.',
 
-            'nit.required'=>'Este campo es requerido',
-            'nit.string'=>'El valor no es correcto',
-            'nit.max'=>'Solo se Permiten 11 caracteres',
-            'nit.min'=>'Se requiere de 11 caracteres',
-            'nit.unique'=>'Ya existe un proveedor con el mismo nit',
+            'nit.required' => 'El NIT o número de identificación fiscal es obligatorio.',
+            'nit.min' => 'El NIT debe tener al menos 6 caracteres.',
+            'nit.max' => 'El NIT no debe superar los 25 caracteres.',
+            'nit.unique' => 'Ya existe un proveedor registrado con este mismo NIT.',
 
-            'address.min'=>'Se necesitan como mínimo 5 caracteres',
-            'address.max'=>'Solo se permiten 200 caracteres',
-            'address.string'=>'El valor no es correcto',
+            'address.max' => 'La dirección no debe superar los 200 caracteres.',
 
-            'phone.required'=>'Este campo es requerido',
-            'phone.string'=>'El valor no es correcto',
-            'phone.max'=>'Solo se Permiten 8 caracteres',
-            'phone.min'=>'Se requiere de 8 caracteres',
-            'phone.unique'=>'Ya existe un proveedor con el mismo teléfono',
+            'phone.required' => 'El teléfono de contacto es obligatorio.',
+            'phone.min' => 'El teléfono debe contener al menos 6 dígitos.',
+            'phone.max' => 'El teléfono no debe superar los 20 dígitos.',
+            'phone.unique' => 'Ya existe un proveedor registrado con el mismo teléfono.',
         ];
     }
 }

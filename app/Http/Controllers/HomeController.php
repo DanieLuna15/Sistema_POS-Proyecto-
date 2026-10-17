@@ -25,49 +25,30 @@ class HomeController extends Controller
     {
         //PARA DASHBOARD
         //---------------------------------------------
-        $salesTotal = Sale::whereRaw('year(sale_date) = year(now())')->where('status','CONFIRMADO')
-        ->get();
-        $totalvn = $salesTotal -> sum('total');
-        $cantventasTotal = $salesTotal -> count('id');
+        $ventasYear = Sale::whereRaw('year(sale_date) = year(now())')->where('status','CONFIRMADO');
+        $totalvn = (clone $ventasYear)->sum('total');
+        $cantventasTotal = (clone $ventasYear)->count();
 
-        $salesHoy = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
-                ->where('status','CONFIRMADO')
-                ->get();
+        $salesHoy = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))->where('status','CONFIRMADO');
+        $totalsalesHoy = (clone $salesHoy)->sum('total');
+        $cantventasHoy = (clone $salesHoy)->count();
 
-        $salesMes = Sale::whereRaw('month(sale_date) = month(now())')
-                ->where('status','CONFIRMADO')
-                ->get();
-        $totalvnmes = $salesMes -> sum('total');
-
-        $totalsalesHoy = $salesHoy -> sum('total');
-        $cantventasHoy = $salesHoy -> count('id');
         //---------------------------------------------
-        $comprasTotal = Purchase::whereRaw('year(purchase_date) = year(now())')->where('status','CONFIRMADO')
-                ->get();
-        $totalcm = $comprasTotal -> sum('total');
-        $cantcomprasTotal = $comprasTotal -> count('id');
+        $comprasYear = Purchase::whereRaw('year(purchase_date) = year(now())')->where('status','CONFIRMADO');
+        $totalcm = (clone $comprasYear)->sum('total');
+        $cantcomprasTotal = (clone $comprasYear)->count();
 
-        $comprasHoy = Purchase::whereDate('purchase_date', Carbon::today('America/La_Paz'))
-                ->where('status','CONFIRMADO')
-                ->get();
-        $totalcomprasHoy = $comprasHoy -> sum('total');
-        $cantcomprasHoy = $comprasHoy -> count('id');
+        $comprasHoy = Purchase::whereDate('purchase_date', Carbon::today('America/La_Paz'))->where('status','CONFIRMADO');
+        $totalcomprasHoy = (clone $comprasHoy)->sum('total');
+        $cantcomprasHoy = (clone $comprasHoy)->count();
+
         //---------------------------------------------
-        $clientesTotal = Client::get();
-        $cantclientesTotal = $clientesTotal -> count('id');
+        $cantclientesTotal = Client::count();
+        $cantclientesHoy = Client::whereDate('created_at', Carbon::today('America/La_Paz'))->count();
 
-        $clientesHoy = Client::whereDate('created_at', Carbon::today('America/La_Paz'))
-                ->get();
-        $totalclientesHoy = $clientesHoy -> sum('total');
-        $cantclientesHoy = $clientesHoy -> count('id');
         //---------------------------------------------
-        $provsTotal = Provider::get();
-        $cantprovsTotal = $provsTotal -> count('id');
-
-        $provsHoy = Provider::whereDate('created_at', Carbon::today('America/La_Paz'))
-                ->get();
-        $totalprovsHoyHoy = $provsHoy -> sum('total');
-        $cantprovsHoy = $provsHoy -> count('id');
+        $cantprovsTotal = Provider::count();
+        $cantprovsHoy = Provider::whereDate('created_at', Carbon::today('America/La_Paz'))->count();
         //FIN DASHBOARD
 
         //CONSULTAS PARA GRÁFICOS
@@ -77,19 +58,19 @@ class HomeController extends Controller
             DB::raw("SUM(total) as totalmes"),
             DB::raw("DATE_FORMAT(purchase_date,'%b %Y') as mes")
         )->groupBy('mes')->take(12)->orderBy('purchase_date','ASC')->get();
-        //dd($comprasmes);
+
         $ventasmes = Sale::whereRaw('year(sale_date) = year(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as totalmes"),
             DB::raw("DATE_FORMAT(sale_date,'%b %Y') as mes")
         )->groupBy('mes')->take(12)->orderBy('sale_date','ASC')->get();
-        //dd($ventasmes);
+
         $ventasdia = Sale::whereRaw('month(sale_date) = month(now()) AND year(sale_date) = year(now())')->where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
             DB::raw("SUM(total) as total"),
             DB::raw("DATE_FORMAT(sale_date,'%e %b') as date")
         )->groupBy('date')->take(30)->orderBy('sale_date','ASC')->get();
-        $cantventasdia = $ventasdia -> sum('count');
+        $cantventasdia = $ventasdia->sum('count');
 
         $comprasdia = Purchase::where('status', 'CONFIRMADO')->select(
             DB::raw("count(*) as count"),
@@ -97,8 +78,8 @@ class HomeController extends Controller
             DB::raw("DATE_FORMAT(purchase_date,'%e %b') as date")
         )->groupBy('date')->take(30)->orderBy('purchase_date','ASC')->get();
 
-        $totales=DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where DATE(MONTH(c.purchase_date))=MONTH(curdate()) and c.status="CONFIRMADO") as totalcompra,
-                                    (select ifnull(sum(v.total),0) from sales v where DATE(MONTH(v.sale_date))=MONTH(curdate()) and v.status="CONFIRMADO") as totalventa');
+        $totales = DB::select('SELECT (select ifnull(sum(c.total),0) from purchases c where MONTH(c.purchase_date)=MONTH(curdate()) and YEAR(c.purchase_date)=YEAR(curdate()) and c.status="CONFIRMADO") as totalcompra,
+                                      (select ifnull(sum(v.total),0) from sales v where MONTH(v.sale_date)=MONTH(curdate()) and YEAR(v.sale_date)=YEAR(curdate()) and v.status="CONFIRMADO") as totalventa');
 
         $productosmasvendidos=DB::select('SELECT p.code as code, p.image as imageproduct,
         sum(dv.quantity) as quantity, p.name as name, p.id as id, b.name as brand, p.stock as stock

@@ -14,48 +14,40 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string|min:3|max:50',
-            'ci'=>'required|string|unique:clients,ci,'.$this->route('client')->id.'|max:7|min:7',
-            'nit'=>'nullable|string|unique:clients,nit,'.$this->route('client')->id.'|max:11|min:11',
-
-            'address'=>'nullable|string|max:255',
-            'phone'=>'required|string|nullable|unique:clients,phone,'.$this->route('client')->id.'max:8|min:8',
-            'email'=>'nullable|string|max:40|unique:clients,email,'.$this->route('client')->id.'|email:rfc,dns',
+            'name' => 'required|string|min:3|max:60',
+            'ci' => 'required|string|min:4|max:20|unique:clients,ci,' . $this->route('client')->id,
+            'nit' => 'nullable|string|min:6|max:25|unique:clients,nit,' . $this->route('client')->id,
+            'address' => 'nullable|string|max:255',
+            'phone' => 'required|string|min:6|max:20|unique:clients,phone,' . $this->route('client')->id,
+            'email' => 'nullable|string|max:60|email:rfc|unique:clients,email,' . $this->route('client')->id,
         ];
     }
     public function messages()
     {
         return [
-            'name.required'=>'Este campo es requerido',
-            'name.string'=>'El valor no es correcto',
-            'name.min'=>'Se necesitan como mínimo 3 caracteres',
-            'name.max'=>'Solo se Permiten 50 caracteres',
+            'name.required' => 'El nombre del cliente es obligatorio.',
+            'name.string' => 'El formato del nombre no es válido.',
+            'name.min' => 'El nombre debe contener al menos 3 caracteres.',
+            'name.max' => 'El nombre no debe exceder los 60 caracteres.',
 
-            'ci.required'=>'Este campo es requerido',
-            'ci.string'=>'El valor no es correcto',
-            'ci.unique'=>'Este CI ya se encuentra registrado',
-            'ci.min'=>'Se requiere de 7 caracteres',
-            'ci.max'=>'Solo se Permiten 7 caracteres',
+            'ci.required' => 'La cédula de identidad (CI) es requerida.',
+            'ci.unique' => 'Este número de CI ya pertenece a otro cliente.',
+            'ci.min' => 'El CI debe contener al menos 4 caracteres.',
+            'ci.max' => 'El CI no debe exceder los 20 caracteres.',
 
-            'nit.string'=>'El valor no es correcto',
-            'nit.unique'=>'Este NIT ya se encuentra registrado',
-            'nit.min'=>'Se requiere de 11 caracteres',
-            'nit.max'=>'Solo se Permiten 11 caracteres',
+            'nit.unique' => 'Este NIT ya pertenece a otro cliente.',
+            'nit.min' => 'El NIT debe contener al menos 6 caracteres.',
+            'nit.max' => 'El NIT no debe exceder los 25 caracteres.',
 
-            'address.string'=>'El valor no es correcto',
-            'address.min'=>'Se necesitan como mínimo 5 caracteres',
-            'address.max'=>'Solo se Permiten 255 caracteres',
+            'address.max' => 'La dirección no debe exceder los 255 caracteres.',
 
-            'phone.required'=>'Este campo es requerido',
-            'phone.string'=>'El valor no es correcto',
-            'phone.unique'=>'Este numero de celular ya se encuentra registrado',
-            'phone.min'=>'Se requiere de 8 caracteres',
-            'phone.max'=>'Solo se Permiten 8 caracteres',
+            'phone.required' => 'El número de teléfono o celular es obligatorio.',
+            'phone.unique' => 'Este número de teléfono ya pertenece a otro cliente.',
+            'phone.min' => 'El teléfono debe contener al menos 6 dígitos.',
+            'phone.max' => 'El teléfono no debe exceder los 20 dígitos.',
 
-            'email.string'=>'El valor no es correcto',
-            'email.unique'=>'Esta direccion de correo electrónico ya se encuentra registrada',
-            'email.max'=>'Solo se Permiten 40 caracteres',
-            'email.email'=>'No es un correo electronico válido',
+            'email.unique' => 'Esta dirección de correo ya pertenece a otro cliente.',
+            'email.email' => 'El formato de correo electrónico no es válido.',
         ];
     }
 }

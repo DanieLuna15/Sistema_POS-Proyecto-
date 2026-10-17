@@ -14,35 +14,28 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|string|min:3|max:50|unique:users,name,'.$this->route('user')->id.'|regex:/^[\pL\s\-]+$/u',
-            'email'=>'required|string|max:40|unique:users,email,'.$this->route('user')->id.'|email:rfc,dns',
-            //'password'=>'required|string|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
-            //'role'=>'required',
-            //'password'=>'required|string|min:8|confirmed',
+            'name' => 'required|string|min:3|max:50|unique:users,name,' . $this->route('user')->id . '|regex:/^[\pL\s\-]+$/u',
+            'email' => 'required|string|max:40|email:rfc|unique:users,email,' . $this->route('user')->id,
+            'password' => 'nullable|string|min:8',
         ];
     }
     public function messages()
     {
         return [
-            'name.required'=>'Este campo es requerido',
-            'name.string'=>'El valor no es correcto',
-            'name.max'=>'Se necesitan como mínimo 3 caracteres',
-            'name.max'=>'Solo se Permiten 40 caracteres',
-            'name.unique'=>'Ya existe una Categoría con el mismo nombre',
-            'name.regex'=>'El Formato no es Válido (Elimine números y caracteres especiales)',
+            'name.required' => 'El nombre es obligatorio.',
+            'name.string' => 'El valor del nombre no es correcto.',
+            'name.min' => 'Se necesitan como mínimo 3 caracteres para el nombre.',
+            'name.max' => 'Solo se permiten 50 caracteres para el nombre.',
+            'name.unique' => 'Ya existe un usuario registrado con este mismo nombre.',
+            'name.regex' => 'El formato del nombre no es válido (solo letras y espacios).',
 
-            'email.required'=>'Este campo es requerido',
-            'email.string'=>'El valor no es correcto',
-            'email.unique'=>'Esta direccion de correo electrónico ya se encuentra registrada',
-            'email.max'=>'Solo se Permiten 40 caracteres',
-            'email.email'=>'No es un correo electronico valido',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.string' => 'El formato del correo electrónico no es válido.',
+            'email.unique' => 'Esta dirección de correo electrónico ya se encuentra registrada.',
+            'email.max' => 'Solo se permiten 40 caracteres para el correo.',
+            'email.email' => 'No es un correo electrónico válido.',
 
-            'password.required'=>'Este campo es requerido',
-            'password.string'=>'El valor no es correcto',
-            'password.min'=>'Se necesitan como mínimo 8 caracteres',
-            'password.regex'=>'La contraseña debe contener al menos un dígito (0-9), una minúscula(a-z), una mayúscula(A-Z) y al menos un caracter no alfanumérico(! - $ - # - %).',
-
-            //'role.required'=>'Debes asignar un rol a este usuario',
+            'password.min' => 'La contraseña debe contener como mínimo 8 caracteres.',
         ];
     }
 }

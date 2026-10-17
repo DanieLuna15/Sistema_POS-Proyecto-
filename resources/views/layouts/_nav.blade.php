@@ -89,9 +89,48 @@
         @endcan
         @can('sales.index')
         <li class="nav-item">
-            <a class="nav-link" href="{{route('sales.index')}}">
+            <a class="nav-link" data-toggle="collapse" href="#ventas-menu" aria-expanded="false" aria-controls="ventas-menu">
                 <i class="fas fa-shopping-cart menu-icon"></i>
                 <span class="menu-title">Ventas</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ventas-menu">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('sales.index')}}">
+                            <i class="fas fa-list menu-icon"></i>
+                            <span class="menu-title">Historial General</span>
+                        </a>
+                    </li>
+                    @can('sales.create')
+                    <li class="nav-item">
+                        <a class="nav-link text-warning font-weight-bold" href="{{route('sales.pos')}}">
+                            <i class="fas fa-cash-register menu-icon text-warning"></i>
+                            <span class="menu-title">Caja Rápida (POS)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('sales.create')}}">
+                            <i class="fas fa-file-invoice-dollar menu-icon"></i>
+                            <span class="menu-title">Venta Tradicional</span>
+                        </a>
+                    </li>
+                    @endcan
+                    <li class="nav-item">
+                        <a class="nav-link text-info" href="{{route('sales.credits')}}">
+                            <i class="fas fa-hand-holding-usd menu-icon text-info"></i>
+                            <span class="menu-title">Ventas a Crédito</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        @endcan
+        @can('payment_methods.index')
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('payment_methods.index')}}">
+                <i class="fas fa-money-check-alt menu-icon"></i>
+                <span class="menu-title">Formas de Pago</span>
             </a>
         </li>
         @endcan

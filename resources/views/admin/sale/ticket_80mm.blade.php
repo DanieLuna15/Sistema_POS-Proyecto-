@@ -237,11 +237,11 @@
 
         <!-- ENCABEZADO -->
         <div class="company-header">
-            <div class="company-name">SISTEMA POS & COMERCIAL</div>
-            <div class="company-sub">VENTA Y DISTRIBUCIÓN DE PRODUCTOS</div>
-            <div class="company-sub">NIT: 1023847029 &bull; AUT: 4920018471</div>
-            <div class="company-sub">Av. Heroínas #742 - Cochabamba</div>
-            <div class="company-sub">Tel: (+591) 4-4589210 &bull; 71234567</div>
+            <div class="company-name">{{ $activeCompany->name ?? 'SISTEMA POS & COMERCIAL' }}</div>
+            <div class="company-sub">{{ $sale->branch->name ?? $activeBranch->name ?? 'CASA MATRIZ' }}</div>
+            <div class="company-sub">NIT: {{ $activeCompany->nit ?? '1023847029' }} &bull; AUT: {{ $activeCompany->authorization_number ?? '4920018471' }}</div>
+            <div class="company-sub">{{ $sale->branch->address ?? $activeCompany->address ?? 'Av. Heroínas #742 - Cochabamba' }}</div>
+            <div class="company-sub">Tel: {{ $sale->branch->phone ?? $activeCompany->phone ?? '(+591) 4-4589210' }}</div>
         </div>
 
         <div class="divider-double"></div>
@@ -299,6 +299,12 @@
                 <td>{{ $sale->payment_reference }}</td>
             </tr>
             @endif
+            @if($sale->notes)
+            <tr>
+                <td style="font-weight: bold;">DETALLE/NOTA:</td>
+                <td style="font-weight: bold; color: #1e3a8a;">{{ $sale->notes }}</td>
+            </tr>
+            @endif
         </table>
 
         <div class="divider"></div>
@@ -323,6 +329,12 @@
                     <td style="font-weight: bold;">{{ $detail->quantity }}</td>
                     <td>
                         {{ $detail->product->name }}
+                        @if($detail->product->sku)
+                            <br><span style="font-size: 9px; color: #374151;">Ref: {{ $detail->product->sku }}</span>
+                        @endif
+                        @if($detail->product->warranty_days > 0)
+                            <br><span style="font-size: 9px; font-weight: bold; color: #1e3a8a;">Garantía: {{ $detail->product->warranty_days }} días</span>
+                        @endif
                         @if($detail->discount > 0)
                             <br><span style="font-size: 9px; color: #b91c1c;">(Desc. {{ $detail->discount }}%)</span>
                         @endif
@@ -426,11 +438,11 @@
 
         <!-- CÓDIGO QR DE VERIFICACIÓN -->
         @php
-            $qrContent = "SISTEMA POS | NOTA DE VENTA N° " . str_pad($sale->id, 6, '0', STR_PAD_LEFT) . 
-                         "\nNIT: 1023847029" . 
+            $qrContent = ($activeCompany->name ?? "SISTEMA POS") . " | NOTA DE VENTA N° " . str_pad($sale->id, 6, '0', STR_PAD_LEFT) . 
+                         "\nNIT: " . ($activeCompany->nit ?? '1023847029') . 
                          "\nFECHA: " . \Carbon\Carbon::parse($sale->sale_date)->format('d/m/Y H:i') . 
                          "\nCLIENTE: " . ($sale->client->name ?? 'S/N') . 
-                         "\nTOTAL: Bs. " . number_format($sale->total, 2);
+                         "\nTOTAL: " . ($activeCompany->currency_symbol ?? 'Bs.') . " " . number_format($sale->total, 2);
             $qrSvgBase64 = base64_encode(\SimpleSoftwareIO\QrCode\Facades\QrCode::size(120)->margin(0)->errorCorrection('M')->generate($qrContent));
         @endphp
 
@@ -446,8 +458,8 @@
 
         <div class="footer-thanks">
             <strong>¡GRACIAS POR SU COMPRA!</strong><br>
-            Conserve este ticket para cualquier reclamo o garantía.<br>
-            <em>Sistema POS &bull; Control Interno</em>
+            {{ $activeCompany->receipt_footer ?? 'Conserve este ticket para cualquier reclamo o garantía.' }}<br>
+            <em>{{ $activeCompany->name ?? 'Sistema POS' }} &bull; {{ $sale->branch->name ?? $activeBranch->name ?? 'Control Interno' }}</em>
         </div>
 
         <div class="divider-double"></div>

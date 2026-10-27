@@ -1,117 +1,155 @@
 @extends('layouts.admin')
-@section('title','Gestión de Productos')
-@section('styles')
-<style type="text/css">
-    .unstyled-button {
-        border: none;
-        padding: 0;
-        background: none;
-      }
-</style>
-@endsection
+@section('title', 'Catálogo de Productos y Servicios')
 
-@section('create')
-@endsection
-
-@section('options')
-@endsection
-
-@section('preference')
-@endsection
 @section('content')
+@php
+    $sym = $activeCompany->currency_symbol ?? 'Bs.';
+    $rubro = $activeCompany->rubro_config;
+@endphp
 <div class="content-wrapper">
-    <div class="page-header">
-        <h3 class="page-title">
-        Gestión de Productos
-        </h3>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-custom">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Panel Principal</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Productos</li>
-            </ol>
-        </nav>
+    <div class="page-header d-flex justify-content-between align-items-center flex-wrap">
+        <div>
+            <span class="badge badge-primary mb-1"><i class="{{ $rubro['icon'] }} mr-1"></i> Rubro: {{ $rubro['label'] }}</span>
+            <h3 class="page-title mb-1">
+                <i class="fas fa-boxes text-primary mr-2"></i> {{ $rubro['product_title'] }}
+            </h3>
+            <small class="text-muted">{{ $rubro['desc'] }}</small>
+        </div>
+        <div class="mt-2 mt-md-0">
+            <a href="{{route('transfers.index')}}" class="btn btn-outline-primary font-weight-bold mr-2">
+                <i class="fas fa-truck-loading mr-1"></i> Traspasos entre Sucursales
+            </a>
+            @if($activeCompany->enable_kardex ?? true)
+            <a href="{{route('kardex.index')}}" class="btn btn-outline-warning text-dark font-weight-bold mr-2">
+                <i class="fas fa-clipboard-list mr-1"></i> Kardex y Ajustes
+            </a>
+            @endif
+            <a href="{{route('products.create')}}" class="btn btn-info font-weight-bold">
+                <i class="fas fa-plus mr-1"></i> Registrar en {{ $rubro['short_label'] }}
+            </a>
+        </div>
     </div>
+
     <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title">Productos: </h4>
-
-                        <div class="btn-group">
-                            <a href="{{route('products.create')}}" type="button" class="btn btn-info ">
-                                <i class="fas fa-plus"></i> Nuevo
-                            </a>
-                        </div>
-                    </div>
                     <div class="table-responsive">
-                        <table id="order-listing" class="table">
+                        <table id="order-listing" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Código / {{ $rubro['sku_label'] }}</th>
                                     <th>Imagen</th>
-                                    <th>Nombre</th>
-                                    <th>Categoría</th>
-                                    <th>Marca</th>
-                                    <th>Stock/Unidades</th>
+                                    <th>Descripción / {{ $rubro['location_label'] }}</th>
+                                    <th>Categoría / {{ $rubro['brand_label'] }}</th>
+                                    <th>Costo / Venta</th>
+                                    <th class="text-center">Existencia / Unidad</th>
                                     <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($products as $product): ?>
+                                @foreach ($products as $product)
                                 <tr>
-                                    <th scope="row">{{$product->id}}</th>
-                                        <td><img src="{{asset('image/'.$product->image)}}" class="img-lg rounded" alt="profile image" /></td>
-                                        <td>
-                                            <a href="{{route('products.show',$product)}}">{{$product->name}}</a>
-                                        </td>
-                                        <td>{{$product->category->name}}</td>
-
-                                        <td>{{$product->brand->name}}</td>
-
-                                        <td align="center">
-                                            @if ($product->stock==0)
-                                                <a class="jsgrid-button btn btn-danger btn-sm btn-rounded">
-                                                    <strong>{{$product->stock}}</strong>
-                                                </a>
+                                    <td>
+                                        <span class="badge badge-outline-dark font-weight-bold">{{ $product->code ?? $product->id }}</span>
+                                        @if($product->sku)
+                                            <br><small class="text-primary font-weight-bold">{{ $product->sku }}</small>
+                                        @endif
+                                        @if($product->batch_number)
+                                            <br><small class="text-muted">{{ $rubro['batch_label'] }}: {{ $product->batch_number }}</small>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($product->image && file_exists(public_path('image/'.$product->image)))
+                                            <img src="{{asset('image/'.$product->image)}}" class="img-lg rounded" alt="{{ $product->name }}" />
+                                        @else
+                                            <div class="d-inline-flex align-items-center justify-content-center bg-light rounded border text-primary" style="width: 46px; height: 46px;">
+                                                <i class="fas {{ $product->isService() ? 'fa-concierge-bell' : 'fa-box' }} fa-lg"></i>
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{route('products.show',$product)}}" class="font-weight-bold">{{$product->name}}</a><br>
+                                        @if($product->isService())
+                                            <span class="badge badge-info">SERVICIO / ELABORADO</span>
+                                        @elseif($product->location)
+                                            <small class="text-muted"><i class="fas fa-map-pin mr-1"></i>{{ $product->location }}</small>
+                                        @endif
+                                        @if($product->expiration_date)
+                                            @php
+                                                $expDate = \Carbon\Carbon::parse($product->expiration_date);
+                                                $daysLeft = now()->diffInDays($expDate, false);
+                                            @endphp
+                                            <br>
+                                            @if($daysLeft < 0)
+                                                <span class="badge badge-danger"><i class="fas fa-skull-crossbones mr-1"></i>VENCIDO: {{ $expDate->format('d/m/Y') }}</span>
+                                            @elseif($daysLeft <= 60)
+                                                <span class="badge badge-warning text-dark"><i class="fas fa-exclamation-triangle mr-1"></i>Vence en {{ $daysLeft }} días ({{ $expDate->format('d/m/Y') }})</span>
                                             @else
-                                                @if ($product->stock>15)
-                                                    <a class="jsgrid-button btn btn-success btn-sm btn-rounded">
-                                                        <strong>{{$product->stock}}</strong>
-                                                    </a>
-                                                @else
-                                                    <a class="jsgrid-button btn btn-warning btn-sm btn-rounded">
-                                                        <strong>{{$product->stock}}</strong>
-                                                    </a>
-                                                @endif
+                                                <small class="text-success"><i class="fas fa-calendar-check mr-1"></i>Vence: {{ $expDate->format('d/m/Y') }}</small>
                                             @endif
-                                        </td>
-
-                                        <td>
-                                        @if ($product->status=='ACTIVO')
+                                        @endif
+                                        @if($product->warranty_days > 0)
+                                            <br><small class="text-info font-weight-bold"><i class="fas fa-shield-alt mr-1"></i>Garantía: {{ $product->warranty_days }} días</small>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <strong>{{$product->category->name ?? '-'}}</strong><br>
+                                        <small class="text-muted">{{$product->brand->name ?? '-'}}</small>
+                                    </td>
+                                    <td>
+                                        <strong class="text-success">{{ $sym }} {{ number_format($product->sell_price, 2) }}</strong><br>
+                                        @if($product->purchase_price > 0)
+                                            <small class="text-muted">Costo: {{ $sym }} {{ number_format($product->purchase_price, 2) }}</small>
+                                        @endif
+                                    </td>
+                                    <td align="center">
+                                        @if($product->isService())
+                                            <span class="badge badge-outline-info">Servicio Ilimitado</span>
+                                        @else
+                                            @if ($product->stock <= 0)
+                                                <span class="btn btn-danger btn-sm btn-rounded" title="Stock en {{ $activeBranch->name ?? 'Sucursal Activa' }}">
+                                                    <strong>{{$product->stock}}</strong> {{ $product->unit_measure ?? 'UND' }}
+                                                </span>
+                                            @elseif ($product->stock <= ($product->stock_min ?? 5))
+                                                <span class="btn btn-warning btn-sm btn-rounded" title="Stock en {{ $activeBranch->name ?? 'Sucursal Activa' }}">
+                                                    <strong>{{$product->stock}}</strong> {{ $product->unit_measure ?? 'UND' }}
+                                                </span>
+                                            @else
+                                                <span class="btn btn-success btn-sm btn-rounded" title="Stock en {{ $activeBranch->name ?? 'Sucursal Activa' }}">
+                                                    <strong>{{$product->stock}}</strong> {{ $product->unit_measure ?? 'UND' }}
+                                                </span>
+                                            @endif
+                                            <div class="small text-muted mt-1" style="font-size:11px;">
+                                                <i class="fas fa-store-alt text-primary"></i> {{ $activeBranch->name ?? 'Sucursal Activa' }}
+                                                @if($product->branchStocks && $product->branchStocks->count() > 1)
+                                                    <br><span class="text-dark font-weight-bold">Total Emp: {{ $product->total_company_stock }} {{ $product->unit_measure ?? 'UND' }}</span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($product->status == 'ACTIVO')
                                             <a class="jsgrid-button btn btn-success btn-sm btn-block" href="{{route('change.status.products', $product)}}">
-                                                {{$product->status}} <i class="fas fa-check"></i>
+                                                ACTIVO <i class="fas fa-check"></i>
                                             </a>
                                         @else
                                             <a class="jsgrid-button btn btn-danger btn-sm btn-block" href="{{route('change.status.products', $product)}}">
-                                                {{$product->status}} <i class="fas fa-times"></i>
+                                                INACTIVO <i class="fas fa-times"></i>
                                             </a>
                                         @endif
-                                        </td>
-
-                                        <td style="width: 20%;" align="center">
-                                            {!! Form::open(['route'=>['products.destroy',$product], 'method'=>'DELETE']) !!}
-                                                <a class="btn btn-outline-warning" href="{{route('products.edit', $product)}}" title="Editar">
-                                                    <i class="far fa-edit"></i>
-                                                </a>
-                                                <a class="btn btn-outline-info" href="{{route('products.show',$product)}}" title="Ver Detalle">
-                                                    <i class="far fa-eye"></i>
-                                                </a>
-                                            {!! Form::close() !!}
-                                        </td>
+                                    </td>
+                                    <td align="center">
+                                        <a class="btn btn-outline-warning btn-sm" href="{{route('products.edit', $product)}}" title="Editar">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-outline-info btn-sm" href="{{route('products.show', $product)}}" title="Ver Ficha y Kardex">
+                                            <i class="far fa-eye"></i>
+                                        </a>
+                                    </td>
                                 </tr>
-                                <?php endforeach; ?>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -121,6 +159,7 @@
     </div>
 </div>
 @endsection
+
 @section('scripts')
 {!! Html::script('melody/js/data-table.js') !!}
 @endsection

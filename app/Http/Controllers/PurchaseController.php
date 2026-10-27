@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Provider;
 use App\Product;
 use App\Purchase;
+use App\Company;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Purchase\StoreRequest;
@@ -14,12 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
-/*
-para libreria
-*/
 use App\NumerosEnLetras;
-
-//Para sweet alert en Compras
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PurchaseController extends Controller
@@ -28,31 +24,30 @@ class PurchaseController extends Controller
     {
         $this->middleware('auth');
 
-        $this->middleware('can:purchases.create')->only(['create','store']);
+        $this->middleware('can:purchases.create')->only(['create', 'store']);
         $this->middleware('can:purchases.index')->only(['index']);
-        $this->middleware('can:purchases.show')->only(['show']);
-        $this->middleware('can:purchases.show')->only(['pdf']);
+        $this->middleware('can:purchases.show')->only(['show', 'pdf']);
         $this->middleware('can:change.status.purchases')->only(['change_status']);
     }
 
     public function index()
     {
-        $purchases = Purchase::with(['provider', 'user'])->orderBy('purchase_date', 'DESC')->get();
+        $purchases = Purchase::with(['provider', 'user', 'branch'])->orderBy('purchase_date', 'DESC')->get();
         return view('admin.purchase.index', compact('purchases'));
     }
 
     public function create()
     {
-        $providers=Provider::get();
-        $products=Product::where('status','ACTIVO')->get();
-        return view('admin.purchase.create', compact('providers','products'));
+        $providers = Provider::orderBy('name', 'ASC')->get();
+        $products = Product::where('status', 'ACTIVO')->where('item_type', '!=', 'SERVICIO')->orderBy('name', 'ASC')->get();
+        return view('admin.purchase.create', compact('providers', 'products'));
     }
 
     public function store(StoreRequest $request, Purchase $purchase)
     {
         try {
             $purchase->my_store($request);
-            Alert::toast('Compra registrada con éxito.', 'success');
+            Alert::toast('Compra registrada con éxito y Kardex actualizado.', 'success');
             return redirect()->route('purchases.index');
         } catch (\Exception $e) {
             Alert::error('Error al registrar la compra', $e->getMessage());
@@ -62,13 +57,14 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-        $subtotal=0;
-        $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',true);
-        $PurchaseDetails=$purchase->PurchaseDetails;
-        foreach($PurchaseDetails as $PurchaseDetail){
-            $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
+        $subtotal = 0;
+        $company = Company::current();
+        $totalLiteral = NumerosEnLetras::convertir($purchase->total, $company->currency_name ?? 'Bolivianos', true);
+        $PurchaseDetails = $purchase->PurchaseDetails;
+        foreach ($PurchaseDetails as $PurchaseDetail) {
+            $subtotal += $PurchaseDetail->quantity * $PurchaseDetail->price;
         }
-        return view('admin.purchase.show', compact('purchase','PurchaseDetails','subtotal','totalLiteral'));
+        return view('admin.purchase.show', compact('purchase', 'PurchaseDetails', 'subtotal', 'totalLiteral'));
     }
 
     public function edit(Purchase $purchase)
@@ -82,22 +78,24 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase)
     {
     }
+
     public function change_status(Purchase $purchase)
     {
-        if($purchase->status == 'CONFIRMADO'){
-            $purchase->update([ 'status' =>'CANCELADO']);
+        $refCode = 'CMP-' . str_pad($purchase->id, 6, '0', STR_PAD_LEFT);
+        if ($purchase->status == 'CONFIRMADO') {
+            $purchase->update(['status' => 'CANCELADO']);
             foreach ($purchase->PurchaseDetails as $detail) {
                 if ($detail->product) {
-                    $detail->product->substract_stock($detail->quantity);
+                    $detail->product->substract_stock($detail->quantity, 'ANULACION_COMPRA', $refCode, 'Salida por anulación de compra');
                 }
             }
-            Alert::toast('Se canceló la compra.', 'success');
+            Alert::toast('Se canceló la compra y se ajustó el Kardex.', 'success');
             return redirect()->back();
-        }else{
-            $purchase->update([ 'status' =>'CONFIRMADO']);
+        } else {
+            $purchase->update(['status' => 'CONFIRMADO']);
             foreach ($purchase->PurchaseDetails as $detail) {
                 if ($detail->product) {
-                    $detail->product->add_stock($detail->quantity);
+                    $detail->product->add_stock($detail->quantity, 'ENTRADA_COMPRA', $refCode, 'Reactivación de compra', $detail->price);
                 }
             }
             Alert::toast('Se confirmó la compra.', 'success');
@@ -107,16 +105,21 @@ class PurchaseController extends Controller
 
     public function pdf(Purchase $purchase)
     {
-        $subtotal=0;
-        //Para mostrar el total en letras
-        $totalLiteral=NumerosEnLetras::convertir($purchase->total,'Bolivianos',true);
-        $PurchaseDetails=$purchase->PurchaseDetails;
-        foreach($PurchaseDetails as $PurchaseDetail){
-            $subtotal+=$PurchaseDetail->quantity*$PurchaseDetail->price;
+        $subtotal = 0;
+        $company = Company::current();
+        $totalLiteral = NumerosEnLetras::convertir($purchase->total, $company->currency_name ?? 'Bolivianos', true);
+        $PurchaseDetails = $purchase->PurchaseDetails;
+        foreach ($PurchaseDetails as $PurchaseDetail) {
+            $subtotal += $PurchaseDetail->quantity * $PurchaseDetail->price;
         }
 
-        $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase','subtotal','PurchaseDetails','totalLiteral'));
+        $pdf = PDF::loadView('admin.purchase.pdf', compact('purchase', 'subtotal', 'PurchaseDetails', 'totalLiteral'));
+        $pdf->setPaper('a4', 'portrait');
 
-        return $pdf->download('Nota_de_Compra_N°_'.$purchase->id.'_(Fec_'.$purchase->purchase_date.')'.'.pdf');
+        if (request()->has('download')) {
+            return $pdf->download('Nota_de_Compra_N_' . $purchase->id . '.pdf');
+        }
+
+        return $pdf->stream('Nota_de_Compra_N_' . $purchase->id . '.pdf');
     }
 }

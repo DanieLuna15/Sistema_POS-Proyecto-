@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Sale;
+use App\Company;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 //Para sweet alert en Repo
@@ -17,15 +18,16 @@ class ReportController extends Controller
     }
 
     public function reports_date(){
+        $companyId = Company::currentId();
         $mejoresclientescant=DB::select('SELECT c.name as nameclient,
         count(v.id) as quantity, sum(v.total) as mount from sales v
-        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
-        group by c.name order by count(v.id) desc limit 6');
+        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and (v.company_id = ? or v.company_id is null) and YEAR(v.sale_date)=YEAR(curdate())
+        group by c.name order by count(v.id) desc limit 6', [$companyId]);
 
         $mejoresclientesmont=DB::select('SELECT c.name as nameclient,
         count(v.id) as quantity, sum(v.total) as mount from sales v
-        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
-        group by c.name order by sum(v.total) desc limit 6');
+        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and (v.company_id = ? or v.company_id is null) and YEAR(v.sale_date)=YEAR(curdate())
+        group by c.name order by sum(v.total) desc limit 6', [$companyId]);
 
         DB::statement("SET lc_time_names = 'es_ES'");
         $salesd = Sale::whereDate('sale_date', Carbon::today('America/La_Paz'))
@@ -90,16 +92,16 @@ class ReportController extends Controller
     }
 
     public function report_results(Request $request){
-
+        $companyId = Company::currentId();
         $mejoresclientescant=DB::select('SELECT c.name as nameclient,
         count(v.id) as quantity, sum(v.total) as mount from sales v
-        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
-        group by c.name order by count(v.id) desc limit 5');
+        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and (v.company_id = ? or v.company_id is null) and YEAR(v.sale_date)=YEAR(curdate())
+        group by c.name order by count(v.id) desc limit 5', [$companyId]);
 
         $mejoresclientesmont=DB::select('SELECT c.name as nameclient,
         count(v.id) as quantity, sum(v.total) as mount from sales v
-        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and YEAR(v.sale_date)=YEAR(curdate())
-        group by c.name order by sum(v.total) desc limit 5');
+        inner join clients c on v.client_id=c.id where v.status="CONFIRMADO" and (v.company_id = ? or v.company_id is null) and YEAR(v.sale_date)=YEAR(curdate())
+        group by c.name order by sum(v.total) desc limit 5', [$companyId]);
 
         DB::statement("SET lc_time_names = 'es_ES'");
 

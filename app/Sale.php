@@ -6,12 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Traits\BelongsToCompany;
 
 class Sale extends Model
 {
+    use BelongsToCompany;
+
     protected $fillable = [
+        'company_id',
         'client_id',
         'user_id',
+        'branch_id',
+        'cash_register_id',
         'sale_date',
         'tax',
         'total',
@@ -28,48 +34,66 @@ class Sale extends Model
         'credit_status',
         'installments_count',
         'installment_frequency',
+        'notes',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function client(){
+    public function client()
+    {
         return $this->belongsTo(Client::class);
     }
 
-    public function paymentMethod(){
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
+    }
+
+    public function cashRegister()
+    {
+        return $this->belongsTo(CashRegister::class);
+    }
+
+    public function paymentMethod()
+    {
         return $this->belongsTo(PaymentMethod::class, 'payment_method_id');
     }
 
-    public function saleDetails(){
+    public function saleDetails()
+    {
         return $this->hasMany(SaleDetails::class);
     }
 
-    public function installments(){
+    public function installments()
+    {
         return $this->hasMany(SaleInstallment::class)->orderBy('installment_number', 'ASC');
     }
 
-    public function update_stock($id, $quantity){
+    public function update_stock($id, $quantity, $referenceCode = null)
+    {
         $product = Product::findOrFail($id);
-        if ($product->stock < $quantity) {
+        if (!$product->isService() && $product->stock < $quantity) {
             throw new \Exception("Stock insuficiente para el producto '{$product->name}'. Stock actual: {$product->stock}, Cantidad solicitada: {$quantity}.");
         }
-        $product->substract_stock($quantity);
+        $product->substract_stock($quantity, 'SALIDA_VENTA', $referenceCode, 'Venta de mercadería');
     }
 
-    public function my_store($request){
-        return DB::transaction(function() use ($request) {
+    public function my_store($request)
+    {
+        return DB::transaction(function () use ($request) {
             // 1. Validar existencias de stock y calcular el total en el servidor
             $totalCalculado = 0;
             if ($request->has('product_id')) {
-                foreach($request->product_id as $key => $productId){
+                foreach ($request->product_id as $key => $productId) {
                     $qty = floatval($request->quantity[$key]);
                     $price = floatval($request->price[$key]);
                     $discount = isset($request->discount[$key]) ? floatval($request->discount[$key]) : 0;
 
                     $product = Product::findOrFail($productId);
-                    if ($product->stock < $qty) {
+                    if (!$product->isService() && $product->stock < $qty) {
                         throw new \Exception("Stock insuficiente para el producto '{$product->name}'. Disponible: {$product->stock}, solicitado: {$qty}.");
                     }
 
@@ -95,10 +119,15 @@ class Sale extends Model
             $installmentsCount = ($saleType === 'CREDITO') ? intval($request->installments_count ?? 1) : null;
             $installmentFrequency = ($saleType === 'CREDITO') ? ($request->installment_frequency ?? 'MENSUAL') : null;
 
+            $activeBranch = Branch::current();
+            $openRegister = CashRegister::activeOpen();
+
             // 2. Crear la venta con el total verificado por el servidor
             $sale = Sale::create([
                 'client_id' => $request->client_id,
                 'user_id' => Auth::user()->id,
+                'branch_id' => $request->branch_id ?? ($activeBranch ? $activeBranch->id : null),
+                'cash_register_id' => $openRegister ? $openRegister->id : null,
                 'sale_date' => Carbon::now('America/La_Paz'),
                 'total' => round($totalCalculado, 2),
                 'status' => 'CONFIRMADO',
@@ -114,9 +143,10 @@ class Sale extends Model
                 'credit_status' => $creditStatus,
                 'installments_count' => $installmentsCount,
                 'installment_frequency' => $installmentFrequency,
+                'notes' => $request->notes ?? null,
             ]);
 
-            // 3. Registrar los detalles y actualizar el inventario
+            // 3. Registrar los detalles y actualizar el inventario con trazabilidad en Kardex
             $sale->add_sale_details($request);
 
             // 4. Si es venta a crédito, generar el cronograma de cuotas
@@ -150,16 +180,25 @@ class Sale extends Model
                 $sale->installments()->createMany($installmentsData);
             }
 
+            // 5. Si hay una caja abierta, actualizar sus totales
+            if ($openRegister) {
+                try {
+                    $openRegister->recalculateTotals();
+                } catch (\Throwable $e) {}
+            }
+
             return $sale;
         });
     }
 
-    public function add_sale_details($request){
+    public function add_sale_details($request)
+    {
         $results = [];
+        $refCode = 'VTA-' . str_pad($this->id, 6, '0', STR_PAD_LEFT);
         if ($request->has('product_id')) {
-            foreach($request->product_id as $key => $productId){
+            foreach ($request->product_id as $key => $productId) {
                 $qty = floatval($request->quantity[$key]);
-                $this->update_stock($productId, $qty);
+                $this->update_stock($productId, $qty, $refCode);
                 $results[] = array(
                     "product_id" => $productId,
                     "quantity" => $qty,

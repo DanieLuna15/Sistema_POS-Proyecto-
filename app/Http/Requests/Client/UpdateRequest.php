@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class UpdateRequest extends FormRequest
 {
@@ -13,13 +15,15 @@ class UpdateRequest extends FormRequest
 
     public function rules()
     {
+        $companyId = Company::currentId();
+        $clientId = $this->route('client')->id;
         return [
             'name' => 'required|string|min:3|max:60',
-            'ci' => 'required|string|min:4|max:20|unique:clients,ci,' . $this->route('client')->id,
-            'nit' => 'nullable|string|min:6|max:25|unique:clients,nit,' . $this->route('client')->id,
+            'ci' => ['required', 'string', 'min:4', 'max:20', Rule::unique('clients', 'ci')->where('company_id', $companyId)->ignore($clientId)],
+            'nit' => ['nullable', 'string', 'min:6', 'max:25', Rule::unique('clients', 'nit')->where('company_id', $companyId)->ignore($clientId)],
             'address' => 'nullable|string|max:255',
-            'phone' => 'required|string|min:6|max:20|unique:clients,phone,' . $this->route('client')->id,
-            'email' => 'nullable|string|max:60|email:rfc|unique:clients,email,' . $this->route('client')->id,
+            'phone' => ['required', 'string', 'min:6', 'max:20', Rule::unique('clients', 'phone')->where('company_id', $companyId)->ignore($clientId)],
+            'email' => ['nullable', 'string', 'max:60', 'email:rfc', Rule::unique('clients', 'email')->where('company_id', $companyId)->ignore($clientId)],
         ];
     }
     public function messages()

@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class UpdateRequest extends FormRequest
 {
@@ -12,9 +14,10 @@ class UpdateRequest extends FormRequest
     }
     public function rules()
     {
+        $companyId = Company::currentId();
         return [
-            'name'=>'required|string|unique:categories,name,'.$this->route('category')->id.'|min:3|max:40',
-            'description'=>'nullable|string|min:5|max:100',
+            'name' => ['required', 'string', 'min:3', 'max:40', Rule::unique('categories', 'name')->where('company_id', $companyId)->ignore($this->route('category')->id)],
+            'description' => 'nullable|string|min:5|max:100',
         ];
     }
     public function messages()

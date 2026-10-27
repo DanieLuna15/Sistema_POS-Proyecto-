@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class StoreRequest extends FormRequest
 {
@@ -12,13 +14,14 @@ class StoreRequest extends FormRequest
     }
     public function rules()
     {
+        $companyId = Company::currentId();
         return [
             'name' => 'required|string|min:3|max:60',
-            'ci' => 'required|string|min:4|max:20|unique:clients,ci',
-            'nit' => 'nullable|string|min:6|max:25|unique:clients,nit',
+            'ci' => ['required', 'string', 'min:4', 'max:20', Rule::unique('clients', 'ci')->where('company_id', $companyId)],
+            'nit' => ['nullable', 'string', 'min:6', 'max:25', Rule::unique('clients', 'nit')->where('company_id', $companyId)],
             'address' => 'nullable|string|min:3|max:255',
-            'phone' => 'required|string|min:6|max:20|unique:clients,phone',
-            'email' => 'nullable|string|max:60|email:rfc|unique:clients,email',
+            'phone' => ['required', 'string', 'min:6', 'max:20', Rule::unique('clients', 'phone')->where('company_id', $companyId)],
+            'email' => ['nullable', 'string', 'max:60', 'email:rfc', Rule::unique('clients', 'email')->where('company_id', $companyId)],
         ];
     }
     public function messages()

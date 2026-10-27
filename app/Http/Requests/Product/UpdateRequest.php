@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class UpdateRequest extends FormRequest
 {
@@ -13,45 +15,41 @@ class UpdateRequest extends FormRequest
 
     public function rules()
     {
-        return [
-            'name'=>'required|string|min:3|max:100|unique:products,name,'.$this->route('product')->id,
-            'picture'=>'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
-            'sell_price'=>'required|numeric|min:0.01',
+        $productId = $this->route('product')->id;
+        $companyId = Company::currentId();
 
-            'category_id'=>'integer|required|exists:App\Category,id',
-            'brand_id'=>'integer|required|exists:App\Brand,id',
-            'provider_id'=>'integer|required|exists:App\Provider,id',
+        return [
+            'name' => ['required', 'string', 'min:2', 'max:150', Rule::unique('products', 'name')->where('company_id', $companyId)->ignore($productId)],
+            'code' => ['nullable', 'string', 'max:80', Rule::unique('products', 'code')->where('company_id', $companyId)->ignore($productId)],
+            'sku' => 'nullable|string|max:80',
+            'item_type' => 'nullable|in:PRODUCTO,SERVICIO,COMBO',
+            'unit_measure' => 'nullable|string|max:30',
+            'picture' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:3072',
+            'purchase_price' => 'nullable|numeric|min:0',
+            'sell_price' => 'required|numeric|min:0.01',
+            'wholesale_price' => 'nullable|numeric|min:0',
+            'wholesale_min_qty' => 'nullable|integer|min:1',
+            'stock_min' => 'nullable|integer|min:0',
+            'location' => 'nullable|string|max:100',
+            'batch_number' => 'nullable|string|max:80',
+            'expiration_date' => 'nullable|date',
+            'warranty_days' => 'nullable|integer|min:0',
+            'description' => 'nullable|string|max:1000',
+            'category_id' => 'integer|required|exists:App\Category,id',
+            'brand_id' => 'integer|required|exists:App\Brand,id',
+            'provider_id' => 'integer|required|exists:App\Provider,id',
         ];
     }
+
     public function messages()
     {
         return [
-            'name.required'=>'Este campo es requerido',
-            'name.string'=>'El valor no es correcto',
-            'name.min'=>'Se necesitan como mínimo 5 caracteres',
-            'name.max'=>'Solo se Permiten 50 caracteres',
-            'name.unique'=>'El producto ya esta registrado',
-
-            //'image.required'=>'La imagen es requerida',
-            //'image.image'=>'Solo se permiten archivos con formato (.jpeg/.png/.bmp/.gif/.svg/.webp)',
-            //'image.dimensions'=>'Solo se permiten imagenes mayores 100x200 px.',
-
-            'sell_price.required'=>'Este campo es requerido',
-            'sell_price.numeric'=>'El valor tiene que ser numérico.',
-            'sell_price.min'=>'No se permiten valores negativos',
-            'sell_price.not_in'=>'El valor no puede ser 0',
-
-            'category_id.integer'=>'El valor tiene que ser entero.',
-            'category_id.required'=>'Este campo es requerido',
-            'category_id.exists'=>'La categoría no existe',
-
-            'brand_id.integer'=>'El valor tiene que ser entero.',
-            'brand_id.required'=>'Este campo es requerido',
-            'brand_id.exists'=>'La marca no existe',
-
-            'provider_id.integer'=>'El valor tiene que ser entero.',
-            'provider_id.required'=>'Este campo es requerido',
-            'provider_id.exists'=>'El Proveedor no existe',
+            'name.required' => 'El nombre del producto o servicio es requerido',
+            'name.unique' => 'Este nombre de producto ya está registrado',
+            'code.unique' => 'Este código de barras ya está asignado a otro producto',
+            'sell_price.required' => 'El precio de venta es requerido',
+            'sell_price.numeric' => 'El precio de venta debe ser numérico',
+            'sell_price.min' => 'El precio de venta debe ser mayor a 0',
         ];
     }
 }

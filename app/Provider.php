@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToCompany;
 
 class Provider extends Model
 {
+    use BelongsToCompany;
+
     protected $fillable = [
-        'name', 'email', 'nit', 'address', 'phone',
+        'company_id', 'name', 'email', 'nit', 'address', 'phone',
     ];
     public function products(){
         return $this->HasMany(Product::class);

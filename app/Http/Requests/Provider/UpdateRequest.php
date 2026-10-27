@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Provider;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class UpdateRequest extends FormRequest
 {
@@ -13,12 +15,14 @@ class UpdateRequest extends FormRequest
 
     public function rules()
     {
+        $companyId = Company::currentId();
+        $providerId = $this->route('provider')->id;
         return [
-            'name' => 'required|string|min:3|max:60|unique:providers,name,' . $this->route('provider')->id,
-            'email' => 'required|string|max:60|email:rfc|unique:providers,email,' . $this->route('provider')->id,
-            'nit' => 'required|string|min:6|max:25|unique:providers,nit,' . $this->route('provider')->id,
+            'name' => ['required', 'string', 'min:3', 'max:60', Rule::unique('providers', 'name')->where('company_id', $companyId)->ignore($providerId)],
+            'email' => ['required', 'string', 'max:60', 'email:rfc', Rule::unique('providers', 'email')->where('company_id', $companyId)->ignore($providerId)],
+            'nit' => ['required', 'string', 'min:6', 'max:25', Rule::unique('providers', 'nit')->where('company_id', $companyId)->ignore($providerId)],
             'address' => 'nullable|string|min:3|max:200',
-            'phone' => 'required|string|min:6|max:20|unique:providers,phone,' . $this->route('provider')->id,
+            'phone' => ['required', 'string', 'min:6', 'max:20', Rule::unique('providers', 'phone')->where('company_id', $companyId)->ignore($providerId)],
         ];
     }
     public function messages()

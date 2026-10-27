@@ -159,21 +159,28 @@
 @endsection
 
 @section('content')
+@php
+    $rubro = $activeCompany->rubro_config;
+    $bType = $activeCompany->business_type ?? 'GENERAL';
+@endphp
 <div class="content-wrapper">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
         <div>
+            <span class="badge badge-primary mb-1"><i class="{{ $rubro['icon'] }} mr-1"></i> POS Especializado: {{ $rubro['label'] }}</span>
             <h3 class="page-title mb-1">
-                <i class="fas fa-cash-register text-warning mr-2"></i> Caja Rápida - POS Táctil
+                <i class="fas fa-cash-register text-warning mr-2"></i> Caja Rápida — {{ $rubro['short_label'] }}
             </h3>
-            <span class="text-muted">Atención veloz en mostrador, escaneo y múltiples métodos de pago.</span>
+            <span class="text-muted">{{ $rubro['desc'] }}</span>
         </div>
         <div>
             <a href="{{ route('sales.create') }}" class="btn btn-outline-primary btn-sm mr-2">
                 <i class="fas fa-file-invoice"></i> Venta Tradicional
             </a>
+            @if($activeCompany->enable_credits ?? true)
             <a href="{{ route('sales.credit.create') }}" class="btn btn-outline-info btn-sm mr-2">
                 <i class="fas fa-hand-holding-usd"></i> Venta a Crédito
             </a>
+            @endif
             <a href="{{ route('sales.index') }}" class="btn btn-light btn-sm">
                 <i class="fas fa-arrow-left"></i> Volver a Lista
             </a>
@@ -218,22 +225,23 @@
                 <!-- GRID DE PRODUCTOS -->
                 <div class="product-grid" id="productGrid">
                     @forelse($products as $prod)
+                    @php $posStock = $prod->isService() ? 999999 : $prod->stock; @endphp
                     <div class="product-card" 
                          data-id="{{ $prod->id }}"
                          data-code="{{ $prod->code ?? $prod->id }}"
                          data-name="{{ $prod->name }}"
                          data-price="{{ $prod->sell_price }}"
-                         data-stock="{{ $prod->stock }}"
+                         data-stock="{{ $posStock }}"
                          data-category="{{ $prod->category_id }}"
-                         onclick="addToCart({{ $prod->id }}, '{{ addslashes($prod->name) }}', {{ $prod->sell_price }}, {{ $prod->stock }})">
+                         onclick="addToCart({{ $prod->id }}, '{{ addslashes($prod->name) }}', {{ $prod->sell_price }}, {{ $posStock }})">
                         
-                        <span class="product-price-badge">Bs. {{ number_format($prod->sell_price, 2) }}</span>
+                        <span class="product-price-badge">{{ $activeCompany->currency_symbol ?? 'Bs.' }} {{ number_format($prod->sell_price, 2) }}</span>
 
                         <div class="product-img-box">
                             @if($prod->image && file_exists(public_path('image/' . $prod->image)))
                                 <img src="{{ asset('image/' . $prod->image) }}" alt="{{ $prod->name }}">
                             @else
-                                <i class="fas fa-box-open fa-3x text-muted"></i>
+                                <i class="fas {{ $prod->isService() ? 'fa-concierge-bell' : 'fa-box-open' }} fa-3x text-muted"></i>
                             @endif
                         </div>
 
@@ -241,8 +249,21 @@
                             <div class="font-weight-bold text-dark text-truncate" title="{{ $prod->name }}">
                                 {{ $prod->name }}
                             </div>
-                            <small class="text-muted d-block">{{ $prod->brand->name ?? 'Genérico' }}</small>
-                            <span class="badge badge-success mt-1">Stock: {{ $prod->stock }}</span>
+                            <small class="text-muted d-block text-truncate">
+                                {{ $prod->brand->name ?? 'Genérico' }}
+                                @if($prod->sku) &bull; <strong class="text-primary">{{ $prod->sku }}</strong> @endif
+                            </small>
+                            @if($prod->location)
+                                <small class="text-info d-block text-truncate"><i class="fas fa-map-pin mr-1"></i>{{ $prod->location }}</small>
+                            @endif
+                            @if($prod->isService())
+                                <span class="badge badge-info mt-1">{{ $bType === 'RESTAURANTE' ? 'Plato / Cocina' : 'Servicio' }}</span>
+                            @else
+                                <span class="badge badge-success mt-1">Stock: {{ $prod->stock }} {{ $prod->unit_measure ?? 'UND' }}</span>
+                            @endif
+                            @if($prod->warranty_days > 0)
+                                <span class="badge badge-outline-primary mt-1">Garantía {{ $prod->warranty_days }}d</span>
+                            @endif
                         </div>
                     </div>
                     @empty
@@ -267,6 +288,26 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+
+                    <!-- CAMPO OPERATIVO DINÁMICO SEGÚN EL RUBRO (RESTAURANTE, FARMACIA, FERRETERÍA, ELECTRÓNICA, SERVICIOS, ROPA) -->
+                    <div class="form-group mb-2 p-2 rounded border" style="background:#f8fafc;">
+                        @if($bType === 'RESTAURANTE')
+                            <label class="font-weight-bold text-primary small mb-1 d-block">
+                                <i class="fas fa-utensils mr-1"></i> Modalidad de Pedido y Mesa:
+                            </label>
+                            <div class="btn-group btn-group-sm btn-block mb-1" role="group">
+                                <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('pos_notes').value = 'EN MESA: '">🍽️ En Mesa</button>
+                                <button type="button" class="btn btn-outline-warning text-dark" onclick="document.getElementById('pos_notes').value = 'PARA LLEVAR: '">🛍️ Para Llevar</button>
+                                <button type="button" class="btn btn-outline-info" onclick="document.getElementById('pos_notes').value = 'DELIVERY: '">🛵 Delivery</button>
+                            </div>
+                        @else
+                            <label class="font-weight-bold text-primary small mb-1">
+                                <i class="{{ $rubro['icon'] }} mr-1"></i> {{ $rubro['pos_notes_label'] }}:
+                            </label>
+                        @endif
+                        <input type="text" name="notes" id="pos_notes" class="form-control form-control-sm"
+                               placeholder="{{ $rubro['pos_notes_placeholder'] }}">
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-1">

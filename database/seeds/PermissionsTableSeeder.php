@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Caffeinated\Shinobi\Models\Permission;
 
@@ -7,218 +9,82 @@ class PermissionsTableSeeder extends Seeder
 {
     public function run()
     {
-        //CATEGORIAS
-        Permission::create(['name'=>'Navegación por Categorias',
-                            'slug'=>'categories.index',
-                            'description'=>'Listado y navegación por todas las categorias de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Categorías',
-                            'slug'=>'categories.create',
-                            'description'=>'Creación de categorias de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Categoría',
-                            'slug'=>'categories.show',
-                            'description'=>'Visualización en detalle el listado de productos de cada categoría en el sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Categorías',
-                            'slug'=>'categories.edit',
-                            'description'=>'Edición de cualquier dato de una categoría del sistema',
-        ]);
-        // FIN CATEGORIAS
-        //MARCAS
-        Permission::create(['name'=>'Navegación por Marcas',
-                            'slug'=>'brands.index',
-                            'description'=>'Listado y navegación por todas las marca de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Marcas',
-                            'slug'=>'brands.create',
-                            'description'=>'Creación de marca de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de marca',
-                            'slug'=>'brands.show',
-                            'description'=>'Visualización en detalle el listado de productos de cada marca en el sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Marcas',
-                            'slug'=>'brands.edit',
-                            'description'=>'Edición de cualquier dato de una marca del sistema',
-        ]);
-        // FIN MARCAS
-        //PRODUCTOS
-        Permission::create(['name'=>'Navegación por Productos',
-                            'slug'=>'products.index',
-                            'description'=>'Listado y navegación por todas los productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Productos',
-                            'slug'=>'products.create',
-                            'description'=>'Creación de productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Categoría',
-                            'slug'=>'products.show',
-                            'description'=>'Visualización en detalle los productos en el sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Productos',
-                            'slug'=>'products.edit',
-                            'description'=>'Edición de cualquier dato de un producto del sistema',
-        ]);
-        Permission::create(['name'=>'Cambiar Estado de Producto',
-                            'slug'=>'change.status.products',
-                            'description'=>'Permite el cambio de estado de un producto',
-        ]);
-        // FIN PRODUCTOS
+        $permissions = [
+            // CATEGORÍAS
+            ['name' => 'Navegación por Categorías', 'slug' => 'categories.index', 'description' => 'Listado y navegación por todas las categorías de productos en el sistema'],
+            ['name' => 'Creación de Categorías', 'slug' => 'categories.create', 'description' => 'Creación de categorías de productos en el sistema'],
+            ['name' => 'Visualización de detalle de Categoría', 'slug' => 'categories.show', 'description' => 'Visualización en detalle el listado de productos de cada categoría'],
+            ['name' => 'Edición de Categorías', 'slug' => 'categories.edit', 'description' => 'Edición de cualquier dato de una categoría del sistema'],
 
-        //PROVEEDORES
-        Permission::create(['name'=>'Navegación por Proveedores',
-                            'slug'=>'providers.index',
-                            'description'=>'Listado y navegación por todos los Proveedores en el sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Proveedores',
-                            'slug'=>'providers.create',
-                            'description'=>'Creación de Proveedores en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Proveedor',
-                            'slug'=>'providers.show',
-                            'description'=>'Visualización en detalle de los Proveedores en el sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Proveedores',
-                            'slug'=>'providers.edit',
-                            'description'=>'Edición de cualquier dato de un Proveedor del sistema',
-        ]);
-        /*Permission::create(['name'=>'Cambiar Estado de Proveedores',
-                            'slug'=>'change.status.providers',
-                            'description'=>'Permite el cambio de estado de un Proveedor',
-        ]);*/
-        // FIN PROVEEDORES
+            // MARCAS
+            ['name' => 'Navegación por Marcas', 'slug' => 'brands.index', 'description' => 'Listado y navegación por todas las marcas de productos en el sistema'],
+            ['name' => 'Creación de Marcas', 'slug' => 'brands.create', 'description' => 'Creación de marcas de productos en el sistema'],
+            ['name' => 'Visualización de detalle de Marca', 'slug' => 'brands.show', 'description' => 'Visualización en detalle el listado de productos de cada marca'],
+            ['name' => 'Edición de Marcas', 'slug' => 'brands.edit', 'description' => 'Edición de cualquier dato de una marca del sistema'],
 
-        //CLIENTES
-        Permission::create(['name'=>'Navegación por Clientes',
-                            'slug'=>'clients.index',
-                            'description'=>'Listado y navegación por todos los Clientes en el sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Clientes',
-                            'slug'=>'clients.create',
-                            'description'=>'Creación de Clientes en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Cliente',
-                            'slug'=>'clients.show',
-                            'description'=>'Visualización en detalle de los Clientes en el sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Clientes',
-                            'slug'=>'clients.edit',
-                            'description'=>'Edición de cualquier dato de un Cliente del sistema',
-        ]);
-        /*Permission::create(['name'=>'Cambiar Estado de Proveedores',
-                            'slug'=>'change.status.providers',
-                            'description'=>'Permite el cambio de estado de un Proveedor',
-        ]);*/
-        // FIN PROVEEDORES
+            // PRODUCTOS E INVENTARIO
+            ['name' => 'Navegación por Productos', 'slug' => 'products.index', 'description' => 'Listado y navegación por todos los productos y servicios en el sistema'],
+            ['name' => 'Creación de Productos', 'slug' => 'products.create', 'description' => 'Creación de productos y servicios en el sistema'],
+            ['name' => 'Visualización de detalle de Producto', 'slug' => 'products.show', 'description' => 'Visualización en detalle de los productos en el sistema'],
+            ['name' => 'Edición de Productos', 'slug' => 'products.edit', 'description' => 'Edición de cualquier dato de un producto del sistema'],
+            ['name' => 'Cambiar Estado de Producto', 'slug' => 'change.status.products', 'description' => 'Permite habilitar o deshabilitar un producto'],
+            ['name' => 'Kardex y Ajustes de Inventario', 'slug' => 'kardex.index', 'description' => 'Acceso al historial auditable de Kardex y registro de ajustes/mermas de stock'],
 
-        //USUARIOS
-        Permission::create(['name'=>'Navegación por Usuarios',
-                            'slug'=>'users.index',
-                            'description'=>'Listado y navegación por todos los registrados usuario en el sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Usuarios',
-                            'slug'=>'users.create',
-                            'description'=>'Creación de usuarios en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de marca',
-                            'slug'=>'users.show',
-                            'description'=>'Visualización en detalle cada usuario del sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Usuarios',
-                            'slug'=>'users.edit',
-                            'description'=>'Edición de cualquier dato de usuarios del sistema',
-        ]);
-        Permission::create(['name'=>'Cambiar Estado de Usuario',
-                            'slug'=>'change.status.users',
-                            'description'=>'Permite el cambio de estado de un usuario',
-        ]);
-        // FIN USUARIOS
+            // PROVEEDORES
+            ['name' => 'Navegación por Proveedores', 'slug' => 'providers.index', 'description' => 'Listado y navegación por todos los Proveedores en el sistema'],
+            ['name' => 'Creación de Proveedores', 'slug' => 'providers.create', 'description' => 'Creación de Proveedores en el sistema'],
+            ['name' => 'Visualización de detalle de Proveedor', 'slug' => 'providers.show', 'description' => 'Visualización en detalle de los Proveedores en el sistema'],
+            ['name' => 'Edición de Proveedores', 'slug' => 'providers.edit', 'description' => 'Edición de cualquier dato de un Proveedor del sistema'],
 
-        //ROLES
-        Permission::create(['name'=>'Navegación por Roles',
-                            'slug'=>'roles.index',
-                            'description'=>'Listado y navegación por todos los roles del sistema',
-        ]);
-        Permission::create(['name'=>'Creación de Roles',
-                            'slug'=>'roles.create',
-                            'description'=>'Acceder a la vista de Creación de roles en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Rol',
-                            'slug'=>'roles.show',
-                            'description'=>'Visualización en detalle el listado de de roles de usuarios en el sistema',
-        ]);
-        Permission::create(['name'=>'Edición de Roles',
-                            'slug'=>'roles.edit',
-                            'description'=>'Edición de cualquier dato de un rol del sistema',
-        ]);
-        // FIN CATEGORIAS
+            // CLIENTES
+            ['name' => 'Navegación por Clientes', 'slug' => 'clients.index', 'description' => 'Listado y navegación por todos los Clientes en el sistema'],
+            ['name' => 'Creación de Clientes', 'slug' => 'clients.create', 'description' => 'Creación de Clientes en el sistema'],
+            ['name' => 'Visualización de detalle de Cliente', 'slug' => 'clients.show', 'description' => 'Visualización en detalle de los Clientes en el sistema'],
+            ['name' => 'Edición de Clientes', 'slug' => 'clients.edit', 'description' => 'Edición de cualquier dato de un Cliente del sistema'],
 
-        //VENTAS
-        Permission::create(['name'=>'Navegación por Ventas',
-                            'slug'=>'sales.index',
-                            'description'=>'Listado y navegación por todas las ventas registradas',
-        ]);
-        Permission::create(['name'=>'Creación de Ventas',
-                            'slug'=>'sales.create',
-                            'description'=>'Creación de ventas en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Venta',
-                            'slug'=>'sales.show',
-                            'description'=>'Visualización en detalle cada venta registrada',
-        ]);
-        Permission::create(['name'=>'Cambiar Estado de Venta',
-                            'slug'=>'change.status.sales',
-                            'description'=>'Permite el cambio de estado de una Venta',
-        ]);
-        // FIN VENTAS
+            // USUARIOS Y ROLES
+            ['name' => 'Navegación por Usuarios', 'slug' => 'users.index', 'description' => 'Listado y navegación por todos los usuarios registrados'],
+            ['name' => 'Creación de Usuarios', 'slug' => 'users.create', 'description' => 'Creación de usuarios en el sistema'],
+            ['name' => 'Visualización de detalle de Usuario', 'slug' => 'users.show', 'description' => 'Visualización en detalle de cada usuario del sistema'],
+            ['name' => 'Edición de Usuarios', 'slug' => 'users.edit', 'description' => 'Edición de cualquier dato de usuarios del sistema'],
+            ['name' => 'Cambiar Estado de Usuario', 'slug' => 'change.status.users', 'description' => 'Permite el cambio de estado de un usuario'],
+            ['name' => 'Navegación por Roles', 'slug' => 'roles.index', 'description' => 'Listado y navegación por todos los roles del sistema'],
+            ['name' => 'Creación de Roles', 'slug' => 'roles.create', 'description' => 'Acceder a la vista de Creación de roles en el sistema'],
+            ['name' => 'Visualización de detalle de Rol', 'slug' => 'roles.show', 'description' => 'Visualización en detalle de roles de usuarios'],
+            ['name' => 'Edición de Roles', 'slug' => 'roles.edit', 'description' => 'Edición de cualquier dato de un rol del sistema'],
 
-        //ANALÍTICA
-        Permission::create(['name'=>'Acceso a Analítica',
-                            'slug'=>'analytics.index',
-                            'description'=>'Acceder al modulo de analitica para visualizar datos historicos y pronostico de demanda',
-        ]);
-        // FIN ANALÍTICA
-        
-        //COMPRAS
-        Permission::create(['name'=>'Navegación por Compras',
-                            'slug'=>'purchases.index',
-                            'description'=>'Listado y navegación por todas las Compras registradas',
-        ]);
-        Permission::create(['name'=>'Creación de Compras',
-                            'slug'=>'purchases.create',
-                            'description'=>'Creación de Compras en el sistema',
-        ]);
-        Permission::create(['name'=>'Visualización de detalle de Compra',
-                            'slug'=>'purchases.show',
-                            'description'=>'Visualización en detalle cada compra registrada',
-        ]);
-        Permission::create(['name'=>'Cambiar Estado de Compra',
-                            'slug'=>'change.status.purchases',
-                            'description'=>'Permite el cambio de estado de una Compra',
-        ]);
-        // FIN COMPRAS
+            // VENTAS, POS, CRÉDITOS Y COTIZACIONES
+            ['name' => 'Navegación por Ventas y Créditos', 'slug' => 'sales.index', 'description' => 'Listado y navegación por todas las ventas y cuentas por cobrar'],
+            ['name' => 'Creación de Ventas (POS, Tradicional y Crédito)', 'slug' => 'sales.create', 'description' => 'Creación de ventas en cualquier modalidad'],
+            ['name' => 'Visualización de detalle de Venta', 'slug' => 'sales.show', 'description' => 'Visualización en detalle de cada venta registrada'],
+            ['name' => 'Cambiar Estado de Venta', 'slug' => 'change.status.sales', 'description' => 'Permite anular o confirmar una Venta'],
+            ['name' => 'Generar PDF y Ticket de Venta', 'slug' => 'sales.pdf', 'description' => 'Generar y descargar notas de Venta en PDF A4 y Ticket 80mm'],
+            ['name' => 'Gestión de Cotizaciones y Proformas', 'slug' => 'quotations.index', 'description' => 'Crear, imprimir y convertir cotizaciones/proformas en ventas'],
 
-        // GENERACIÓN DE BOLETAS EN PDF
-        Permission::create(['name'=>'Generar PDF de nota de Venta',
-                            'slug'=>'sales.pdf',
-                            'description'=>'Generar y/o descargar las notas de Venta en PDF.',
-        ]);
-        Permission::create(['name'=>'Generar PDF de nota de Compra',
-                            'slug'=>'purchases.pdf',
-                            'description'=>'Generar y/o descargar las notas de Compra en PDF.',
-        ]);
-        // FIN GENERACIÓN DE BOLETAS EN PDF
+            // CAJA Y MOVIMIENTOS FINANCIEROS
+            ['name' => 'Apertura, Arqueo y Cierre de Caja', 'slug' => 'cash_registers.index', 'description' => 'Gestionar turnos de caja, ingresos, gastos operativos y arqueos'],
+            ['name' => 'Gestión de Formas de Pago', 'slug' => 'payment_methods.index', 'description' => 'Configurar métodos de cobro (Efectivo, QR, Transferencias, Tarjetas)'],
 
-        // GENERACIÓN DE REPORTE DE COMPRAS Y VENTAS
-        Permission::create(['name'=>'Reporte de Ventas',
-                            'slug'=>'reports.date',
-                            'description'=>'Acceder al modulo de reportes de Ventas',
-        ]);
-        Permission::create(['name'=>'Reporte de Compras',
-                            'slug'=>'reportscm.datecm',
-                            'description'=>'Acceder al modulo de reportes de Compras',
-        ]);
-        // FIN GENERACIÓN DE BOLETAS EN PDF
+            // COMPRAS
+            ['name' => 'Navegación por Compras', 'slug' => 'purchases.index', 'description' => 'Listado y navegación por todas las Compras registradas'],
+            ['name' => 'Creación de Compras', 'slug' => 'purchases.create', 'description' => 'Creación de Compras en el sistema'],
+            ['name' => 'Visualización de detalle de Compra', 'slug' => 'purchases.show', 'description' => 'Visualización en detalle de cada compra registrada'],
+            ['name' => 'Cambiar Estado de Compra', 'slug' => 'change.status.purchases', 'description' => 'Permite anular o confirmar una Compra'],
+            ['name' => 'Generar PDF de nota de Compra', 'slug' => 'purchases.pdf', 'description' => 'Generar y descargar notas de Compra en PDF'],
+
+            // REPORTES, ANALÍTICA Y CONFIGURACIÓN SAAS
+            ['name' => 'Acceso a Analítica y Pronóstico', 'slug' => 'analytics.index', 'description' => 'Acceder al módulo de analítica para visualizar datos históricos y pronóstico de demanda'],
+            ['name' => 'Reporte de Ventas', 'slug' => 'reports.date', 'description' => 'Acceder al módulo de reportes de Ventas'],
+            ['name' => 'Reporte de Compras', 'slug' => 'reportscm.datecm', 'description' => 'Acceder al módulo de reportes de Compras'],
+            ['name' => 'Configuración de Empresa, Rubro y Sucursales', 'slug' => 'company.index', 'description' => 'Configurar datos del negocio, logo, moneda, rubro SaaS y sucursales'],
+        ];
+
+        foreach ($permissions as $perm) {
+            Permission::updateOrCreate(['slug' => $perm['slug']], $perm);
+        }
     }
+}
+
+if (!class_exists('PermissionsTableSeeder')) {
+    class_alias(PermissionsTableSeeder::class, 'PermissionsTableSeeder');
 }

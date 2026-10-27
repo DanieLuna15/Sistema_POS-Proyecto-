@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Purchase;
+use App\Company;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 //Para sweet alert en Repo
@@ -17,16 +18,16 @@ class ReportcmController extends Controller
     }
 
     public function reportscm_datecm(){
-
+        $companyId = Company::currentId();
         $mejoresprovcantcompras=DB::select('SELECT p.name as nameprov,count(c.id) as quantity, sum(c.total) as mount, sum(dc.quantity) as quantityprod
         from (purchases c inner join providers p on c.provider_id=p.id) inner join purchase_details as dc on c.id=dc.purchase_id
-        where c.status="CONFIRMADO" and YEAR(c.purchase_date)=YEAR(curdate())
-        group by p.name order by count(c.id) desc limit 6');
+        where c.status="CONFIRMADO" and (c.company_id = ? or c.company_id is null) and YEAR(c.purchase_date)=YEAR(curdate())
+        group by p.name order by count(c.id) desc limit 6', [$companyId]);
 
 		$mejoresprovcantproductos=DB::select('SELECT p.name as nameprov,count(c.id) as quantity, sum(c.total) as mount, sum(dc.quantity) as quantityprod
         from (purchases c inner join providers p on c.provider_id=p.id) inner join purchase_details as dc on c.id=dc.purchase_id
-        where c.status="CONFIRMADO" and YEAR(c.purchase_date)=YEAR(curdate())
-        group by p.name order by sum(dc.quantity) desc limit 6');
+        where c.status="CONFIRMADO" and (c.company_id = ? or c.company_id is null) and YEAR(c.purchase_date)=YEAR(curdate())
+        group by p.name order by sum(dc.quantity) desc limit 6', [$companyId]);
 
         DB::statement("SET lc_time_names = 'es_ES'");
         $purchasesd = Purchase::whereDate('purchase_date', Carbon::today('America/La_Paz'))
@@ -86,16 +87,16 @@ class ReportcmController extends Controller
     }
 
     public function reportcm_resultscm(Request $request){
-
+        $companyId = Company::currentId();
         $mejoresprovcantcompras=DB::select('SELECT p.name as nameprov,count(c.id) as quantity, sum(c.total) as mount, sum(dc.quantity) as quantityprod
         from (purchases c inner join providers p on c.provider_id=p.id) inner join purchase_details as dc on c.id=dc.purchase_id
-        where c.status="CONFIRMADO" and YEAR(c.purchase_date)=YEAR(curdate())
-        group by p.name order by count(c.id) desc limit 6');
+        where c.status="CONFIRMADO" and (c.company_id = ? or c.company_id is null) and YEAR(c.purchase_date)=YEAR(curdate())
+        group by p.name order by count(c.id) desc limit 6', [$companyId]);
 
 		$mejoresprovcantproductos=DB::select('SELECT p.name as nameprov,count(c.id) as quantity, sum(c.total) as mount, sum(dc.quantity) as quantityprod
         from (purchases c inner join providers p on c.provider_id=p.id) inner join purchase_details as dc on c.id=dc.purchase_id
-        where c.status="CONFIRMADO" and YEAR(c.purchase_date)=YEAR(curdate())
-        group by p.name order by sum(dc.quantity) desc limit 6');
+        where c.status="CONFIRMADO" and (c.company_id = ? or c.company_id is null) and YEAR(c.purchase_date)=YEAR(curdate())
+        group by p.name order by sum(dc.quantity) desc limit 6', [$companyId]);
 
         DB::statement("SET lc_time_names = 'es_ES'");
 

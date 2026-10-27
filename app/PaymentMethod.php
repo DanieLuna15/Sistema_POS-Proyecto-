@@ -3,12 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\BelongsToCompany;
 
 class PaymentMethod extends Model
 {
+    use BelongsToCompany;
+
     protected $table = 'payment_methods';
 
     protected $fillable = [
+        'company_id',
         'name',
         'code',
         'payment_condition',

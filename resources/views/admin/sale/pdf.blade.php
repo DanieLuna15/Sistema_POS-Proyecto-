@@ -319,13 +319,13 @@
     <table class="header-table">
         <tr>
             <td style="width: 62%;">
-                <h1 class="company-title">SISTEMA POS & COMERCIAL</h1>
-                <div class="company-subtitle">Venta y Distribución de Productos de Calidad</div>
+                <h1 class="company-title">{{ $activeCompany->name ?? 'SISTEMA POS & COMERCIAL' }}</h1>
+                <div class="company-subtitle">{{ $activeCompany->slogan ?? 'Venta y Distribución de Productos de Calidad' }}</div>
                 <div class="company-info">
-                    <strong>NIT:</strong> 1023847029 &bull; <strong>Autorización:</strong> 4920018471<br>
-                    <strong>Dirección:</strong> Av. Heroínas #742 esq. Ayacucho, Zona Central<br>
-                    <strong>Teléfono:</strong> (+591) 4-4589210 / 71234567 &bull; <strong>Email:</strong> ventas@possystem.bo<br>
-                    <strong>Cochabamba - Bolivia</strong>
+                    <strong>NIT:</strong> {{ $activeCompany->nit ?? '1023847029' }} &bull; <strong>Sucursal:</strong> {{ $sale->branch->name ?? $activeBranch->name ?? 'Casa Matriz' }}<br>
+                    <strong>Dirección:</strong> {{ $sale->branch->address ?? $activeCompany->address ?? 'Av. Heroínas #742 esq. Ayacucho' }}<br>
+                    <strong>Teléfono:</strong> {{ $sale->branch->phone ?? $activeCompany->phone ?? '(+591) 4-4589210' }} &bull; <strong>Email:</strong> {{ $activeCompany->email ?? 'ventas@possystem.bo' }}<br>
+                    <strong>{{ $sale->branch->city ?? $activeCompany->city ?? 'Cochabamba' }} - {{ $activeCompany->country ?? 'Bolivia' }}</strong>
                 </div>
             </td>
             <td style="width: 38%; padding-left: 15px;">
@@ -607,11 +607,12 @@
 
     <!-- 7. PIE DE PÁGINA Y CÓDIGO QR -->
     @php
-        $qrA4Data = "SISTEMA POS | NOTA DE VENTA N° " . str_pad($sale->id, 6, '0', STR_PAD_LEFT) . 
-                    "\nNIT: 1023847029" . 
+        $qrA4Data = ($activeCompany->name ?? "SISTEMA POS") . " | NOTA DE VENTA N° " . str_pad($sale->id, 6, '0', STR_PAD_LEFT) . 
+                    "\nNIT: " . ($activeCompany->nit ?? '1023847029') . 
+                    "\nSUCURSAL: " . ($sale->branch->name ?? $activeBranch->name ?? 'Casa Matriz') .
                     "\nFECHA: " . \Carbon\Carbon::parse($sale->sale_date)->format('d/m/Y H:i') . 
                     "\nCLIENTE: " . ($sale->client->name ?? 'S/N') . " | CI/NIT: " . ($sale->client->ci ?? $sale->client->nit ?? 'S/N') .
-                    "\nTOTAL: Bs. " . number_format($sale->total, 2) . 
+                    "\nTOTAL: " . ($activeCompany->currency_symbol ?? 'Bs.') . " " . number_format($sale->total, 2) . 
                     "\nESTADO: " . $sale->status;
         $qrA4Svg = base64_encode(\SimpleSoftwareIO\QrCode\Facades\QrCode::size(110)->margin(0)->errorCorrection('M')->generate($qrA4Data));
     @endphp
@@ -622,7 +623,7 @@
                 *VTA-{{ str_pad($sale->id, 6, '0', STR_PAD_LEFT) }}*
             </div>
         </div>
-        <div>¡Gracias por su preferencia y confianza! &bull; Documento válido de control interno &bull; Sistema POS</div>
+        <div>{{ $activeCompany->receipt_footer ?? '¡Gracias por su preferencia y confianza! • Documento válido de control interno' }}</div>
     </div>
 
 </body>

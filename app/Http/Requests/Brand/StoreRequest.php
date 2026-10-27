@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Brand;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class StoreRequest extends FormRequest
 {
@@ -13,9 +15,10 @@ class StoreRequest extends FormRequest
 
     public function rules()
     {
+        $companyId = Company::currentId();
         return [
-            'name'=>'required|string|min:3|max:40|unique:brands',
-            'description'=>'nullable|string|min:5|max:100',
+            'name' => ['required', 'string', 'min:3', 'max:40', Rule::unique('brands', 'name')->where('company_id', $companyId)],
+            'description' => 'nullable|string|min:5|max:100',
         ];
     }
     public function messages()

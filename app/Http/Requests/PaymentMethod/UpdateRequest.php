@@ -3,6 +3,8 @@
 namespace App\Http\Requests\PaymentMethod;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class UpdateRequest extends FormRequest
 {
@@ -14,10 +16,11 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         $id = $this->route('payment_method')->id ?? $this->route('payment_method');
+        $companyId = Company::currentId();
 
         return [
-            'name' => 'required|string|min:2|max:100|unique:payment_methods,name,' . $id,
-            'code' => 'nullable|string|max:50|unique:payment_methods,code,' . $id,
+            'name' => ['required', 'string', 'min:2', 'max:100', Rule::unique('payment_methods', 'name')->where('company_id', $companyId)->ignore($id)],
+            'code' => ['nullable', 'string', 'max:50', Rule::unique('payment_methods', 'code')->where('company_id', $companyId)->ignore($id)],
             'payment_condition' => 'required|in:CONTADO,CREDITO,AMBOS',
             'description' => 'nullable|string|max:500',
             'instructions' => 'nullable|string|max:500',

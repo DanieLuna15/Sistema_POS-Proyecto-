@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Company;
+use App\Branch;
 use Caffeinated\Shinobi\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,7 +33,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('roles')->orderBy('id', 'DESC')->get();
+        $companyId = Company::currentId();
+        $users = User::with('roles')
+            ->where(function ($q) use ($companyId) {
+                $q->where('company_id', $companyId)->orWhereNull('company_id');
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
         return view('admin.user.index', compact('users'));
     }
 
@@ -45,6 +53,8 @@ class UserController extends Controller
     {
         $data = $request->except(['roles', 'password']);
         $data['password'] = Hash::make($request->password);
+        $data['company_id'] = Company::currentId();
+        $data['branch_id'] = $data['branch_id'] ?? optional(Branch::current())->id;
         $user = User::create($data);
 
         if ($request->has('roles')) {

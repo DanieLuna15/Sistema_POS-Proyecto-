@@ -11,11 +11,67 @@
 @endsection
 @section('content')
 <div class="content-wrapper">
-    <div class="page-header">
-        <h3 class="page-title">
-            Dashboard
-        </h3>
+    @php $sym = $activeCompany->currency_symbol ?? 'Bs.'; @endphp
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <div>
+            <h3 class="page-title mb-1">
+                Dashboard Ejecutivo &bull; {{ $activeCompany->name ?? 'Sistema SaaS' }}
+            </h3>
+            <small class="text-muted">Sucursal Activa: <strong>{{ $activeBranch->name ?? 'Casa Matriz' }}</strong> &bull; Rubro: <span class="badge badge-outline-primary">{{ $activeCompany->business_type ?? 'GENERAL' }}</span></small>
+        </div>
+        <div>
+            <a href="{{ route('sales.pos') }}" class="btn btn-warning text-dark font-weight-bold btn-sm mr-1">
+                <i class="fas fa-cash-register mr-1"></i> Caja Rápida (POS)
+            </a>
+            <a href="{{ route('quotations.create') }}" class="btn btn-primary btn-sm mr-1">
+                <i class="fas fa-file-contract mr-1"></i> Nueva Cotización
+            </a>
+            <a href="{{ route('cash_registers.index') }}" class="btn btn-success btn-sm">
+                <i class="fas fa-vault mr-1"></i> Control de Caja
+            </a>
+        </div>
     </div>
+
+    <!-- TARJETAS OPERATIVAS DE HOY Y FLUJO DE NEGOCIO -->
+    <div class="row mb-3">
+        <div class="col-md-3 mb-2">
+            <div class="card border-left-success shadow-sm">
+                <div class="card-body py-3">
+                    <small class="text-muted font-weight-bold d-block">VENTAS CONFIRMADAS HOY</small>
+                    <h3 class="text-success font-weight-bold mb-1">{{ $sym }} {{ number_format($totalsalesHoy ?? 0, 2) }}</h3>
+                    <small class="text-muted"><i class="fas fa-receipt mr-1"></i> {{ $cantventasHoy }} operación(es) hoy</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="card border-left-info shadow-sm">
+                <div class="card-body py-3">
+                    <small class="text-muted font-weight-bold d-block">CUENTAS POR COBRAR (CRÉDITOS)</small>
+                    <h3 class="text-info font-weight-bold mb-1">{{ $sym }} {{ number_format($cuentasPorCobrar ?? 0, 2) }}</h3>
+                    <a href="{{ route('sales.credits') }}" class="small font-weight-bold">Ver plan de pagos &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="card border-left-primary shadow-sm">
+                <div class="card-body py-3">
+                    <small class="text-muted font-weight-bold d-block">COTIZACIONES PENDIENTES</small>
+                    <h3 class="text-primary font-weight-bold mb-1">{{ $cotizacionesPendientes ?? 0 }} Proforma(s)</h3>
+                    <a href="{{ route('quotations.index') }}" class="small font-weight-bold">Convertir en venta &rarr;</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-2">
+            <div class="card border-left-danger shadow-sm">
+                <div class="card-body py-3">
+                    <small class="text-muted font-weight-bold d-block">GASTOS OPERATIVOS (MES)</small>
+                    <h3 class="text-danger font-weight-bold mb-1">{{ $sym }} {{ number_format($gastosMes ?? 0, 2) }}</h3>
+                    <a href="{{ route('cash_registers.index') }}" class="small font-weight-bold">Ver caja chica &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row grid-margin">
         <div class="col-12">
           <div class="card card-statistics">
@@ -48,19 +104,19 @@
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-bullhorn mr-1"></i>
-                        Total Monto en Ventas del 2023
+                        Total Monto en Ventas {{ date('Y') }}
                         </p>
-                        <h2>{{$totalvn}} Bs.</h2>
+                        <h2>{{ number_format($totalvn, 2) }} {{ $sym }}</h2>
                         @if ($totalvn>$totalcm)
-                            <label class="badge badge-outline-success badge-pill">{{$totalcm}} Bs. Monto en Compras</label>
+                            <label class="badge badge-outline-success badge-pill">{{ number_format($totalcm, 2) }} {{ $sym }} en Compras</label>
                         @else
-                            <label class="badge badge-outline-warning badge-pill">{{$totalcm}} Bs. Monto en Compras</label>
+                            <label class="badge badge-outline-warning badge-pill">{{ number_format($totalcm, 2) }} {{ $sym }} en Compras</label>
                         @endif
                     </div>
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-shopping-cart mr-1"></i>
-                        Total Ventas del 2023
+                        Total Ventas {{ date('Y') }}
                         </p>
                         <h2>{{$cantventasTotal}}</h2>
                         @if ($cantventasHoy==0)
@@ -72,7 +128,7 @@
                     <div class="statistics-item">
                         <p>
                         <i class="icon-sm fas fa-cart-plus mr-1"></i>
-                        Total Compras del 2023
+                        Total Compras {{ date('Y') }}
                         <h2>{{$cantcomprasTotal}}</h2>
                         @if ($cantcomprasHoy==0)
                             <label class="badge badge-outline-danger badge-pill">{{$cantcomprasHoy}} Realizadas hoy.</label>
@@ -91,7 +147,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-chart-line"></i>
-                        Compras Vs Ventas del 2023
+                        Compras Vs Ventas ({{ date('Y') }})
                     </h4>
                     <canvas id="barras"></canvas>
                 </div>
@@ -118,9 +174,9 @@
               <div class="card-body d-flex flex-column">
                 <h4 class="card-title">
                   <i class="fas fa-chart-pie"></i>
-                  Categorías mas Demandadas del 2023
+                  Categorías más Demandadas ({{ date('Y') }})
                 </h4>
-                <p class="card-description">Este es un top 5 de las Categorías mas demandadas</p>
+                <p class="card-description">Este es un top 5 de las Categorías más demandadas</p>
                 <div class="flex-grow-1 d-flex flex-column justify-content-between">
                   <canvas id="sales-status-chart" class="mt-3"></canvas>
                   <div class="pt-4">
@@ -135,9 +191,9 @@
               <div class="card-body d-flex flex-column">
                 <h4 class="card-title">
                   <i class="fas fa-tachometer-alt"></i>
-                  Marcas Mas Demandadas del 2023
+                  Marcas Más Demandadas ({{ date('Y') }})
                 </h4>
-                <p class="card-description">Este es un top 5 de las marcas mas demandadas</p>
+                <p class="card-description">Este es un top 5 de las marcas más demandadas</p>
                 <div class="flex-grow-1 d-flex flex-column justify-content-between">
                   <canvas id="daily-sales-chart" class="mt-3 mb-3 mb-md-0"></canvas>
                   <div id="daily-sales-chart-legend" class="daily-sales-chart-legend pt-4 border-top"></div>
@@ -167,7 +223,13 @@
                                 @foreach ($productosmenorstock as $productostockmin)
                                 <tr>
                                     <td>{{$productostockmin->nameproduct}}</td>
-                                    <td><img src="{{asset('image/'.$productostockmin->imageproduct)}}" class="img-lg rounded" alt="profile image" /></td>
+                                    <td>
+                                        @if(!empty($productostockmin->imageproduct) && file_exists(public_path('image/'.$productostockmin->imageproduct)))
+                                            <img src="{{asset('image/'.$productostockmin->imageproduct)}}" class="img-lg rounded" alt="img" />
+                                        @else
+                                            <i class="fas fa-box fa-2x text-muted"></i>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($productostockmin->stock==0)
                                             <a class="jsgrid-button btn btn-danger btn-sm btn-rounded">
@@ -194,7 +256,7 @@
                 <div class="card-body">
                     <h4 class="card-title">
                         <i class="fas fa-table"></i>
-                        Top 10 de Productos más vendidos del 2023
+                        Top 10 de Productos más vendidos ({{ date('Y') }})
                     </h4>
                     <div class="table-responsive">
                         <table class="table">

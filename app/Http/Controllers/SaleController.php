@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Product;
 use App\Sale;
+use App\Company;
+use App\CashRegister;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Sale\StoreRequest;
@@ -14,13 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use Barryvdh\DomPDF\Facade\Pdf;
-
-/*
-para libreria
-*/
 use App\NumerosEnLetras;
-
-//Para sweet alert en Ventas
 use RealRashid\SweetAlert\Facades\Alert;
 
 class SaleController extends Controller
@@ -37,18 +33,24 @@ class SaleController extends Controller
 
     public function index()
     {
-        $sales = Sale::with(['client', 'user'])->orderBy('sale_date','DESC')->get();
+        $sales = Sale::with(['client', 'user', 'branch'])->orderBy('sale_date', 'DESC')->get();
         return view('admin.sale.index', compact('sales'));
     }
 
     public function create()
     {
         $clients = Client::orderBy('name', 'ASC')->get();
-        $products = Product::where('status','ACTIVO')
-                ->where('stock',">",0)->orderBy('name', 'ASC')->get();
+        $products = Product::where('status', 'ACTIVO')
+            ->with(['branchStocks'])
+            ->orderBy('name', 'ASC')
+            ->get()
+            ->filter(function ($p) {
+                return $p->isService() || $p->stock > 0;
+            })
+            ->values();
         $paymentMethods = \App\PaymentMethod::active()->get();
 
-        return view('admin.sale.create', compact('clients','products', 'paymentMethods'));
+        return view('admin.sale.create', compact('clients', 'products', 'paymentMethods'));
     }
 
     /**
@@ -59,10 +61,13 @@ class SaleController extends Controller
         $clients = Client::orderBy('name', 'ASC')->get();
         $categories = \App\Category::orderBy('name', 'ASC')->get();
         $products = Product::where('status', 'ACTIVO')
-            ->where('stock', '>', 0)
-            ->with(['category', 'brand'])
+            ->with(['category', 'brand', 'branchStocks'])
             ->orderBy('name', 'ASC')
-            ->get();
+            ->get()
+            ->filter(function ($p) {
+                return $p->isService() || $p->stock > 0;
+            })
+            ->values();
         $paymentMethods = \App\PaymentMethod::active()->get();
 
         return view('admin.sale.pos', compact('clients', 'categories', 'products', 'paymentMethods'));
@@ -73,15 +78,18 @@ class SaleController extends Controller
      */
     public function credit_create()
     {
-        $clients = Client::with(['sales' => function($q) {
+        $clients = Client::with(['sales' => function ($q) {
             $q->where('sale_type', 'CREDITO')->where('credit_status', 'PENDIENTE');
         }])->orderBy('name', 'ASC')->get();
 
         $products = Product::where('status', 'ACTIVO')
-            ->where('stock', '>', 0)
-            ->with(['category', 'brand'])
+            ->with(['category', 'brand', 'branchStocks'])
             ->orderBy('name', 'ASC')
-            ->get();
+            ->get()
+            ->filter(function ($p) {
+                return $p->isService() || $p->stock > 0;
+            })
+            ->values();
 
         $paymentMethods = \App\PaymentMethod::active()->get();
 
@@ -138,6 +146,14 @@ class SaleController extends Controller
         }
         $sale->save();
 
+        // Si hay caja abierta, recalcular totales
+        $openRegister = CashRegister::activeOpen();
+        if ($openRegister) {
+            try {
+                $openRegister->recalculateTotals();
+            } catch (\Throwable $e) {}
+        }
+
         Alert::toast('Pago de cuota #' . $installment->installment_number . ' registrado con éxito.', 'success');
         return redirect()->back();
     }
@@ -146,11 +162,11 @@ class SaleController extends Controller
     {
         try {
             $createdSale = $sale->my_store($request);
-            $msg = ($request->sale_type === 'CREDITO') 
-                ? 'Venta a Crédito registrada con éxito.' 
+            $msg = ($request->sale_type === 'CREDITO')
+                ? 'Venta a Crédito registrada con éxito.'
                 : 'Venta registrada con éxito.';
             Alert::toast($msg, 'success');
-            
+
             if ($request->sale_type === 'CREDITO') {
                 return redirect()->route('sales.credits');
             }
@@ -166,16 +182,17 @@ class SaleController extends Controller
 
     public function show(Sale $sale)
     {
-        $descuentototal=0;
-        $subtotal=0;
-        $totalLiteral=NumerosEnLetras::convertir($sale->total,'Bolivianos',true);
-        $SaleDetails=$sale->SaleDetails;
+        $descuentototal = 0;
+        $subtotal = 0;
+        $company = Company::current();
+        $totalLiteral = NumerosEnLetras::convertir($sale->total, $company->currency_name ?? 'Bolivianos', true);
+        $SaleDetails = $sale->saleDetails;
         foreach ($SaleDetails as $SaleDetail) {
-            $subtotal += $SaleDetail->quantity*$SaleDetail->price;
-            $descuentototal += $SaleDetail->quantity* $SaleDetail->price*$SaleDetail->discount/100;
+            $subtotal += $SaleDetail->quantity * $SaleDetail->price;
+            $descuentototal += $SaleDetail->quantity * $SaleDetail->price * $SaleDetail->discount / 100;
         }
         $installments = $sale->installments;
-        return view('admin.sale.show', compact('sale','SaleDetails','subtotal','descuentototal','totalLiteral', 'installments'));
+        return view('admin.sale.show', compact('sale', 'SaleDetails', 'subtotal', 'descuentototal', 'totalLiteral', 'installments'));
     }
 
     public function edit(Sale $sale)
@@ -191,22 +208,24 @@ class SaleController extends Controller
     public function destroy(Sale $sale)
     {
     }
+
     public function change_status(Sale $sale)
     {
-        if($sale->status == 'CONFIRMADO'){
-            $sale->update([ 'status' =>'CANCELADO']);
+        $refCode = 'VTA-' . str_pad($sale->id, 6, '0', STR_PAD_LEFT);
+        if ($sale->status == 'CONFIRMADO') {
+            $sale->update(['status' => 'CANCELADO']);
             foreach ($sale->saleDetails as $detail) {
                 if ($detail->product) {
-                    $detail->product->add_stock($detail->quantity);
+                    $detail->product->add_stock($detail->quantity, 'ANULACION_VENTA', $refCode, 'Reingreso por anulación de venta');
                 }
             }
-            Alert::toast('Se canceló la venta.', 'success');
+            Alert::toast('Se canceló la venta y se restituyó el stock al Kardex.', 'success');
             return redirect()->back();
-        }else{
-            $sale->update([ 'status' =>'CONFIRMADO']);
+        } else {
+            $sale->update(['status' => 'CONFIRMADO']);
             foreach ($sale->saleDetails as $detail) {
                 if ($detail->product) {
-                    $detail->product->substract_stock($detail->quantity);
+                    $detail->product->substract_stock($detail->quantity, 'SALIDA_VENTA', $refCode, 'Reactivación de venta');
                 }
             }
             Alert::toast('Se confirmó la venta.', 'success');
@@ -218,9 +237,10 @@ class SaleController extends Controller
     {
         $descuentototal = 0;
         $subtotal = 0;
-        $totalLiteral = NumerosEnLetras::convertir($sale->total, 'Bolivianos', true);
+        $company = Company::current();
+        $totalLiteral = NumerosEnLetras::convertir($sale->total, $company->currency_name ?? 'Bolivianos', true);
 
-        $SaleDetails = $sale->SaleDetails;
+        $SaleDetails = $sale->saleDetails;
         foreach ($SaleDetails as $SaleDetail) {
             $subtotal += $SaleDetail->quantity * $SaleDetail->price;
             $descuentototal += $SaleDetail->quantity * $SaleDetail->price * $SaleDetail->discount / 100;
@@ -242,9 +262,10 @@ class SaleController extends Controller
     {
         $descuentototal = 0;
         $subtotal = 0;
-        $totalLiteral = NumerosEnLetras::convertir($sale->total, 'Bolivianos', true);
+        $company = Company::current();
+        $totalLiteral = NumerosEnLetras::convertir($sale->total, $company->currency_name ?? 'Bolivianos', true);
 
-        $SaleDetails = $sale->SaleDetails;
+        $SaleDetails = $sale->saleDetails;
         foreach ($SaleDetails as $SaleDetail) {
             $subtotal += $SaleDetail->quantity * $SaleDetail->price;
             $descuentototal += $SaleDetail->quantity * $SaleDetail->price * $SaleDetail->discount / 100;
@@ -259,12 +280,11 @@ class SaleController extends Controller
             $customPaper = array(0, 0, 226.77, $heightPt);
 
             $pdf = PDF::loadView('admin.sale.ticket_80mm', compact('sale', 'subtotal', 'descuentototal', 'SaleDetails', 'totalLiteral', 'installments'))
-                      ->setPaper($customPaper);
+                ->setPaper($customPaper);
 
             return $pdf->stream('Ticket_80mm_N_' . $sale->id . '.pdf');
         }
 
-        // Vista HTML para impresión directa térmica desde el navegador con ventana de diálogo
         return view('admin.sale.ticket_80mm', compact('sale', 'subtotal', 'descuentototal', 'SaleDetails', 'totalLiteral', 'installments'));
     }
 }

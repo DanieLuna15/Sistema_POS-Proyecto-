@@ -3,6 +3,8 @@
 namespace App\Http\Requests\PaymentMethod;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Company;
 
 class StoreRequest extends FormRequest
 {
@@ -13,9 +15,10 @@ class StoreRequest extends FormRequest
 
     public function rules()
     {
+        $companyId = Company::currentId();
         return [
-            'name' => 'required|string|min:2|max:100|unique:payment_methods,name',
-            'code' => 'nullable|string|max:50|unique:payment_methods,code',
+            'name' => ['required', 'string', 'min:2', 'max:100', Rule::unique('payment_methods', 'name')->where('company_id', $companyId)],
+            'code' => ['nullable', 'string', 'max:50', Rule::unique('payment_methods', 'code')->where('company_id', $companyId)],
             'payment_condition' => 'required|in:CONTADO,CREDITO,AMBOS',
             'description' => 'nullable|string|max:500',
             'instructions' => 'nullable|string|max:500',

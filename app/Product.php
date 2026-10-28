@@ -181,7 +181,12 @@ class Product extends Model
             return;
         }
 
-        $targetBranchId = $branchId ?: optional(Branch::current())->id;
+        $cid = $this->company_id ?: Company::currentId() ?: 1;
+        $targetBranchId = $branchId 
+            ?: optional(Branch::current())->id 
+            ?: optional(Branch::where('company_id', $cid)->where('status', 'ACTIVO')->where('is_main', true)->first())->id
+            ?: optional(Branch::where('company_id', $cid)->where('status', 'ACTIVO')->first())->id
+            ?: 1;
         $qty = floatval($quantity);
 
         $bp = BranchProduct::firstOrCreate(
@@ -252,7 +257,12 @@ class Product extends Model
             return;
         }
 
-        $targetBranchId = $branchId ?: optional(Branch::current())->id;
+        $cid = $this->company_id ?: Company::currentId() ?: 1;
+        $targetBranchId = $branchId 
+            ?: optional(Branch::current())->id 
+            ?: optional(Branch::where('company_id', $cid)->where('status', 'ACTIVO')->where('is_main', true)->first())->id
+            ?: optional(Branch::where('company_id', $cid)->where('status', 'ACTIVO')->first())->id
+            ?: 1;
         $qty = floatval($quantity);
 
         $bp = BranchProduct::firstOrCreate(

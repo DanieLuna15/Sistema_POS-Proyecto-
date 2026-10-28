@@ -199,6 +199,12 @@
             </a>
             <div class="collapse" id="reportes">
                 <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link text-success font-weight-bold" href="{{route('reports.profits')}}">
+                            <i class="fas fa-chart-line menu-icon text-success"></i>
+                            <span class="menu-title">Utilidades y Rentabilidad</span>
+                        </a>
+                    </li>
                     @can('reports.date')
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('reports.date')}}">

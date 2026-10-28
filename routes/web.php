@@ -73,6 +73,7 @@ Route::resource('quotations',                       'QuotationController')->name
 ]);
 
 // Rutas de Reportes
+Route::get('reports/profits',               'ReportController@profits')->name('reports.profits');
 Route::get('reportv/reports_date',          'ReportController@reports_date')->name('reports.date');
 Route::get('reportv/exportar',              'ReportController@exportar')->name('reports.export');
 Route::post('reportv/report_results',       'ReportController@report_results')->name('report.results');

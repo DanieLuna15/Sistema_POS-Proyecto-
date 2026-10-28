@@ -500,101 +500,118 @@ class RestaurantController extends Controller
         }
 
         try {
-            $sale = DB::transaction(function () use ($request, $order) {
-                $discountAmount = floatval($request->discount_amount ?? 0);
-                $tipAmount = floatval($request->tip_amount ?? 0);
+            DB::beginTransaction();
 
-                $order->discount = $discountAmount;
-                $order->tip_amount = $tipAmount;
-                $order->recalculate();
+            $discountAmount = floatval($request->discount_amount ?? 0);
+            $tipAmount = floatval($request->tip_amount ?? 0);
 
-                $paymentMethodId = $request->payment_method_id;
-                $pmModel = $paymentMethodId ? PaymentMethod::find($paymentMethodId) : null;
-                $paymentMethodName = $pmModel ? $pmModel->name : 'Efectivo (Bs.)';
+            $order->discount = $discountAmount;
+            $order->tip_amount = $tipAmount;
+            $order->recalculate();
 
-                $cashReceived = $request->filled('cash_received') ? floatval($request->cash_received) : $order->total;
-                $cashChange = max(0, $cashReceived - $order->total);
+            $paymentMethodId = $request->payment_method_id;
+            $pmModel = $paymentMethodId ? PaymentMethod::find($paymentMethodId) : null;
+            $paymentMethodName = $pmModel ? $pmModel->name : 'Efectivo (Bs.)';
 
-                $openRegister = CashRegister::activeOpen();
-                $branch = Branch::current();
+            $cashReceived = $request->filled('cash_received') ? floatval($request->cash_received) : $order->total;
+            $cashChange = max(0, $cashReceived - $order->total);
 
-                // Descripción gastronómica para el ticket oficial de venta
-                $serviceLabel = $order->service_type === 'MESA'
-                    ? ('MESA: ' . ($order->table->name ?? '#' . $order->restaurant_table_id) . " ({$order->diners_count} pers.)")
-                    : ($order->service_type . ': ' . ($order->customer_name ?? 'Mostrador') . ($order->delivery_address ? ' - Dir: ' . $order->delivery_address : ''));
+            $openRegister = CashRegister::activeOpen();
+            $branch = Branch::current();
+            $companyId = Company::currentId() ?: 1;
 
-                $defaultClient = Client::ensureDefaultForCompany();
+            $branchId = $order->branch_id 
+                ?: optional($branch)->id 
+                ?: optional(Branch::where('company_id', $companyId)->where('status', 'ACTIVO')->where('is_main', true)->first())->id
+                ?: optional(Branch::where('company_id', $companyId)->where('status', 'ACTIVO')->first())->id
+                ?: 1;
 
-                $sale = Sale::create([
-                    'company_id' => Company::currentId(),
-                    'branch_id' => $order->branch_id ?: optional($branch)->id,
-                    'cash_register_id' => optional($openRegister)->id,
-                    'client_id' => $request->client_id ?: ($order->client_id ?: optional($defaultClient)->id),
-                    'user_id' => Auth::id(),
-                    'sale_date' => Carbon::now('America/La_Paz'),
-                    'total' => $order->total,
-                    'status' => 'CONFIRMADO',
-                    'sale_type' => 'POS_RAPIDO',
-                    'payment_method' => $paymentMethodName,
-                    'payment_method_id' => $paymentMethodId,
-                    'payment_condition' => 'CONTADO',
-                    'payment_reference' => $request->payment_reference,
-                    'cash_received' => $cashReceived,
-                    'cash_change' => $cashChange,
-                    'notes' => "{$order->order_number} | {$serviceLabel}" . ($tipAmount > 0 ? " | Propina/Serv: +{$tipAmount}" : ""),
-                ]);
+            // Descripción gastronómica para el ticket oficial de venta
+            $serviceLabel = $order->service_type === 'MESA'
+                ? ('MESA: ' . ($order->table->name ?? '#' . $order->restaurant_table_id) . " ({$order->diners_count} pers.)")
+                : ($order->service_type . ': ' . ($order->customer_name ?? 'Mostrador') . ($order->delivery_address ? ' - Dir: ' . $order->delivery_address : ''));
 
-                $refCode = 'VTA-' . str_pad($sale->id, 6, '0', STR_PAD_LEFT);
+            $defaultClient = Client::ensureDefaultForCompany($companyId);
+            $clientId = $request->client_id ?: ($order->client_id ?: optional($defaultClient)->id ?: 1);
 
-                foreach ($order->items as $item) {
-                    $product = $item->product;
-                    if ($product && ($product->item_type === 'COMBO' || (!$product->isService() && $product->stock > 0))) {
-                        $qtyToDeduct = $product->item_type === 'COMBO' ? $item->quantity : min($product->stock, $item->quantity);
-                        $product->substract_stock(
-                            $qtyToDeduct,
-                            'SALIDA_VENTA',
-                            $refCode,
-                            "Venta en restaurante ({$order->order_number})",
-                            $sale->branch_id
-                        );
-                    }
+            $sale = Sale::create([
+                'company_id' => $companyId,
+                'branch_id' => $branchId,
+                'cash_register_id' => optional($openRegister)->id,
+                'client_id' => $clientId,
+                'user_id' => Auth::id() ?: 1,
+                'sale_date' => Carbon::now('America/La_Paz'),
+                'total' => $order->total,
+                'status' => 'CONFIRMADO',
+                'sale_type' => 'POS_RAPIDO',
+                'payment_method' => $paymentMethodName,
+                'payment_method_id' => $paymentMethodId,
+                'payment_condition' => 'CONTADO',
+                'payment_reference' => $request->payment_reference,
+                'cash_received' => $cashReceived,
+                'cash_change' => $cashChange,
+                'notes' => "{$order->order_number} | {$serviceLabel}" . ($tipAmount > 0 ? " | Propina/Serv: +{$tipAmount}" : ""),
+            ]);
 
-                    SaleDetails::create([
-                        'sale_id' => $sale->id,
-                        'product_id' => $item->product_id,
-                        'quantity' => $item->quantity,
-                        'price' => $item->price,
-                        'discount' => $item->discount,
-                    ]);
+            $refCode = 'VTA-' . str_pad($sale->id, 6, '0', STR_PAD_LEFT);
+
+            foreach ($order->items as $item) {
+                $product = $item->product;
+                if ($product && ($product->item_type === 'COMBO' || (!$product->isService() && $product->stock > 0))) {
+                    $qtyToDeduct = $product->item_type === 'COMBO' ? $item->quantity : min($product->stock, $item->quantity);
+                    $product->substract_stock(
+                        $qtyToDeduct,
+                        'SALIDA_VENTA',
+                        $refCode,
+                        "Venta en restaurante ({$order->order_number})",
+                        $sale->branch_id
+                    );
                 }
 
-                // Cerrar la comanda y liberar la mesa
-                $order->update([
+                SaleDetails::create([
                     'sale_id' => $sale->id,
-                    'client_id' => $sale->client_id,
-                    'status' => 'COBRADA',
-                    'closed_at' => Carbon::now('America/La_Paz'),
+                    'product_id' => $item->product_id,
+                    'quantity' => intval($item->quantity),
+                    'price' => $item->price,
+                    'discount' => $item->discount,
                 ]);
+            }
 
-                if ($order->table) {
-                    $order->table->update([
-                        'status' => 'LIBRE',
-                        'active_order_id' => null,
-                    ]);
-                }
+            // Cerrar la comanda y liberar la mesa
+            $order->update([
+                'sale_id' => $sale->id,
+                'client_id' => $sale->client_id,
+                'status' => 'COBRADA',
+                'closed_at' => Carbon::now('America/La_Paz'),
+            ]);
 
-                if ($openRegister) {
-                    try {
-                        $openRegister->recalculateTotals();
-                    } catch (\Throwable $e) {}
-                }
+            if ($order->table) {
+                $order->table->update([
+                    'status' => 'LIBRE',
+                    'active_order_id' => null,
+                ]);
+            }
 
-                return $sale;
-            });
+            if ($openRegister) {
+                try {
+                    $openRegister->recalculateTotals();
+                } catch (\Throwable $e) {}
+            }
+
+            DB::commit();
 
             Alert::toast("Cuenta {$order->order_number} cobrada con éxito. Mesa liberada.", 'success');
             return redirect()->route('sales.ticket', ['sale' => $sale->id]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            if (DB::transactionLevel() > 0) {
+                try {
+                    DB::rollBack();
+                } catch (\Throwable $rb) {}
+            }
+            \Illuminate\Support\Facades\Log::error("Error al cobrar cuenta restaurante: " . $e->getMessage(), [
+                'order' => $order->id,
+                'trace' => $e->getTraceAsString(),
+            ]);
             Alert::error('Error al cobrar la cuenta', $e->getMessage());
             return redirect()->back();
         }

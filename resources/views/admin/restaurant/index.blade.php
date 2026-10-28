@@ -307,6 +307,9 @@
             <a href="{{ route('products.index', ['type' => 'COMBO']) }}" class="btn btn-outline-primary font-weight-bold shadow-sm bg-white">
                 <i class="fas fa-gifts text-danger mr-1"></i> Administrar Combos
             </a>
+            <a href="{{ route('reports.profits') }}" class="btn btn-outline-success font-weight-bold shadow-sm bg-white">
+                <i class="fas fa-chart-line text-success mr-1"></i> Utilidades
+            </a>
             <a href="{{ route('sales.pos') }}" class="btn btn-dark font-weight-bold shadow-sm">
                 <i class="fas fa-cash-register text-warning mr-1"></i> Caja Rápida
             </a>

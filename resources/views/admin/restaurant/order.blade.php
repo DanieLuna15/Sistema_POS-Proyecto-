@@ -405,7 +405,7 @@
                     </div>
 
                     <!-- FORMULARIO DE COBRO Y LIBERACIÓN DE MESA -->
-                    <form action="{{ route('restaurant.orders.checkout', $order) }}" method="POST" class="p-3 rounded border" style="background:#f8fafc;">
+                    <form action="{{ route('restaurant.orders.checkout', $order) }}" method="POST" id="checkoutOrderForm" onsubmit="return validateCheckoutBeforeSubmit(event)" class="p-3 rounded border" style="background:#f8fafc;">
                         @csrf
                         <h6 class="font-weight-bold text-success border-bottom pb-2 mb-2">
                             <i class="fas fa-cash-register mr-1"></i> Cerrar y Cobrar Cuenta de la Mesa
@@ -746,6 +746,17 @@
                 kitchen_status: next
             }
         });
+    }
+
+    function validateCheckoutBeforeSubmit(e) {
+        var itemsBadge = document.getElementById('badge_total_items');
+        var count = itemsBadge ? parseInt(itemsBadge.innerText) || 0 : {{ $order->items->count() }};
+        if (count <= 0) {
+            if (e) e.preventDefault();
+            alert('La comanda está vacía. Por favor agregue al menos un plato o bebida antes de cobrar la cuenta.');
+            return false;
+        }
+        return true;
     }
 
     function updateOrderTotalsUI(newSubtotal, totalItems) {

@@ -47,12 +47,32 @@ class Product extends Model
 
     public function isService()
     {
-        return ($this->item_type === 'SERVICIO');
+        if (in_array($this->item_type, ['SERVICIO', 'COMBO'])) {
+            return true;
+        }
+
+        // En modo RESTAURANTE, los platos preparados suelen registrarse sin stock de almacén (stock = 0)
+        try {
+            $company = Company::current();
+            if ($company && $company->business_type === 'RESTAURANTE') {
+                $rawStock = intval($this->attributes['stock'] ?? 0);
+                if ($rawStock <= 0) {
+                    return true;
+                }
+            }
+        } catch (\Throwable $e) {}
+
+        return false;
     }
 
     public function branchStocks()
     {
         return $this->hasMany(BranchProduct::class, 'product_id');
+    }
+
+    public function comboItems()
+    {
+        return $this->hasMany(ProductComboItem::class, 'combo_product_id')->with('component');
     }
 
     /**
@@ -139,6 +159,24 @@ class Product extends Model
 
     public function add_stock($quantity, $movementType = 'ENTRADA_COMPRA', $referenceCode = null, $notes = null, $unitCost = null, $branchId = null)
     {
+        if ($this->item_type === 'COMBO') {
+            try {
+                foreach ($this->comboItems as $ci) {
+                    if ($ci->component && !$ci->component->isService()) {
+                        $ci->component->add_stock(
+                            floatval($quantity) * floatval($ci->quantity),
+                            $movementType,
+                            $referenceCode,
+                            ($notes ?: 'Reingreso') . " (Componente de Combo: {$this->name})",
+                            null,
+                            $branchId
+                        );
+                    }
+                }
+            } catch (\Throwable $e) {}
+            return;
+        }
+
         if ($this->isService()) {
             return;
         }
@@ -191,6 +229,25 @@ class Product extends Model
 
     public function substract_stock($quantity, $movementType = 'SALIDA_VENTA', $referenceCode = null, $notes = null, $branchId = null)
     {
+        // Si es un COMBO, descontar automáticamente del Kardex únicamente sus componentes físicos (ej. gaseosas/bebidas)
+        if ($this->item_type === 'COMBO') {
+            try {
+                foreach ($this->comboItems as $ci) {
+                    if ($ci->component && !$ci->component->isService() && $ci->component->stock > 0) {
+                        $needed = floatval($quantity) * floatval($ci->quantity);
+                        $ci->component->substract_stock(
+                            min($ci->component->stock, $needed),
+                            $movementType,
+                            $referenceCode,
+                            ($notes ?: 'Venta') . " [Combo: {$this->name}]",
+                            $branchId
+                        );
+                    }
+                }
+            } catch (\Throwable $e) {}
+            return;
+        }
+
         if ($this->isService()) {
             return;
         }

@@ -39,13 +39,16 @@ class SaleController extends Controller
 
     public function create()
     {
+        Client::ensureDefaultForCompany();
         $clients = Client::orderBy('name', 'ASC')->get();
+        $isRestaurant = optional(Company::current())->business_type === 'RESTAURANTE';
+
         $products = Product::where('status', 'ACTIVO')
             ->with(['branchStocks'])
             ->orderBy('name', 'ASC')
             ->get()
-            ->filter(function ($p) {
-                return $p->isService() || $p->stock > 0;
+            ->filter(function ($p) use ($isRestaurant) {
+                return $isRestaurant || $p->isService() || $p->stock > 0;
             })
             ->values();
         $paymentMethods = \App\PaymentMethod::active()->get();
@@ -58,14 +61,17 @@ class SaleController extends Controller
      */
     public function pos_create()
     {
+        Client::ensureDefaultForCompany();
         $clients = Client::orderBy('name', 'ASC')->get();
         $categories = \App\Category::orderBy('name', 'ASC')->get();
+        $isRestaurant = optional(Company::current())->business_type === 'RESTAURANTE';
+
         $products = Product::where('status', 'ACTIVO')
             ->with(['category', 'brand', 'branchStocks'])
             ->orderBy('name', 'ASC')
             ->get()
-            ->filter(function ($p) {
-                return $p->isService() || $p->stock > 0;
+            ->filter(function ($p) use ($isRestaurant) {
+                return $isRestaurant || $p->isService() || $p->stock > 0;
             })
             ->values();
         $paymentMethods = \App\PaymentMethod::active()->get();
@@ -78,16 +84,18 @@ class SaleController extends Controller
      */
     public function credit_create()
     {
+        Client::ensureDefaultForCompany();
         $clients = Client::with(['sales' => function ($q) {
             $q->where('sale_type', 'CREDITO')->where('credit_status', 'PENDIENTE');
         }])->orderBy('name', 'ASC')->get();
 
+        $isRestaurant = optional(Company::current())->business_type === 'RESTAURANTE';
         $products = Product::where('status', 'ACTIVO')
             ->with(['category', 'brand', 'branchStocks'])
             ->orderBy('name', 'ASC')
             ->get()
-            ->filter(function ($p) {
-                return $p->isService() || $p->stock > 0;
+            ->filter(function ($p) use ($isRestaurant) {
+                return $isRestaurant || $p->isService() || $p->stock > 0;
             })
             ->values();
 

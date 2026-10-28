@@ -38,6 +38,12 @@ Route::get('restaurant/orders/{order}',                     'RestaurantControlle
 Route::post('restaurant/orders/{order}/items',              'RestaurantController@addItem')->name('restaurant.orders.items.add');
 Route::delete('restaurant/items/{item}',                    'RestaurantController@removeItem')->name('restaurant.items.remove');
 Route::post('restaurant/items/{item}/status',               'RestaurantController@updateItemStatus')->name('restaurant.items.status');
+Route::post('restaurant/items/{item}/qty',                  'RestaurantController@updateItemQty')->name('restaurant.items.qty');
+Route::get('restaurant/kitchen',                            'RestaurantController@kitchenIndex')->name('restaurant.kitchen');
+Route::post('restaurant/orders/{order}/ready',              'RestaurantController@markOrderReady')->name('restaurant.orders.ready');
+Route::post('restaurant/tables/{table}/position',           'RestaurantController@updateTablePosition')->name('restaurant.tables.position');
+Route::put('restaurant/tables/{table}',                     'RestaurantController@updateTable')->name('restaurant.tables.update');
+Route::delete('restaurant/tables/{table}',                  'RestaurantController@destroyTable')->name('restaurant.tables.destroy');
 Route::get('restaurant/orders/{order}/kitchen-ticket',      'RestaurantController@kitchenTicket')->name('restaurant.orders.kitchen');
 Route::get('restaurant/orders/{order}/prebill-ticket',      'RestaurantController@prebillTicket')->name('restaurant.orders.prebill');
 Route::post('restaurant/orders/{order}/checkout',           'RestaurantController@checkout')->name('restaurant.orders.checkout');

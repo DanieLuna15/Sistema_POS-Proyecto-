@@ -72,7 +72,13 @@
             <select class="js-example-basic-single w-responsive form-control" name="product_id" id="product_id">
                 <option value="0" disabled selected>Seleccione un producto</option>
                 @foreach ($products as $product)
-                <option value="{{$product->id}}_{{$product->stock}}_{{$product->sell_price}}">{{$product->name}}</option>
+                @php
+                    $isUnlimited = $product->isService() || (($activeCompany->business_type ?? '') === 'RESTAURANTE' && $product->stock <= 0);
+                    $saleStock = $isUnlimited ? 999999 : $product->stock;
+                @endphp
+                <option value="{{$product->id}}_{{$saleStock}}_{{$product->sell_price}}">
+                    {{$product->name}} {{ $isUnlimited ? '(Plato / Servicio)' : '(Stock: ' . $product->stock . ')' }}
+                </option>
                 @endforeach
             </select>
         </div>

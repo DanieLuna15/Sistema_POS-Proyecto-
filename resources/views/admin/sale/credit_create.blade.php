@@ -82,8 +82,12 @@
                                 <select id="product_selector" class="form-control" onchange="onProductSelected()">
                                     <option value="" disabled selected>Seleccione un producto</option>
                                     @foreach($products as $p)
-                                    <option value="{{ $p->id }}" data-price="{{ $p->sell_price }}" data-stock="{{ $p->stock }}">
-                                        {{ $p->name }} (Bs. {{ number_format($p->sell_price, 2) }} - Stock: {{ $p->stock }})
+                                    @php
+                                        $isUnlimited = $p->isService() || (($activeCompany->business_type ?? '') === 'RESTAURANTE' && $p->stock <= 0);
+                                        $saleStock = $isUnlimited ? 999999 : $p->stock;
+                                    @endphp
+                                    <option value="{{ $p->id }}" data-price="{{ $p->sell_price }}" data-stock="{{ $saleStock }}">
+                                        {{ $p->name }} (Bs. {{ number_format($p->sell_price, 2) }} - {{ $isUnlimited ? 'Plato/Servicio' : 'Stock: ' . $p->stock }})
                                     </option>
                                     @endforeach
                                 </select>
@@ -385,20 +389,10 @@
         let total = parseFloat($('#total_pagar').val()) || 0;
         let count = $('#installments_count').val();
 
-        Swal.fire({
-            title: '¿Confirmar venta a crédito?',
-            text: 'Monto total: Bs. ' + total.toFixed(2) + ' en ' + count + ' cuotas.',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#17a2b8',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Sí, registrar crédito',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.value) {
-                $('#creditSaleForm').submit();
-            }
-        });
+        let btn = document.getElementById('btnConfirmCreditSale');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-1"></i> PROCESANDO CRÉDITO...';
+        document.getElementById('creditSaleForm').submit();
     }
 </script>
 @endsection

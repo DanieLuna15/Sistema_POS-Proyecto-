@@ -5,8 +5,8 @@
 @php
     $sym = $activeCompany->currency_symbol ?? 'Bs.';
     $rubro = $activeCompany->rubro_config;
-    $defaultItemType = old('item_type', $rubro['default_item_type'] ?? 'PRODUCTO');
-    $defaultUnit = old('unit_measure', $rubro['default_unit'] ?? 'UND');
+    $defaultItemType = old('item_type', request('type', $rubro['default_item_type'] ?? 'PRODUCTO'));
+    $defaultUnit = old('unit_measure', request('type') === 'COMBO' ? 'COMBO' : ($rubro['default_unit'] ?? 'UND'));
 @endphp
 <div class="content-wrapper">
     <div class="page-header d-flex justify-content-between align-items-center flex-wrap">
@@ -132,6 +132,75 @@
                         </div>
                     </div>
 
+                    <!-- ========================================================================= -->
+                    <!-- SECCIÓN EXCLUSIVA PARA COMBOS: RECETA, COSTO FINANCIERO Y DESCUENTO KARDEX -->
+                    <!-- ========================================================================= -->
+                    <div id="comboBuilderSection" class="p-3 rounded border mb-3" style="display: none; background: #fffbeb; border-color: #f59e0b !important;">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
+                            <div>
+                                <h5 class="font-weight-bold text-dark mb-0">
+                                    <i class="fas fa-gifts text-warning mr-1"></i> Armador de Combo / Promoción (Control Financiero y de Stock)
+                                </h5>
+                                <small class="text-muted">
+                                    Al vender este Combo, el sistema descontará automáticamente del Kardex los <strong>Productos con Stock (ej. Gaseosas, Insumos)</strong> y enviará los <strong>Platos a Cocina</strong>.
+                                </small>
+                            </div>
+                            <span class="badge badge-warning text-dark font-weight-bold px-3 py-2 mt-1 mt-md-0" id="comboFinancialSummary">
+                                Costo Receta: {{ $sym }} 0.00 | Precio Sugerido Normal: {{ $sym }} 0.00
+                            </span>
+                        </div>
+
+                        <div class="row align-items-end mb-2">
+                            <div class="col-md-7 form-group mb-2 mb-md-0">
+                                <label class="small font-weight-bold">Seleccionar Plato / Bebida / Componente del Catálogo:</label>
+                                <select id="combo_picker_select" class="form-control form-control-sm">
+                                    <option value="">-- Seleccione un producto o plato para agregar al combo --</option>
+                                    @foreach($availableComponents ?? [] as $comp)
+                                        <option value="{{ $comp->id }}"
+                                                data-name="{{ $comp->name }}"
+                                                data-type="{{ $comp->item_type }}"
+                                                data-cost="{{ floatval($comp->purchase_price) }}"
+                                                data-price="{{ floatval($comp->sell_price) }}"
+                                                data-stock="{{ intval($comp->stock) }}">
+                                            {{ $comp->name }} — [{{ $comp->item_type === 'SERVICIO' ? 'Plato Cocina' : 'Stock: '.$comp->stock }}] (Costo: {{ $sym }} {{ number_format($comp->purchase_price, 2) }} | Venta: {{ $sym }} {{ number_format($comp->sell_price, 2) }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 form-group mb-2 mb-md-0">
+                                <label class="small font-weight-bold">Cantidad en el Combo:</label>
+                                <input type="number" id="combo_picker_qty" class="form-control form-control-sm text-center font-weight-bold" value="1" min="1" step="1">
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-warning text-dark btn-sm btn-block font-weight-bold" onclick="addComponentToCombo()">
+                                    <i class="fas fa-plus-circle mr-1"></i> Incluir en el Combo
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive bg-white rounded border">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>Componente del Combo</th>
+                                        <th>Comportamiento de Stock</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-right">Costo Total</th>
+                                        <th class="text-right">Precio Normal</th>
+                                        <th class="text-center" style="width: 60px;">Quitar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="comboComponentsBody">
+                                    <tr id="emptyComboRow">
+                                        <td colspan="6" class="text-center text-muted py-2 small">
+                                            Agregue los platos y bebidas que componen este combo para calcular su costo financiero y descontar stock automáticamente.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <hr>
                     <h5 class="text-primary font-weight-bold mb-3"><i class="fas fa-sliders-h mr-1"></i> 3. Atributos Específicos de {{ $rubro['short_label'] }}</h5>
                     <div class="row">
@@ -204,8 +273,81 @@
     function toggleServiceFields() {
         var type = document.getElementById('item_type').value;
         document.querySelectorAll('.stock-field').forEach(function(el) {
-            el.style.display = (type === 'SERVICIO') ? 'none' : 'block';
+            el.style.display = (type === 'SERVICIO' || type === 'COMBO') ? 'none' : 'block';
         });
+        var comboSec = document.getElementById('comboBuilderSection');
+        if (comboSec) {
+            comboSec.style.display = (type === 'COMBO') ? 'block' : 'none';
+        }
     }
+
+    function addComponentToCombo() {
+        var sel = document.getElementById('combo_picker_select');
+        if (!sel || !sel.value) return;
+        var opt = sel.options[sel.selectedIndex];
+        var compId = sel.value;
+        var name = opt.getAttribute('data-name');
+        var type = opt.getAttribute('data-type');
+        var cost = parseFloat(opt.getAttribute('data-cost')) || 0;
+        var price = parseFloat(opt.getAttribute('data-price')) || 0;
+        var qty = Math.max(1, parseFloat(document.getElementById('combo_picker_qty').value) || 1);
+
+        var emptyRow = document.getElementById('emptyComboRow');
+        if (emptyRow) emptyRow.remove();
+
+        var existingRow = document.getElementById('combo_comp_row_' + compId);
+        if (existingRow) existingRow.remove();
+
+        var stockBadge = (type === 'SERVICIO')
+            ? '<span class="badge badge-info">🍽️ Plato Cocina (Sin límite de stock)</span>'
+            : '<span class="badge badge-success">📦 Descuenta ' + qty + ' u. del Kardex al vender</span>';
+
+        var tr = document.createElement('tr');
+        tr.id = 'combo_comp_row_' + compId;
+        tr.setAttribute('data-cost', cost);
+        tr.setAttribute('data-price', price);
+        tr.setAttribute('data-qty', qty);
+        tr.innerHTML =
+            '<td class="font-weight-bold">' + name + '<input type="hidden" name="combo_component_id[]" value="' + compId + '"></td>' +
+            '<td>' + stockBadge + '</td>' +
+            '<td class="text-center font-weight-bold">' + qty + '<input type="hidden" name="combo_component_qty[]" value="' + qty + '"></td>' +
+            '<td class="text-right">{{ $sym }} ' + (cost * qty).toFixed(2) + '</td>' +
+            '<td class="text-right text-muted">{{ $sym }} ' + (price * qty).toFixed(2) + '</td>' +
+            '<td class="text-center"><button type="button" class="btn btn-xs btn-outline-danger" onclick="removeComboRow(\'' + compId + '\')"><i class="fas fa-trash-alt"></i></button></td>';
+
+        document.getElementById('comboComponentsBody').appendChild(tr);
+        sel.value = '';
+        document.getElementById('combo_picker_qty').value = 1;
+        recalcComboFinancials();
+    }
+
+    function removeComboRow(compId) {
+        var r = document.getElementById('combo_comp_row_' + compId);
+        if (r) r.remove();
+        recalcComboFinancials();
+    }
+
+    function recalcComboFinancials() {
+        var totalCost = 0;
+        var totalNormalPrice = 0;
+        document.querySelectorAll('#comboComponentsBody tr[data-cost]').forEach(function(tr) {
+            var c = parseFloat(tr.getAttribute('data-cost')) || 0;
+            var p = parseFloat(tr.getAttribute('data-price')) || 0;
+            var q = parseFloat(tr.getAttribute('data-qty')) || 1;
+            totalCost += (c * q);
+            totalNormalPrice += (p * q);
+        });
+
+        document.getElementById('purchase_price').value = totalCost.toFixed(2);
+        var summary = document.getElementById('comboFinancialSummary');
+        if (summary) {
+            summary.innerText = 'Costo Total Receta: {{ $sym }} ' + totalCost.toFixed(2) + ' | Suma Precios Individuales: {{ $sym }} ' + totalNormalPrice.toFixed(2);
+        }
+        calcMargin();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleServiceFields();
+    });
 </script>
 @endsection

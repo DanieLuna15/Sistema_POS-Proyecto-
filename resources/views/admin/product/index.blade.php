@@ -15,19 +15,38 @@
             </h3>
             <small class="text-muted">{{ $rubro['desc'] }}</small>
         </div>
-        <div class="mt-2 mt-md-0">
-            <a href="{{route('transfers.index')}}" class="btn btn-outline-primary font-weight-bold mr-2">
+        <div class="mt-2 mt-md-0 d-flex flex-wrap" style="gap: 8px;">
+            <a href="{{route('transfers.index')}}" class="btn btn-outline-primary font-weight-bold">
                 <i class="fas fa-truck-loading mr-1"></i> Traspasos entre Sucursales
             </a>
             @if($activeCompany->enable_kardex ?? true)
-            <a href="{{route('kardex.index')}}" class="btn btn-outline-warning text-dark font-weight-bold mr-2">
+            <a href="{{route('kardex.index')}}" class="btn btn-outline-warning text-dark font-weight-bold">
                 <i class="fas fa-clipboard-list mr-1"></i> Kardex y Ajustes
             </a>
             @endif
-            <a href="{{route('products.create')}}" class="btn btn-info font-weight-bold">
+            <a href="{{route('products.create', ['type' => 'COMBO'])}}" class="btn btn-warning text-dark font-weight-bold shadow-sm">
+                <i class="fas fa-gifts mr-1 text-danger"></i> + Nuevo Combo / Promoción
+            </a>
+            <a href="{{route('products.create')}}" class="btn btn-info font-weight-bold shadow-sm">
                 <i class="fas fa-plus mr-1"></i> Registrar en {{ $rubro['short_label'] }}
             </a>
         </div>
+    </div>
+
+    <!-- PESTAÑAS DE FILTRO POR TIPO (TODOS, COMBOS, PLATOS/SERVICIOS, PRODUCTOS CON STOCK) -->
+    <div class="mb-3 d-flex flex-wrap" style="gap: 8px;">
+        <a href="{{ route('products.index') }}" class="btn btn-sm font-weight-bold {{ empty($typeFilter) ? 'btn-primary' : 'btn-outline-primary bg-white' }}">
+            <i class="fas fa-th-large mr-1"></i> Todos los Ítems
+        </a>
+        <a href="{{ route('products.index', ['type' => 'COMBO']) }}" class="btn btn-sm font-weight-bold {{ ($typeFilter ?? '') === 'COMBO' ? 'btn-warning text-dark shadow-sm' : 'btn-outline-warning text-dark bg-white' }}">
+            <i class="fas fa-gifts mr-1 text-danger"></i> Combos y Promociones
+        </a>
+        <a href="{{ route('products.index', ['type' => 'SERVICIO']) }}" class="btn btn-sm font-weight-bold {{ ($typeFilter ?? '') === 'SERVICIO' ? 'btn-info shadow-sm' : 'btn-outline-info bg-white' }}">
+            <i class="fas fa-utensils mr-1"></i> Platos de Cocina / Servicios
+        </a>
+        <a href="{{ route('products.index', ['type' => 'PRODUCTO']) }}" class="btn btn-sm font-weight-bold {{ ($typeFilter ?? '') === 'PRODUCTO' ? 'btn-success shadow-sm' : 'btn-outline-success bg-white' }}">
+            <i class="fas fa-box-open mr-1"></i> Bebidas / Productos con Stock (Kardex)
+        </a>
     </div>
 
     <div class="row">
@@ -71,8 +90,27 @@
                                     </td>
                                     <td>
                                         <a href="{{route('products.show',$product)}}" class="font-weight-bold">{{$product->name}}</a><br>
-                                        @if($product->isService())
-                                            <span class="badge badge-info">SERVICIO / ELABORADO</span>
+                                        @if($product->item_type === 'COMBO')
+                                            <span class="badge badge-warning text-dark font-weight-bold">
+                                                <i class="fas fa-gifts mr-1"></i> COMBO PROMOCIONAL
+                                            </span>
+                                            @if($product->comboItems && $product->comboItems->isNotEmpty())
+                                                <div class="mt-1 p-1 px-2 rounded border bg-light small">
+                                                    <strong class="text-dark d-block" style="font-size:11px;">Incluye:</strong>
+                                                    @foreach($product->comboItems as $ci)
+                                                        @if($ci->componentProduct)
+                                                            <span class="d-block text-muted" style="font-size:11px;">
+                                                                &bull; <strong>{{ floatval($ci->quantity) }}x</strong> {{ $ci->componentProduct->name }}
+                                                                @if($ci->componentProduct->item_type === 'PRODUCTO')
+                                                                    <span class="text-success font-weight-bold">(Descuenta Stock)</span>
+                                                                @endif
+                                                            </span>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        @elseif($product->isService())
+                                            <span class="badge badge-info">SERVICIO / PLATO COCINA</span>
                                         @elseif($product->location)
                                             <small class="text-muted"><i class="fas fa-map-pin mr-1"></i>{{ $product->location }}</small>
                                         @endif
@@ -102,11 +140,15 @@
                                         <strong class="text-success">{{ $sym }} {{ number_format($product->sell_price, 2) }}</strong><br>
                                         @if($product->purchase_price > 0)
                                             <small class="text-muted">Costo: {{ $sym }} {{ number_format($product->purchase_price, 2) }}</small>
+                                            <br><small class="text-primary font-weight-bold">Ganancia: +{{ $sym }} {{ number_format($product->sell_price - $product->purchase_price, 2) }}</small>
                                         @endif
                                     </td>
                                     <td align="center">
-                                        @if($product->isService())
-                                            <span class="badge badge-outline-info">Servicio Ilimitado</span>
+                                        @if($product->item_type === 'COMBO')
+                                            <span class="badge badge-warning text-dark font-weight-bold">Descuenta Componentes</span>
+                                            <div class="small text-muted mt-1" style="font-size:10px;">Automático en Kardex</div>
+                                        @elseif($product->isService())
+                                            <span class="badge badge-outline-info">Plato / Ilimitado</span>
                                         @else
                                             @if ($product->stock <= 0)
                                                 <span class="btn btn-danger btn-sm btn-rounded" title="Stock en {{ $activeBranch->name ?? 'Sucursal Activa' }}">

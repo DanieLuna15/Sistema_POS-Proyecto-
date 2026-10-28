@@ -27,7 +27,13 @@
         <li class="nav-item">
             <a class="nav-link text-danger font-weight-bold" href="{{route('restaurant.index')}}">
                 <i class="fas fa-utensils menu-icon text-danger"></i>
-                <span class="menu-title">Mesas, Comandas y Cocina</span>
+                <span class="menu-title">Mapa de Mesas y Salón</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-warning font-weight-bold" href="{{route('restaurant.kitchen')}}">
+                <i class="fas fa-fire-alt menu-icon text-warning"></i>
+                <span class="menu-title">Pantalla de Cocina (KDS)</span>
             </a>
         </li>
         @endif
@@ -106,6 +112,12 @@
                         <a class="nav-link" href="{{route('products.index')}}">
                             <i class="fas fa-boxes menu-icon"></i>
                             <span class="menu-title">{{ $activeCompany->rubro_config['short_label'] ?? 'Catálogo' }}: Ítems</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning font-weight-bold" href="{{route('products.index', ['type' => 'COMBO'])}}">
+                            <i class="fas fa-gifts menu-icon text-warning"></i>
+                            <span class="menu-title">Combos y Promos</span>
                         </a>
                     </li>
                     @endcan

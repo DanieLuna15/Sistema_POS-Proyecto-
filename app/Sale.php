@@ -19,7 +19,6 @@ class Sale extends Model
         'branch_id',
         'cash_register_id',
         'sale_date',
-        'tax',
         'total',
         'status',
         'sale_type',
@@ -75,10 +74,15 @@ class Sale extends Model
     public function update_stock($id, $quantity, $referenceCode = null)
     {
         $product = Product::findOrFail($id);
-        if (!$product->isService() && $product->stock < $quantity) {
+        $isRestaurant = optional(Company::current())->business_type === 'RESTAURANTE';
+        if (!$product->isService() && !$isRestaurant && $product->stock < $quantity) {
             throw new \Exception("Stock insuficiente para el producto '{$product->name}'. Stock actual: {$product->stock}, Cantidad solicitada: {$quantity}.");
         }
-        $product->substract_stock($quantity, 'SALIDA_VENTA', $referenceCode, 'Venta de mercadería');
+        if ($product->item_type === 'COMBO') {
+            $product->substract_stock($quantity, 'SALIDA_VENTA', $referenceCode, 'Venta de combo');
+        } elseif (!$product->isService() && $product->stock > 0) {
+            $product->substract_stock(min($product->stock, $quantity), 'SALIDA_VENTA', $referenceCode, 'Venta de mercadería');
+        }
     }
 
     public function my_store($request)
@@ -86,6 +90,7 @@ class Sale extends Model
         return DB::transaction(function () use ($request) {
             // 1. Validar existencias de stock y calcular el total en el servidor
             $totalCalculado = 0;
+            $isRestaurant = optional(Company::current())->business_type === 'RESTAURANTE';
             if ($request->has('product_id')) {
                 foreach ($request->product_id as $key => $productId) {
                     $qty = floatval($request->quantity[$key]);
@@ -93,7 +98,7 @@ class Sale extends Model
                     $discount = isset($request->discount[$key]) ? floatval($request->discount[$key]) : 0;
 
                     $product = Product::findOrFail($productId);
-                    if (!$product->isService() && $product->stock < $qty) {
+                    if (!$product->isService() && !$isRestaurant && $product->stock < $qty) {
                         throw new \Exception("Stock insuficiente para el producto '{$product->name}'. Disponible: {$product->stock}, solicitado: {$qty}.");
                     }
 

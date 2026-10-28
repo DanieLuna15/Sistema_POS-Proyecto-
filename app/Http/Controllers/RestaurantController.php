@@ -71,25 +71,128 @@ class RestaurantController extends Controller
      */
     public function storeTable(Request $request)
     {
+        $zoneName = trim($request->filled('custom_zone') ? $request->custom_zone : ($request->zone ?: 'Salón Principal'));
+
         $request->validate([
             'name' => 'required|string|max:60',
-            'zone' => 'required|string|max:80',
             'capacity' => 'required|integer|min:1|max:50',
         ]);
 
         $branch = Branch::current();
+        $existingInZone = RestaurantTable::where('zone', $zoneName)
+            ->when($branch, fn($q) => $q->where('branch_id', $branch->id))
+            ->count();
+
+        $col = $existingInZone % 4;
+        $row = intdiv($existingInZone, 4);
 
         RestaurantTable::create([
             'company_id' => Company::currentId(),
             'branch_id' => optional($branch)->id,
             'name' => $request->name,
-            'zone' => $request->zone,
+            'zone' => $zoneName,
             'capacity' => intval($request->capacity),
+            'shape' => $request->shape ?: 'CUADRADA',
+            'pos_x' => intval($request->pos_x ?? (40 + ($col * 190))),
+            'pos_y' => intval($request->pos_y ?? (40 + ($row * 160))),
             'status' => 'LIBRE',
         ]);
 
-        Alert::toast("Mesa '{$request->name}' agregada al salón.", 'success');
+        Alert::toast("Mesa '{$request->name}' agregada al área '{$zoneName}'.", 'success');
+        return redirect()->route('restaurant.index', ['zone' => $zoneName]);
+    }
+
+    /**
+     * Guardar posición X/Y y forma en el Mapa / Plano Visual 2D (Drag & Drop)
+     */
+    public function updateTablePosition(Request $request, RestaurantTable $table)
+    {
+        $data = [
+            'pos_x' => max(10, intval($request->pos_x ?? $table->pos_x)),
+            'pos_y' => max(10, intval($request->pos_y ?? $table->pos_y)),
+        ];
+        if ($request->filled('shape')) {
+            $data['shape'] = $request->shape;
+        }
+        $table->update($data);
+
+        return response()->json(['ok' => true, 'table' => $table]);
+    }
+
+    /**
+     * Editar datos de una Mesa (Nombre, Zona/Área, Capacidad, Forma)
+     */
+    public function updateTable(Request $request, RestaurantTable $table)
+    {
+        $zoneName = trim($request->filled('custom_zone') ? $request->custom_zone : ($request->zone ?: $table->zone));
+
+        $table->update([
+            'name' => $request->name ?: $table->name,
+            'zone' => $zoneName,
+            'capacity' => intval($request->capacity ?: $table->capacity),
+            'shape' => $request->shape ?: $table->shape,
+        ]);
+
+        Alert::toast("Mesa '{$table->name}' actualizada correctamente.", 'success');
         return redirect()->route('restaurant.index');
+    }
+
+    /**
+     * Eliminar una Mesa libre del salón
+     */
+    public function destroyTable(RestaurantTable $table)
+    {
+        if ($table->status !== 'LIBRE' && $table->active_order_id) {
+            Alert::warning('Mesa ocupada', 'No puede eliminar una mesa con cuenta activa.');
+            return redirect()->back();
+        }
+        $name = $table->name;
+        $table->delete();
+        Alert::toast("Mesa '{$name}' eliminada del salón.", 'info');
+        return redirect()->route('restaurant.index');
+    }
+
+    /**
+     * Módulo Exclusivo para Personal de Cocina / Barra (Pantalla KDS Dedicada)
+     */
+    public function kitchenIndex()
+    {
+        $branch = Branch::current();
+
+        $kitchenOrders = RestaurantOrder::with(['table', 'items.product.category', 'user'])
+            ->whereIn('status', ['ABIERTA', 'EN_COCINA', 'LISTO', 'CUENTA_PEDIDA'])
+            ->whereHas('items')
+            ->when($branch, function ($q) use ($branch) {
+                $q->where('branch_id', $branch->id);
+            })
+            ->orderBy('opened_at', 'ASC')
+            ->get();
+
+        return view('admin.restaurant.kitchen', compact('kitchenOrders', 'branch'));
+    }
+
+    /**
+     * Marcar todos los platos de una comanda como LISTO o SERVIDO desde Cocina (Soporta AJAX sin recargar)
+     */
+    public function markOrderReady(Request $request, RestaurantOrder $order)
+    {
+        $targetStatus = $request->target_status ?: 'LISTO';
+        $order->items()->where('kitchen_status', '!=', 'SERVIDO')->update([
+            'kitchen_status' => $targetStatus === 'SERVIDO' ? 'SERVIDO' : 'LISTO',
+        ]);
+        $order->update(['status' => 'LISTO']);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'ok' => true,
+                'order_id' => $order->id,
+                'target_status' => $targetStatus,
+                'message' => "Comanda {$order->order_number} marcada como {$targetStatus}.",
+            ]);
+        }
+
+        Alert::toast("Comanda {$order->order_number} marcada como {$targetStatus}.", 'success');
+        return redirect()->back();
     }
 
     /**
@@ -105,7 +208,7 @@ class RestaurantController extends Controller
         }
 
         $branch = Branch::current();
-        $defaultClient = Client::orderBy('id', 'ASC')->first();
+        $defaultClient = Client::ensureDefaultForCompany();
 
         $order = RestaurantOrder::create([
             'company_id' => Company::currentId(),
@@ -139,7 +242,7 @@ class RestaurantController extends Controller
         ]);
 
         $branch = Branch::current();
-        $defaultClient = Client::orderBy('id', 'ASC')->first();
+        $defaultClient = Client::ensureDefaultForCompany();
 
         $order = RestaurantOrder::create([
             'company_id' => Company::currentId(),
@@ -167,16 +270,13 @@ class RestaurantController extends Controller
      */
     public function showOrder(RestaurantOrder $order)
     {
+        Client::ensureDefaultForCompany();
         $order->load(['table', 'items.product', 'user', 'client']);
         $categories = Category::orderBy('name', 'ASC')->get();
         $products = Product::where('status', 'ACTIVO')
-            ->with(['category', 'brand', 'branchStocks'])
+            ->with(['category', 'brand', 'branchStocks', 'comboItems.componentProduct'])
             ->orderBy('name', 'ASC')
-            ->get()
-            ->filter(function ($p) {
-                return $p->isService() || $p->stock > 0;
-            })
-            ->values();
+            ->get();
 
         $clients = Client::orderBy('name', 'ASC')->get();
         $paymentMethods = PaymentMethod::active()->get();
@@ -196,21 +296,47 @@ class RestaurantController extends Controller
 
         $product = Product::findOrFail($request->product_id);
         $qty = floatval($request->quantity);
+        $notes = trim($request->notes ?? '');
+        $isRestaurant = optional(Company::current())->business_type === 'RESTAURANTE';
 
-        if (!$product->isService() && $product->stock < $qty) {
+        if (!$product->isService() && !$isRestaurant && $product->stock < $qty) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['ok' => false, 'message' => "Solo quedan {$product->stock} unidades de '{$product->name}'."], 422);
+            }
             Alert::error('Stock insuficiente', "Solo quedan {$product->stock} unidades de '{$product->name}'.");
             return redirect()->back();
         }
 
-        RestaurantOrderItem::create([
-            'restaurant_order_id' => $order->id,
-            'product_id' => $product->id,
-            'quantity' => $qty,
-            'price' => floatval($request->price ?? $product->sell_price),
-            'discount' => 0,
-            'kitchen_status' => 'EN_COCINA',
-            'notes' => $request->notes,
-        ]);
+        // Si ya existe el mismo plato en estado EN_COCINA con la misma nota, sumar la cantidad
+        $existingItem = RestaurantOrderItem::where('restaurant_order_id', $order->id)
+            ->where('product_id', $product->id)
+            ->where('kitchen_status', 'EN_COCINA')
+            ->where(function ($q) use ($notes) {
+                if ($notes === '') {
+                    $q->whereNull('notes')->orWhere('notes', '');
+                } else {
+                    $q->where('notes', $notes);
+                }
+            })
+            ->first();
+
+        $wasExisting = false;
+        if ($existingItem) {
+            $existingItem->quantity = floatval($existingItem->quantity) + $qty;
+            $existingItem->save();
+            $item = $existingItem;
+            $wasExisting = true;
+        } else {
+            $item = RestaurantOrderItem::create([
+                'restaurant_order_id' => $order->id,
+                'product_id' => $product->id,
+                'quantity' => $qty,
+                'price' => floatval($request->price ?? $product->sell_price),
+                'discount' => 0,
+                'kitchen_status' => 'EN_COCINA',
+                'notes' => $notes !== '' ? $notes : null,
+            ]);
+        }
 
         $order->status = 'EN_COCINA';
         $order->recalculate();
@@ -219,26 +345,87 @@ class RestaurantController extends Controller
             $order->table->update(['status' => 'OCUPADA', 'active_order_id' => $order->id]);
         }
 
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'ok' => true,
+                'is_new' => !$wasExisting,
+                'item_id' => $item->id,
+                'product_id' => $product->id,
+                'product_name' => $product->name,
+                'price' => floatval($item->price),
+                'quantity' => intval($item->quantity),
+                'notes' => $item->notes,
+                'kitchen_status' => $item->kitchen_status,
+                'line_subtotal' => floatval($item->quantity) * floatval($item->price),
+                'order_total' => floatval($order->total),
+                'order_subtotal' => floatval($order->subtotal),
+                'total_items' => intval($order->items()->sum('quantity')),
+            ]);
+        }
+
         Alert::toast("Agregado a comanda: {$qty}x {$product->name}", 'success');
         return redirect()->route('restaurant.orders.show', $order);
     }
 
     /**
+     * Actualizar cantidad (+ / -) de un ítem ya comandado en la mesa
+     */
+    public function updateItemQty(Request $request, RestaurantOrderItem $item)
+    {
+        $order = $item->order;
+        $newQty = intval($request->quantity ?? 1);
+
+        if ($newQty <= 0) {
+            $item->delete();
+        } else {
+            $item->update(['quantity' => $newQty]);
+        }
+
+        if ($order) {
+            $order->recalculate();
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'ok' => true,
+                'deleted' => $newQty <= 0,
+                'quantity' => max(0, $newQty),
+                'line_subtotal' => max(0, $newQty) * floatval($item->price),
+                'order_subtotal' => $order ? $order->subtotal : 0,
+                'order_total' => $order ? $order->total : 0,
+                'total_items' => $order ? $order->items()->sum('quantity') : 0,
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
+    /**
      * Quitar un ítem de la comanda abierta
      */
-    public function removeItem(RestaurantOrderItem $item)
+    public function removeItem(Request $request, RestaurantOrderItem $item)
     {
         $order = $item->order;
         $item->delete();
         if ($order) {
             $order->recalculate();
         }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'ok' => true,
+                'order_subtotal' => $order ? $order->subtotal : 0,
+                'order_total' => $order ? $order->total : 0,
+                'total_items' => $order ? $order->items()->sum('quantity') : 0,
+            ]);
+        }
+
         Alert::toast('Plato/bebida eliminado de la comanda.', 'info');
         return redirect()->back();
     }
 
     /**
-     * Cambiar estado de preparación en cocina (EN_COCINA -> LISTO -> SERVIDO)
+     * Cambiar estado de preparación en cocina (EN_COCINA -> LISTO -> SERVIDO) (Soporta AJAX sin recargar)
      */
     public function updateItemStatus(Request $request, RestaurantOrderItem $item)
     {
@@ -246,11 +433,23 @@ class RestaurantController extends Controller
         $item->update(['kitchen_status' => $nextStatus]);
 
         $order = $item->order;
+        $pendingCount = 0;
         if ($order) {
             $pendingCount = $order->items()->where('kitchen_status', 'EN_COCINA')->count();
             if ($pendingCount === 0 && $order->status === 'EN_COCINA') {
                 $order->update(['status' => 'LISTO']);
             }
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'ok' => true,
+                'item_id' => $item->id,
+                'order_id' => optional($order)->id,
+                'kitchen_status' => $nextStatus,
+                'order_pending_count' => $pendingCount,
+                'order_status' => optional($order)->status,
+            ]);
         }
 
         Alert::toast("Estado de plato actualizado a: {$nextStatus}", 'success');
@@ -285,6 +484,14 @@ class RestaurantController extends Controller
      */
     public function checkout(Request $request, RestaurantOrder $order)
     {
+        if ($order->sale_id && Sale::where('id', $order->sale_id)->exists()) {
+            if ($order->table) {
+                $order->table->update(['status' => 'LIBRE', 'active_order_id' => null]);
+            }
+            Alert::toast("Cuenta {$order->order_number} cobrada con éxito. Mesa liberada.", 'success');
+            return redirect()->route('sales.ticket', ['sale' => $order->sale_id]);
+        }
+
         $order->load(['table', 'items.product']);
 
         if ($order->items->isEmpty()) {
@@ -316,14 +523,15 @@ class RestaurantController extends Controller
                     ? ('MESA: ' . ($order->table->name ?? '#' . $order->restaurant_table_id) . " ({$order->diners_count} pers.)")
                     : ($order->service_type . ': ' . ($order->customer_name ?? 'Mostrador') . ($order->delivery_address ? ' - Dir: ' . $order->delivery_address : ''));
 
+                $defaultClient = Client::ensureDefaultForCompany();
+
                 $sale = Sale::create([
                     'company_id' => Company::currentId(),
                     'branch_id' => $order->branch_id ?: optional($branch)->id,
                     'cash_register_id' => optional($openRegister)->id,
-                    'client_id' => $request->client_id ?: ($order->client_id ?: Client::value('id')),
+                    'client_id' => $request->client_id ?: ($order->client_id ?: optional($defaultClient)->id),
                     'user_id' => Auth::id(),
                     'sale_date' => Carbon::now('America/La_Paz'),
-                    'tax' => 0,
                     'total' => $order->total,
                     'status' => 'CONFIRMADO',
                     'sale_type' => 'POS_RAPIDO',
@@ -340,9 +548,10 @@ class RestaurantController extends Controller
 
                 foreach ($order->items as $item) {
                     $product = $item->product;
-                    if ($product && !$product->isService()) {
+                    if ($product && ($product->item_type === 'COMBO' || (!$product->isService() && $product->stock > 0))) {
+                        $qtyToDeduct = $product->item_type === 'COMBO' ? $item->quantity : min($product->stock, $item->quantity);
                         $product->substract_stock(
-                            $item->quantity,
+                            $qtyToDeduct,
                             'SALIDA_VENTA',
                             $refCode,
                             "Venta en restaurante ({$order->order_number})",
@@ -412,3 +621,4 @@ class RestaurantController extends Controller
         return redirect()->route('restaurant.index');
     }
 }
+

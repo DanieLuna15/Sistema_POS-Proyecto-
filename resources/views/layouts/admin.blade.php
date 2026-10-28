@@ -244,8 +244,21 @@
     {!! Html::script('melody/js/misc.js') !!}
     {!! Html::script('melody/js/settings.js') !!}
     {!! Html::script('melody/js/todolist.js') !!}
+    {!! Html::script('js/sweetalert2.all.min.js') !!}
 
     @include('sweetalert::alert')
+    @if($errors->any())
+    <script>
+        if (typeof Swal !== 'undefined') {
+            Swal.fire({
+                icon: 'error',
+                type: 'error',
+                title: 'Verifique los datos',
+                html: `{!! implode('<br>', $errors->all()) !!}`
+            });
+        }
+    </script>
+    @endif
     @yield('scripts')
 </body>
 </html>

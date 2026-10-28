@@ -11,6 +11,16 @@ class StoreRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if (!$this->filled('client_id')) {
+            $defaultClient = \App\Client::ensureDefaultForCompany();
+            if ($defaultClient) {
+                $this->merge(['client_id' => $defaultClient->id]);
+            }
+        }
+    }
+
     public function rules()
     {
         return [

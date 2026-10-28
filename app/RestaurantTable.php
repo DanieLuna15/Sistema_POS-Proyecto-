@@ -17,6 +17,9 @@ class RestaurantTable extends Model
         'name',
         'zone',
         'capacity',
+        'shape',
+        'pos_x',
+        'pos_y',
         'status',
         'active_order_id',
     ];
@@ -71,3 +74,4 @@ class RestaurantTable extends Model
         }
     }
 }
+

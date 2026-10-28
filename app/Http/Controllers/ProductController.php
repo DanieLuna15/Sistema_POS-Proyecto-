@@ -9,6 +9,7 @@ use App\Provider;
 use App\Branch;
 use App\BranchProduct;
 use App\InventoryMovement;
+use App\ProductComboItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Product\StoreRequest;
@@ -29,10 +30,18 @@ class ProductController extends Controller
         $this->middleware('can:change.status.products')->only(['change_status']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['category', 'brand', 'provider', 'branchStocks.branch'])->orderBy('created_at', 'DESC')->get();
-        return view('admin.product.index', compact('products'));
+        $typeFilter = $request->query('type');
+        $query = Product::with(['category', 'brand', 'provider', 'branchStocks.branch', 'comboItems.componentProduct'])
+            ->orderBy('created_at', 'DESC');
+
+        if (in_array($typeFilter, ['COMBO', 'SERVICIO', 'PRODUCTO'])) {
+            $query->where('item_type', $typeFilter);
+        }
+
+        $products = $query->get();
+        return view('admin.product.index', compact('products', 'typeFilter'));
     }
 
     public function create()
@@ -41,8 +50,9 @@ class ProductController extends Controller
         $brands = Brand::orderBy('name', 'ASC')->get();
         $providers = Provider::orderBy('name', 'ASC')->get();
         $units = Product::unitsCatalog();
+        $availableComponents = Product::where('item_type', '!=', 'COMBO')->where('status', 'ACTIVO')->orderBy('name', 'ASC')->get();
 
-        return view('admin.product.create', compact('categories', 'brands', 'providers', 'units'));
+        return view('admin.product.create', compact('categories', 'brands', 'providers', 'units', 'availableComponents'));
     }
 
     public function store(StoreRequest $request)
@@ -54,10 +64,10 @@ class ProductController extends Controller
             $file->move(public_path("/image"), $image_name);
         }
 
-        $initialStock = ($request->item_type === 'SERVICIO') ? 0 : intval($request->stock ?? 0);
+        $initialStock = in_array($request->item_type, ['SERVICIO', 'COMBO']) ? 0 : intval($request->stock ?? 0);
         $branch = Branch::current();
 
-        $data = $request->except(['picture', 'stock']);
+        $data = $request->except(['picture', 'stock', 'combo_component_id', 'combo_component_qty']);
         $data['image'] = $image_name;
         $data['stock'] = $initialStock;
         $data['purchase_price'] = floatval($request->purchase_price ?? 0);
@@ -67,6 +77,32 @@ class ProductController extends Controller
         $data['branch_id'] = $branch ? $branch->id : null;
 
         $product = Product::create($data);
+
+        // Si es un COMBO, guardar su receta / componentes y calcular su costo real financiero
+        if ($product->item_type === 'COMBO' && is_array($request->combo_component_id)) {
+            $calculatedCost = 0;
+            foreach ($request->combo_component_id as $idx => $compId) {
+                $compQty = floatval($request->combo_component_qty[$idx] ?? 1);
+                if ($compId && $compQty > 0) {
+                    $compProd = Product::find($compId);
+                    if ($compProd) {
+                        ProductComboItem::updateOrCreate(
+                            [
+                                'combo_product_id' => $product->id,
+                                'component_product_id' => $compProd->id,
+                            ],
+                            [
+                                'quantity' => $compQty,
+                            ]
+                        );
+                        $calculatedCost += floatval($compProd->purchase_price) * $compQty;
+                    }
+                }
+            }
+            if ($product->purchase_price <= 0 && $calculatedCost > 0) {
+                $product->update(['purchase_price' => $calculatedCost]);
+            }
+        }
 
         // Si el usuario no ingresó un código de barras manual, autogenerar uno limpio basado en ID
         if (empty($product->code)) {
@@ -118,23 +154,29 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product->load(['category', 'brand', 'provider', 'branchStocks.branch', 'movements.user', 'movements.branch']);
+        $product->load(['category', 'brand', 'provider', 'branchStocks.branch', 'movements.user', 'movements.branch', 'comboItems.componentProduct']);
         return view('admin.product.show', compact('product'));
     }
 
     public function edit(Product $product)
     {
+        $product->load(['comboItems.componentProduct']);
         $categories = Category::orderBy('name', 'ASC')->get();
         $brands = Brand::orderBy('name', 'ASC')->get();
         $providers = Provider::orderBy('name', 'ASC')->get();
         $units = Product::unitsCatalog();
+        $availableComponents = Product::where('item_type', '!=', 'COMBO')
+            ->where('id', '!=', $product->id)
+            ->where('status', 'ACTIVO')
+            ->orderBy('name', 'ASC')
+            ->get();
 
-        return view('admin.product.edit', compact('product', 'categories', 'brands', 'providers', 'units'));
+        return view('admin.product.edit', compact('product', 'categories', 'brands', 'providers', 'units', 'availableComponents'));
     }
 
     public function update(UpdateRequest $request, Product $product)
     {
-        $data = $request->except(['picture']);
+        $data = $request->except(['picture', 'combo_component_id', 'combo_component_qty']);
 
         if ($request->hasFile('picture')) {
             $file = $request->file('picture');
@@ -153,6 +195,31 @@ class ProductController extends Controller
         }
 
         $product->update($data);
+
+        // Si es un COMBO, sincronizar su receta / componentes
+        if ($product->item_type === 'COMBO' && $request->has('combo_component_id')) {
+            ProductComboItem::where('combo_product_id', $product->id)->delete();
+            $calculatedCost = 0;
+            if (is_array($request->combo_component_id)) {
+                foreach ($request->combo_component_id as $idx => $compId) {
+                    $compQty = floatval($request->combo_component_qty[$idx] ?? 1);
+                    if ($compId && $compQty > 0) {
+                        $compProd = Product::find($compId);
+                        if ($compProd) {
+                            ProductComboItem::create([
+                                'combo_product_id' => $product->id,
+                                'component_product_id' => $compProd->id,
+                                'quantity' => $compQty,
+                            ]);
+                            $calculatedCost += floatval($compProd->purchase_price) * $compQty;
+                        }
+                    }
+                }
+            }
+            if ($calculatedCost > 0) {
+                $product->update(['purchase_price' => $calculatedCost]);
+            }
+        }
 
         Alert::toast('Producto actualizado con éxito.', 'success');
         return redirect()->route('products.index');

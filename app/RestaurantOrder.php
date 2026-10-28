@@ -34,6 +34,15 @@ class RestaurantOrder extends Model
         'closed_at',
     ];
 
+    protected $casts = [
+        'opened_at' => 'datetime',
+        'closed_at' => 'datetime',
+        'subtotal' => 'float',
+        'discount' => 'float',
+        'tip_amount' => 'float',
+        'total' => 'float',
+    ];
+
     public function table()
     {
         return $this->belongsTo(RestaurantTable::class, 'restaurant_table_id');
@@ -82,3 +91,4 @@ class RestaurantOrder extends Model
         return $this;
     }
 }
+

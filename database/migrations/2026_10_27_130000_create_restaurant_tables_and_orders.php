@@ -74,3 +74,4 @@ class CreateRestaurantTablesAndOrders extends Migration
         Schema::dropIfExists('restaurant_tables');
     }
 }
+
